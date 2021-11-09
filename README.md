@@ -25,6 +25,13 @@
 * [ ] Any number of images in reviews
 * [ ] Group reviews by subject
 
-## Frameworks and Libraries
+## Technologies, Frameworks and Libraries
+
+### Client
 * React
+
+### Server
 * Express.js
+
+### Database
+* MySQL
