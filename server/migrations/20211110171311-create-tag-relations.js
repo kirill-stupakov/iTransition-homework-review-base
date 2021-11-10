@@ -1,14 +1,20 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, DataTypes) => {
-    await queryInterface.createTable("Tags", {
-      name: {
+    await queryInterface.createTable("TagRelations", {
+      id: {
         allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
-        type: DataTypes.STRING(16),
-      },
-      count: {
         type: DataTypes.INTEGER,
+      },
+      reviewId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+      },
+      tag: {
+        type: DataTypes.STRING(16),
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,
@@ -21,6 +27,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, DataTypes) => {
-    await queryInterface.dropTable("Tags");
+    await queryInterface.dropTable("TagRelations");
   },
 };
