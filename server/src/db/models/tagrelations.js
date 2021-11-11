@@ -17,11 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       reviewId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        primaryKey: true,
       },
       tag: {
         type: DataTypes.STRING(16),
-        allowNull: false,
+        primaryKey: true,
       },
     },
     {

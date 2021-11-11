@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       reviewId: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        primaryKey: true,
       },
       url: {
         type: DataTypes.STRING(512),
@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       order: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        primaryKey: true,
       },
     },
     {
