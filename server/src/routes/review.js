@@ -9,6 +9,16 @@ router.get("/reviews/:reviewId", (req, res) => {
     .catch((error) => res.status(500).json(error));
 });
 
+router.get("/reviews/byUser/:uuid", (req, res) => {
+  const { uuid } = req.params;
+  Review.findAll({
+    where: { authorUUID: uuid },
+    attributes: ["category", "createdAt", "title", "rating"],
+  })
+    .then((review) => res.status(200).json(review))
+    .catch((error) => res.status(500).json(error));
+});
+
 router.post("/reviews", (req, res) => {
   res.json(req.body);
 });
