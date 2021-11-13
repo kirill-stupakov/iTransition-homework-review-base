@@ -92,11 +92,15 @@ const UserPage = () => {
           </DropdownButton>
         </InputGroup>
 
-        <Stack gap={3} className="mt-3">
-          {reviews.map((review: any) => (
-            <ReviewCard review={review} key={review.id} />
-          ))}
-        </Stack>
+        {reviews.length ? (
+          <Stack gap={3} className="mt-3">
+            {reviews.map((review: any) => (
+              <ReviewCard review={review} key={review.id} />
+            ))}
+          </Stack>
+        ) : (
+          <h4 className="text-muted">No reviews found</h4>
+        )}
       </Container>
     )
   );
