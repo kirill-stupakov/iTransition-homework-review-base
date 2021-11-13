@@ -35,7 +35,7 @@ const UserPage = () => {
   useEffect(() => {
     axios
       .get(apiURI + "users/" + uuid)
-      .then((res: any) => setUser(res.data))
+      .then((res) => setUser(res.data))
       .catch((error) => console.log(error));
   }, [uuid]);
 
@@ -44,7 +44,7 @@ const UserPage = () => {
       .get(
         `${apiURI}reviews/byUser/${uuid}/${sortBy}/${sortMode}/${searchString}`
       )
-      .then((res: any) => setReviews(res.data))
+      .then((res) => setReviews(res.data))
       .catch((error) => console.log(error));
   }, [uuid, sortBy, sortMode, searchString]);
 

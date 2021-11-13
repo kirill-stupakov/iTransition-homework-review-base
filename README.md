@@ -11,7 +11,7 @@
 - [x] ORM
 - [x] DB
 - [ ] Authentification through at least two services
-- [ ] Profile page (karma, list of all reviews, filter, sort, edit, delete, etc.)
+- [x] Profile page (karma, list of all reviews, filter, sort, edit, delete, etc.)
 - [ ] Admin panel (list of all users with links to their pages)
 - [ ] Full-context search on every page
 - [ ] Reviews (type, tags, body, images, stars, rating)
@@ -32,15 +32,20 @@
 
 ### Client
 
-- React
+- [React](https://reactjs.org/)
+- [React Bootstrap](https://react-bootstrap.github.io/)
+- [React Router](https://reactrouter.com/)
+- [React Wordcloud](https://react-wordcloud.netlify.app/)
+- [Axios](https://axios-http.com/)
 
 ### Server
 
-- Express.js
+- [Express](https://expressjs.com/)
+- [Sequelize](https://expressjs.com/)
 
 ### Database
 
-- MySQL
+- [MySQL](https://expressjs.com/)
 
 ## Database Schema
 
