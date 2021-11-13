@@ -8,6 +8,7 @@ export type tag = {
 export type user = {
   name: string;
   karma: number;
+  reviews: number;
   isAdmin: boolean;
   createdAt: string;
 };
