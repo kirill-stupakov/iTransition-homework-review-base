@@ -16,7 +16,7 @@ router.get("/users/:uuid", (req, res) => {
     where: {
       uuid,
     },
-    attributes: ["name", "karma", "isAdmin", "createdAt"],
+    attributes: ["name", "karma", "reviews", "isAdmin", "createdAt"],
   })
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));
