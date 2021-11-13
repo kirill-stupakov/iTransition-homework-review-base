@@ -13,7 +13,7 @@ router.get("/reviews/byUser/:uuid", (req, res) => {
   const { uuid } = req.params;
   Review.findAll({
     where: { authorUUID: uuid },
-    attributes: ["id", "category", "createdAt", "title", "rating"],
+    attributes: ["id", "category", "createdAt", "title", "rating", "mark"],
   })
     .then((review) => res.status(200).json(review))
     .catch((error) => res.status(500).json(error));

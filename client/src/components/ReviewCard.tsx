@@ -15,11 +15,9 @@ const ReviewCard: React.FC<Props> = ({ review }) => {
   return (
     <Card
       key={review.id}
-      className={`shadow-sm bg-opacity-${hover ? "25" : "10"} ${
-        review.rating >= 0
-          ? "border-success bg-success"
-          : "border-danger bg-danger"
-      }`}
+      className={`border-0 ${
+        hover ? "shadow-sm bg-opacity-25" : "bg-opacity-10"
+      } ${review.rating >= 0 ? "bg-success" : "bg-danger"}`}
       style={{ cursor: "pointer", transition: "0.3s" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -33,7 +31,8 @@ const ReviewCard: React.FC<Props> = ({ review }) => {
           {review.title}
         </Card.Title>
         <Card.Subtitle className="fw-light">
-          {review.category}, {isoToReadableString(review.createdAt)}
+          {review.category}, {isoToReadableString(review.createdAt)},{" "}
+          {review.mark}/5
         </Card.Subtitle>
       </Card.Body>
     </Card>
