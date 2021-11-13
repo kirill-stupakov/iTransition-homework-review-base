@@ -1,4 +1,4 @@
-export const apiURI = "https://rev-base.herokuapp.com/";
+export const apiURI = process.env.REACT_APP_API_URI;
 
 export type tag = {
   text: string;
