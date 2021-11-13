@@ -1,4 +1,4 @@
-export const apiURI = "http://localhost:5000/";
+export const apiURI = "https://rev-base.herokuapp.com/";
 
 export type tag = {
   text: string;
