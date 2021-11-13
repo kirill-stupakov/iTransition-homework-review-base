@@ -5,12 +5,6 @@ import {
   Container,
   Badge,
   Stack,
-  Form,
-  Row,
-  Col,
-  FloatingLabel,
-  Button,
-  ButtonGroup,
   InputGroup,
   DropdownButton,
   Dropdown,
@@ -38,23 +32,21 @@ const UserPage = () => {
   const [sortBy, setSortBy] = useState(sortAttributes[0].attribute);
   const [sortMode, setSortMode] = useState(sortModes[0].mode);
 
-  const fetchReviews = () => {
+  useEffect(() => {
+    axios
+      .get(apiURI + "users/" + uuid)
+      .then((res: any) => setUser(res.data))
+      .catch((error) => console.log(error));
+  }, [uuid]);
+
+  useEffect(() => {
     axios
       .get(
         `${apiURI}reviews/byUser/${uuid}/${sortBy}/${sortMode}/${searchString}`
       )
       .then((res: any) => setReviews(res.data))
       .catch((error) => console.log(error));
-  };
-
-  useEffect(() => {
-    axios
-      .get(apiURI + "users/" + uuid)
-      .then((res: any) => setUser(res.data))
-      .catch((error) => console.log(error));
-
-    fetchReviews();
-  }, [uuid]);
+  }, [uuid, sortBy, sortMode, searchString]);
 
   return (
     user && (
@@ -75,15 +67,10 @@ const UserPage = () => {
 
         <InputGroup className="mb-3">
           <FormControl
-            aria-label="Text input with dropdown button"
             placeholder="Filter"
             onChange={(event) => setSearchString(event.target.value)}
           />
-          <DropdownButton
-            title="Sort by"
-            variant="outline-secondary"
-            id="input-group-dropdown-1"
-          >
+          <DropdownButton title="Sort by" id="input-group-dropdown-1">
             {sortAttributes.map((attr) => (
               <Dropdown.Item
                 active={sortBy === attr.attribute}
@@ -93,21 +80,16 @@ const UserPage = () => {
               </Dropdown.Item>
             ))}
           </DropdownButton>
-          <DropdownButton
-            title="Ordering"
-            variant="outline-secondary"
-            id="input-group-dropdown-2"
-          >
+          <DropdownButton title="Ordering" id="input-group-dropdown-2">
             {sortModes.map((mode) => (
               <Dropdown.Item
                 active={sortMode === mode.mode}
-                onClick={() => setSortBy(mode.mode)}
+                onClick={() => setSortMode(mode.mode)}
               >
                 {mode.name}
               </Dropdown.Item>
             ))}
           </DropdownButton>
-          <Button onClick={fetchReviews}>Search</Button>
         </InputGroup>
 
         <Stack gap={3} className="mt-3">
