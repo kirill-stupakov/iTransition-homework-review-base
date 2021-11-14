@@ -12,14 +12,6 @@ module.exports = {
       name: {
         type: DataTypes.STRING,
       },
-      karma: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
-      reviews: {
-        allowNull: false,
-        type: DataTypes.INTEGER,
-      },
       isAdmin: {
         allowNull: false,
         type: DataTypes.BOOLEAN,

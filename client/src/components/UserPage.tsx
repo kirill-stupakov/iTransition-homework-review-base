@@ -11,7 +11,7 @@ import {
   FormControl,
 } from "react-bootstrap";
 
-import { user, apiURI, isoToReadableString } from "../types";
+import { user, apiURI, isoToReadableString, review } from "../types";
 import ReviewCard from "./ReviewCard";
 
 const UserPage = () => {
@@ -27,7 +27,10 @@ const UserPage = () => {
 
   const { uuid } = useParams();
   const [user, setUser] = useState<user | null>(null);
-  const [reviews, setReviews] = useState<any>([]);
+  const [karma, setKarma] = useState(0);
+  const [reviewCount, setReviewCount] = useState(0);
+  const [gotFields, setGotFields] = useState(false);
+  const [reviews, setReviews] = useState<review[]>([]);
   const [searchString, setSearchString] = useState("");
   const [sortBy, setSortBy] = useState(sortAttributes[0].attribute);
   const [sortMode, setSortMode] = useState(sortModes[0].mode);
@@ -44,9 +47,21 @@ const UserPage = () => {
       .get(
         `${apiURI}reviews/byUser/${uuid}/${sortBy}/${sortMode}/${searchString}`
       )
-      .then((res) => setReviews(res.data))
-      .catch((error) => console.log(error));
-  }, [uuid, sortBy, sortMode, searchString]);
+      .then((res) => {
+        setReviews(res.data);
+        if (!gotFields) {
+          setKarma(
+            res.data.reduce(
+              (prev: number, curr: review) => prev + curr.rating,
+              0
+            )
+          );
+          setReviewCount(res.data.length);
+          setGotFields(true);
+        }
+      })
+      .catch((error) => console.error(error));
+  }, [uuid, sortBy, sortMode, searchString, gotFields]);
 
   return (
     user && (
@@ -61,7 +76,7 @@ const UserPage = () => {
           Member since {isoToReadableString(user.createdAt)}
         </h5>
         <h5 className="fw-light">
-          {user.reviews} reviews, {user.karma} karma
+          {reviewCount} reviews, {karma} karma
         </h5>
         <hr />
 

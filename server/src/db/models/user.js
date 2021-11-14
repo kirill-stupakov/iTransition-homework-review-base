@@ -23,8 +23,6 @@ module.exports = (sequelize, DataTypes) => {
       authId: { type: DataTypes.STRING(64), allowNull: false },
       authService: { type: DataTypes.STRING(16), allowNull: false },
       name: { type: DataTypes.STRING, allowNull: false },
-      karma: { type: DataTypes.INTEGER, defaultValue: 0 },
-      reviews: { type: DataTypes.INTEGER, defaultValue: 0 },
       isAdmin: { type: DataTypes.BOOLEAN, defaultValue: false },
     },
     {

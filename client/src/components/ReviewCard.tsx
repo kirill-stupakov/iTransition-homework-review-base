@@ -6,9 +6,10 @@ import { isoToReadableString } from "../types";
 
 interface Props {
   review: any;
+  showAuthor?: boolean;
 }
 
-const ReviewCard: React.FC<Props> = ({ review }) => {
+const ReviewCard: React.FC<Props> = ({ review, showAuthor = false }) => {
   const [hover, setHover] = useState(false);
   const navigate = useNavigate();
 
@@ -28,7 +29,10 @@ const ReviewCard: React.FC<Props> = ({ review }) => {
           <Badge bg={review.rating >= 0 ? "success" : "danger"}>
             {review.rating}
           </Badge>{" "}
-          {review.title}
+          {review.title}{" "}
+          {showAuthor ? (
+            <span className="fw-light fst-italic">({review.User?.name})</span>
+          ) : null}
         </Card.Title>
         <Card.Subtitle className="fw-light">
           {review.category}, {isoToReadableString(review.createdAt)},{" "}

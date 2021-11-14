@@ -23,6 +23,8 @@ const HomePage = () => {
       .catch((error) => console.log(error));
   }, []);
 
+  console.log(mostRated);
+
   return (
     <Container>
       <TagCloud />
@@ -31,7 +33,7 @@ const HomePage = () => {
           <h1>Most rated reviews</h1>
           <Stack gap={3} className="my-3">
             {mostRated.map((review) => (
-              <ReviewCard review={review} />
+              <ReviewCard review={review} showAuthor key={review.id} />
             ))}
           </Stack>
         </Col>
@@ -39,7 +41,7 @@ const HomePage = () => {
           <h1>Most recent reviews</h1>
           <Stack gap={3} className="my-3">
             {mostRecent.map((review) => (
-              <ReviewCard review={review} />
+              <ReviewCard review={review} showAuthor key={review.id} />
             ))}
           </Stack>
         </Col>

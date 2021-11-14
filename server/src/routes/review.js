@@ -1,5 +1,5 @@
 const express = require("express");
-const { sequelize, Review } = require("../db");
+const { sequelize, Review, User } = require("../db");
 const { Op } = require("sequelize");
 
 const router = express.Router();
@@ -25,7 +25,9 @@ router.get("/reviews/id/:id", (req, res) => {
 router.get("/reviews/top/:attribute", (req, res) => {
   const { attribute } = req.params;
   Review.findAll({
+    include: [{ model: User }],
     attributes: [
+      "id",
       "authorUUID",
       "category",
       "title",
@@ -36,7 +38,6 @@ router.get("/reviews/top/:attribute", (req, res) => {
     order: [[attribute, "DESC"]],
     limit: 10,
   })
-    // .then((review) => ({...review, revire.body.}))
     .then((review) => res.status(200).json(review))
     .catch((error) => res.status(500).json(error));
 });
@@ -57,7 +58,7 @@ router.get(
       order: [[sortBy, sortMode]],
       attributes: ["id", "category", "createdAt", "title", "rating", "mark"],
     })
-      .then((review) => res.status(200).json(review))
+      .then((reviews) => res.status(200).json(reviews))
       .catch((error) => res.status(500).json(error));
   }
 );

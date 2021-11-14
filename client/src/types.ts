@@ -7,13 +7,13 @@ export type tag = {
 
 export type user = {
   name: string;
-  karma: number;
-  reviews: number;
   isAdmin: boolean;
   createdAt: string;
 };
 
 export type review = {
+  id?: number;
+  User?: user;
   authorUUID: string;
   category: string;
   title: string;
