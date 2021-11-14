@@ -41,7 +41,7 @@
 ### Server
 
 - [Express](https://expressjs.com/)
-- [Sequelize](https://expressjs.com/)
+- [Sequelize](https://sequelize.org/)
 
 ### Database
 
