@@ -4,8 +4,39 @@ const { Op } = require("sequelize");
 
 const router = express.Router();
 
-router.get("/reviews/:reviewId", (req, res) => {
-  Review.findById(req.params.id)
+router.get("/reviews/id/:id", (req, res) => {
+  Review.findOne({
+    where: { id: req.params.id },
+    attributes: [
+      "authorUUID",
+      "category",
+      "title",
+      "body",
+      "mark",
+      "rating",
+      "createdAt",
+    ],
+  })
+    // .then((review) => ({...review, revire.body.}))
+    .then((review) => res.status(200).json(review))
+    .catch((error) => res.status(500).json(error));
+});
+
+router.get("/reviews/top/:attribute", (req, res) => {
+  const { attribute } = req.params;
+  Review.findAll({
+    attributes: [
+      "authorUUID",
+      "category",
+      "title",
+      "mark",
+      "rating",
+      "createdAt",
+    ],
+    order: [[attribute, "DESC"]],
+    limit: 10,
+  })
+    // .then((review) => ({...review, revire.body.}))
     .then((review) => res.status(200).json(review))
     .catch((error) => res.status(500).json(error));
 });
@@ -13,7 +44,6 @@ router.get("/reviews/:reviewId", (req, res) => {
 router.get(
   "/reviews/byUser/:uuid/:sortBy/:sortMode/:searchString?",
   (req, res) => {
-    console.log(req.params);
     const { uuid, sortBy, sortMode, searchString } = req.params;
     let where = { authorUUID: uuid };
     if (searchString) {

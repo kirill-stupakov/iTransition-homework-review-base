@@ -6,6 +6,7 @@ import { tag, apiURI } from "../types";
 
 const TagCloud = () => {
   const [tags, setTags] = useState<tag[]>([]);
+
   useEffect(() => {
     axios
       .get(apiURI + "tags")
@@ -22,6 +23,7 @@ const TagCloud = () => {
         enableTooltip: false,
         rotationAngles: [0, 0],
         rotations: 1,
+        padding: 2,
         deterministic: true,
         fontSizes: [20, 90],
         fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,

@@ -13,6 +13,16 @@ export type user = {
   createdAt: string;
 };
 
+export type review = {
+  authorUUID: string;
+  category: string;
+  title: string;
+  body: string;
+  mark: number;
+  rating: number;
+  createdAt: string;
+};
+
 export function isoToReadableString(string: string) {
   const date = new Date(string);
   const dateTimeFormat = new Intl.DateTimeFormat("en", {

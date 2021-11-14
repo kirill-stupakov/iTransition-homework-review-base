@@ -21,7 +21,7 @@ const ReviewCard: React.FC<Props> = ({ review }) => {
       style={{ cursor: "pointer", transition: "0.3s" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={() => navigate("/reviews/" + review.id)}
+      onClick={() => navigate("/reviews/id/" + review.id)}
     >
       <Card.Body>
         <Card.Title>
