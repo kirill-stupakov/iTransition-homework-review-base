@@ -49,4 +49,4 @@
 
 ## Database Schema
 
-<a href="https://ibb.co/G7CDbt7"><img src="https://i.ibb.co/xhzbRfh/Review-Base.png" alt="Review-Base" border="0"></a>
+![DB schema](./DB_SCHEMA.svg)
