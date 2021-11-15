@@ -1,6 +1,7 @@
 const express = require("express");
 const { sequelize, Review, User } = require("../db");
 const { Op } = require("sequelize");
+const flichr = require("flickr-sdk");
 
 const router = express.Router();
 
@@ -64,7 +65,12 @@ router.get(
 );
 
 router.post("/reviews", (req, res) => {
-  res.json(req.body);
+  console.log(res.body);
+  const { review, images } = req.body;
+  Review.create(review)
+    .then((newReview) => {})
+    .catch((error) => res.status(500).json(error));
+  res.status(200).json({ msg: "success" });
 });
 
 module.exports = router;
