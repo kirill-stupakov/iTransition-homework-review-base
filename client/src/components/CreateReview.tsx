@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
+import { Typeahead } from "react-bootstrap-typeahead";
 import remarkGfm from "remark-gfm";
 
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Col, Form, Tabs, Tab } from "react-bootstrap";
 
 import { apiURI } from "../types";
 
@@ -12,6 +13,12 @@ const CreateReview = () => {
   const maxBodyLength = 65535;
 
   const [categories, setCategories] = useState<{ name: string }[]>([]);
+  const [tags, setTags] = useState<{ name: string; count: number }[]>([]);
+
+  const [seclectedCategory, setSelectedCategory] = useState<string | null>(
+    null
+  );
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
@@ -19,6 +26,11 @@ const CreateReview = () => {
     axios
       .get(apiURI + "categories")
       .then((res) => setCategories(res.data))
+      .catch((error) => console.error(error));
+
+    axios
+      .get(apiURI + "tags")
+      .then((res) => setTags(res.data))
       .catch((error) => console.error(error));
   }, []);
 
@@ -28,7 +40,9 @@ const CreateReview = () => {
       <Form>
         <Form.Group className="mb-3">
           <Form.Label>Category</Form.Label>
-          <Form.Select>
+          <Form.Select
+            onChange={(event) => setSelectedCategory(event.target.value)}
+          >
             {categories.map((category) => (
               <option value={category.name} key={category.name}>
                 {category.name}
@@ -51,26 +65,49 @@ const CreateReview = () => {
         </Form.Group>
 
         <Form.Group className="mb-3">
-          <Form.Label>Body</Form.Label>
-          <Form.Control
-            as="textarea"
-            maxLength={maxBodyLength}
-            placeholder="Your body"
-            onChange={(event) => setBody(event.target.value)}
-            style={{ height: "400px" }}
+          <Form.Label>Tags</Form.Label>
+          <Typeahead
+            id="tags-select"
+            allowNew
+            multiple
+            newSelectionPrefix="Add a new tag: "
+            onChange={setSelectedTags}
+            options={tags.map((tag) => tag.name)}
+            placeholder="Select tags"
           />
-          <Form.Text className="text-muted">
-            Supports{" "}
-            <a href="https://www.markdownguide.org" target="_blank">
-              Markdown
-            </a>
-            . {maxBodyLength - body.length} characters left.
-          </Form.Text>
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Body</Form.Label>
+          <Tabs className="mb-3">
+            <Tab eventKey="edit" title="Edit">
+              <Form.Control
+                as="textarea"
+                maxLength={maxBodyLength}
+                placeholder="Your body"
+                onChange={(event) => setBody(event.target.value)}
+                style={{ height: "400px" }}
+              />
+              <Form.Text className="text-muted">
+                Supports{" "}
+                <a
+                  className="text-muted"
+                  href="https://www.markdownguide.org"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Markdown
+                </a>
+                . {maxBodyLength - body.length} characters left.
+              </Form.Text>
+            </Tab>
+
+            <Tab eventKey="preview" title="Preview">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
+            </Tab>
+          </Tabs>
         </Form.Group>
       </Form>
-      <ReactMarkdown className="text-wrap" remarkPlugins={[remarkGfm]}>
-        {body}
-      </ReactMarkdown>
     </Container>
   );
 };
