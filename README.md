@@ -6,16 +6,16 @@
 
 ### Basic
 
-- [ ] CSS Framework
-- [ ] Responsive UI
+- [x] CSS Framework
+- [x] Responsive UI
 - [x] ORM
 - [x] DB
 - [ ] Authentification through at least two services
 - [x] Profile page (karma, list of all reviews, filter, sort, edit, delete, etc.)
 - [ ] Admin panel (list of all users with links to their pages)
-- [ ] Full-context search on every page
+- [ ] Full-text search on every page
 - [ ] Reviews (type, tags, body, images, stars, rating)
-- [ ] Home page (recently added reviews, most rated reviews, tag cloud)
+- [x] Home page (recently added reviews, most rated reviews, tag cloud)
 - [ ] Rate reviews
 - [ ] Upvote reviews (+karma to author)
 - [ ] Russian and English UI languages
