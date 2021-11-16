@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/44105d65-2039-4593-8ebb-908c6f441b2c/deploy-status)](https://app.netlify.com/sites/review-base/deploys)
+
 # Review Base
 
 [Review Base](https://review-base.netlify.app) is a web application that allows people to post their reviews on books, movies, games, etc. It is built as a final task of the [iTransition](https://www.itransition.com) web-devel course.
