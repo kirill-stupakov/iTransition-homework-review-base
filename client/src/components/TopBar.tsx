@@ -3,7 +3,7 @@ import { Container, Navbar, Nav } from "react-bootstrap";
 
 const TopBar = () => {
   return (
-    <Navbar bg="primary" variant="dark" expand="lg" className="mb-3">
+    <Navbar bg="dark" variant="dark" expand="lg" className="mb-3">
       <Container>
         <Navbar.Brand href="/">Review-Base</Navbar.Brand>
         <Nav className="me-auto">

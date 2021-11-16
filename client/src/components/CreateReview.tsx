@@ -4,7 +4,8 @@ import ReactMarkdown from "react-markdown";
 import { Typeahead } from "react-bootstrap-typeahead";
 import remarkGfm from "remark-gfm";
 
-import { Container, Col, Form, Tabs, Tab } from "react-bootstrap";
+import { Container, Form, Tabs, Tab, Row, Col, Button } from "react-bootstrap";
+import Mark from "./Mark";
 
 import { apiURI } from "../types";
 
@@ -15,12 +16,52 @@ const CreateReview = () => {
   const [categories, setCategories] = useState<{ name: string }[]>([]);
   const [tags, setTags] = useState<{ name: string; count: number }[]>([]);
 
-  const [seclectedCategory, setSelectedCategory] = useState<string | null>(
-    null
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [mark, setMark] = useState(1);
+  const [images, setImages] = useState<File[]>([]);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+
+  const [validated, setValidated] = useState(false);
+
+  const imagesValidator = () =>
+    images.every((image) => image.type.split("/")[0] === "image");
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+
+    if (form.checkValidity() && imagesValidator()) {
+      event.stopPropagation();
+      const json = JSON.stringify({
+        authorUUID: "73c3ed4e-46fe-4f50-ba92-c46ab7ef0206",
+        category: selectedCategory,
+        title,
+        body,
+        mark,
+        tags: selectedTags,
+      });
+
+      const blob = new Blob([json], {
+        type: "application/json",
+      });
+
+      const data = new FormData();
+      images.forEach((image) => data.append("files", image));
+      data.append("document", blob);
+
+      axios
+        .post(apiURI + "reviews", data, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => console.log(res));
+    }
+
+    setValidated(true);
+  };
 
   useEffect(() => {
     axios
@@ -37,45 +78,79 @@ const CreateReview = () => {
   return (
     <Container>
       <h1>Create your own review</h1>
-      <Form>
-        <Form.Group className="mb-3">
-          <Form.Label>Category</Form.Label>
-          <Form.Select
-            onChange={(event) => setSelectedCategory(event.target.value)}
-          >
-            {categories.map((category) => (
-              <option value={category.name} key={category.name}>
-                {category.name}
-              </option>
-            ))}
-          </Form.Select>
-        </Form.Group>
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Row>
+          <Col md={6} className="mb-3">
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                required
+                maxLength={maxTitleLength}
+                placeholder="Your title"
+                onChange={(event) => setTitle(event.target.value)}
+              />
+              <Form.Text className="text-muted">
+                {maxTitleLength - title.length} characters left
+              </Form.Text>
+            </Form.Group>
+          </Col>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            maxLength={maxTitleLength}
-            placeholder="Your title"
-            onChange={(event) => setTitle(event.target.value)}
-          />
-          <Form.Text className="text-muted">
-            {maxTitleLength - title.length} characters left.
-          </Form.Text>
-        </Form.Group>
+          <Col md={2} className="mb-3">
+            <Form.Group>
+              <Form.Label>Category</Form.Label>
+              <Form.Select
+                onChange={(event) => setSelectedCategory(event.target.value)}
+              >
+                {categories.map((category) => (
+                  <option value={category.name} key={category.name}>
+                    {category.name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+          </Col>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Tags</Form.Label>
-          <Typeahead
-            id="tags-select"
-            allowNew
-            multiple
-            newSelectionPrefix="Add a new tag: "
-            onChange={setSelectedTags}
-            options={tags.map((tag) => tag.name)}
-            placeholder="Select tags"
-          />
-        </Form.Group>
+          <Col md={4}>
+            <Form.Group>
+              <Form.Label>Tags</Form.Label>
+              <Typeahead
+                id="tags-select"
+                allowNew
+                multiple
+                newSelectionPrefix="Add a new tag: "
+                onChange={setSelectedTags}
+                options={tags.map((tag) => tag.name)}
+                placeholder="Select tags"
+              />
+              <Form.Text className="text-muted">Optional</Form.Text>
+            </Form.Group>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col md={3} xl={2} className="mb-3">
+            <Form.Group>
+              <Form.Label>Mark</Form.Label>
+              <Mark mark={mark} onChange={setMark} max={5} />
+            </Form.Group>
+          </Col>
+          <Col md={3} className="mb-3">
+            <Form.Group>
+              <Form.Label>Images</Form.Label>
+              <Form.Control
+                type="file"
+                isValid={images.length > 0 && imagesValidator()}
+                accept="image/*"
+                multiple
+                onChange={(event: any) => setImages([...event.target.files])}
+              />
+              <Form.Text className="text-muted">
+                Optional. Must be of valid types
+              </Form.Text>
+            </Form.Group>
+          </Col>
+        </Row>
 
         <Form.Group className="mb-3">
           <Form.Label>Body</Form.Label>
@@ -83,6 +158,7 @@ const CreateReview = () => {
             <Tab eventKey="edit" title="Edit">
               <Form.Control
                 as="textarea"
+                required
                 maxLength={maxBodyLength}
                 placeholder="Your body"
                 onChange={(event) => setBody(event.target.value)}
@@ -98,15 +174,16 @@ const CreateReview = () => {
                 >
                   Markdown
                 </a>
-                . {maxBodyLength - body.length} characters left.
+                . {maxBodyLength - body.length} characters left
               </Form.Text>
             </Tab>
 
-            <Tab eventKey="preview" title="Preview">
+            <Tab eventKey="preview" title="Markdown preview">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
             </Tab>
           </Tabs>
         </Form.Group>
+        <Button type="submit">Submit</Button>
       </Form>
     </Container>
   );
