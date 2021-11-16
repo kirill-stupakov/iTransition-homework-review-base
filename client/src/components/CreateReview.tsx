@@ -17,11 +17,11 @@ const CreateReview = () => {
   const [tags, setTags] = useState<{ name: string; count: number }[]>([]);
 
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [mark, setMark] = useState(1);
-  const [images, setImages] = useState<File[]>([]);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [mark, setMark] = useState(1);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
 
   const [validated, setValidated] = useState(false);
 
@@ -39,7 +39,7 @@ const CreateReview = () => {
         category: selectedCategory,
         title,
         body,
-        mark,
+        mark: mark + 1,
         tags: selectedTags,
       });
 
@@ -111,7 +111,7 @@ const CreateReview = () => {
             </Form.Group>
           </Col>
 
-          <Col md={4}>
+          <Col md={4} className="mb-3">
             <Form.Group>
               <Form.Label>Tags</Form.Label>
               <Typeahead
