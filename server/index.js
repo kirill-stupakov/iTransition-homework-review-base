@@ -1,11 +1,17 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const fileUpload = require("express-fileupload");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(morgan("combined"));
+app.use(morgan("dev"));
+app.use(
+  fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 },
+  })
+);
 
 app.use(require("./src/routes/review"));
 app.use(require("./src/routes/category"));

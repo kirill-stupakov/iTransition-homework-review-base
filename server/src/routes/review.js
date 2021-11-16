@@ -1,7 +1,8 @@
 const express = require("express");
-const { sequelize, Review, User } = require("../db");
-const { Op } = require("sequelize");
-const flichr = require("flickr-sdk");
+const { sequelize, Review, User, Tag, TagRelation } = require("../db");
+const { Op, TableHints } = require("sequelize");
+const axios = require("axios");
+// const { uploadImage } = require("../uploadImage");
 
 const router = express.Router();
 
@@ -64,13 +65,41 @@ router.get(
   }
 );
 
-router.post("/reviews", (req, res) => {
-  console.log(res.body);
-  const { review, images } = req.body;
-  Review.create(review)
-    .then((newReview) => {})
-    .catch((error) => res.status(500).json(error));
-  res.status(200).json({ msg: "success" });
+router.post("/reviews", async (req, res) => {
+  res.json({ qwe: "QWEQ" });
+  const { authorUUID, category, title, body, mark, tags } = JSON.parse(
+    req.files.document.data
+  );
+  // console.log(req.files);
+
+  const newTags = tags.filter((tag) => tag.label).map((tag) => tag.label);
+  const tagNames = tags.map((tag) => (tag.label ? tag.label : tag));
+
+  const newReview = await Review.create({
+    authorUUID,
+    category,
+    title,
+    body,
+    mark,
+  });
+  await Tag.bulkCreate(
+    newTags.map((tag) => ({
+      name: tag,
+    }))
+  );
+  await Tag.update(
+    {
+      count: sequelize.literal("`count` +1"),
+    },
+    {
+      where: {
+        name: tagNames,
+      },
+    }
+  );
+  await TagRelation.bulkCreate(
+    tagNames.map((tag) => ({ tag, reviewId: newReview.id }))
+  );
 });
 
 module.exports = router;
