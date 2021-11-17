@@ -6,9 +6,15 @@ const axios = require("axios");
 
 const router = express.Router();
 
-router.get("/reviews/id/:id", (req, res) => {
-  Review.findOne({
+router.get("/reviews/id=:id", async (req, res) => {
+  const review = await Review.findOne({
     where: { id: req.params.id },
+    include: [
+      {
+        model: User,
+        attributes: ["name"],
+      },
+    ],
     attributes: [
       "authorUUID",
       "category",
@@ -18,10 +24,19 @@ router.get("/reviews/id/:id", (req, res) => {
       "rating",
       "createdAt",
     ],
-  })
-    // .then((review) => ({...review, revire.body.}))
-    .then((review) => res.status(200).json(review))
-    .catch((error) => res.status(500).json(error));
+  });
+
+  const tags = await TagRelation.findAll({
+    where: { reviewId: req.params.id },
+  });
+
+  review.tags = tags;
+
+  res.status(200).json(review);
+
+  // .then((review) => ({...review, revire.body.}))
+  // .then((review) => res.status(200).json(review))
+  // .catch((error) => res.status(500).json(error));
 });
 
 router.get("/reviews/top/:attribute", (req, res) => {
