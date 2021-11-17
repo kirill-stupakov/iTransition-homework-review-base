@@ -22,21 +22,31 @@ const ReviewCard: React.FC<Props> = ({ review, showAuthor = false }) => {
       style={{ cursor: "pointer", transition: "0.3s" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={() => navigate("/reviews/id/" + review.id)}
+      onClick={() => navigate("/reviews/id=" + review.id)}
     >
       <Card.Body>
         <Card.Title>
           <Badge bg={review.rating >= 0 ? "success" : "danger"}>
             {review.rating}
           </Badge>{" "}
-          {review.title}{" "}
-          {showAuthor ? (
-            <span className="fw-light fst-italic">({review.User?.name})</span>
-          ) : null}
+          <i className="bi bi-hash" />
+          {review.category}: {review.title}
         </Card.Title>
         <Card.Subtitle className="fw-light">
-          {review.category}, {isoToReadableString(review.createdAt)},{" "}
-          {review.mark}/5
+          {showAuthor && (
+            <>
+              <i className="bi bi-person-fill" />{" "}
+              <a
+                href={"/users/" + review.User.uuid}
+                className="text-reset"
+                onClick={(event) => event.stopPropagation()}
+              >
+                {review.User.name}
+              </a>{" "}
+            </>
+          )}
+          <i className="bi bi-clock" /> {isoToReadableString(review.createdAt)}{" "}
+          <i className="bi bi-bar-chart-fill" /> {review.mark}/5{" "}
         </Card.Subtitle>
       </Card.Body>
     </Card>
