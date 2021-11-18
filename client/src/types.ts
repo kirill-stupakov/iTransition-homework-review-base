@@ -33,3 +33,13 @@ export function isoToReadableString(string: string) {
   });
   return dateTimeFormat.format(date);
 }
+
+export function ratingToColor(rating: number, width: number) {
+  if (rating < -width) {
+    return "danger";
+  }
+  if (Math.abs(rating) <= width) {
+    return "secondary";
+  }
+  return "success";
+}

@@ -6,7 +6,7 @@ import remarkGfm from "remark-gfm";
 
 import { Container, Badge } from "react-bootstrap";
 
-import { review, apiURI, isoToReadableString } from "../types";
+import { review, apiURI, isoToReadableString, ratingToColor } from "../types";
 
 const ReviewPage = () => {
   const { id } = useParams();
@@ -26,24 +26,21 @@ const ReviewPage = () => {
       <Container>
         <h1 className="fw-bold">
           {review.title}{" "}
-          <Badge className={review.rating >= 0 ? "bg-success" : "bg-danger"}>
-            {review.rating}
-          </Badge>
+          <Badge bg={ratingToColor(review.rating, 10)}>{review.rating}</Badge>
         </h1>
         <h5 className="fw-light">
-          <i className="bi bi-person-fill" />{" "}
+          <i className="bi bi-person" />{" "}
           <a className="text-reset" href={"/users/" + review.authorUUID}>
             {review.User?.name}{" "}
           </a>
         </h5>
         <h5 className="fw-light">
-          <i className="bi bi-clock-fill" />{" "}
-          {isoToReadableString(review.createdAt)},{" "}
-          <i className="bi bi-bar-chart-fill" /> {review.mark}/5
+          <i className="bi bi-clock" /> {isoToReadableString(review.createdAt)},{" "}
+          <i className="bi bi-bar-chart" /> {review.mark}/5
         </h5>
 
         <h5 className="fw-light">
-          <i className="bi bi-tags-fill" />{" "}
+          <i className="bi bi-tags" />{" "}
           {review.tags?.map((tag) => (
             <Badge className="bg-primary bg-opacity-10 text-primary fw-normal p-2 mx-1">
               {tag}

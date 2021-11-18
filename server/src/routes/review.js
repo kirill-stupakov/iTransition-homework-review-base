@@ -35,8 +35,6 @@ router.get("/reviews/id=:id", async (req, res) => {
 
   review = { ...review, tags: tags.map((tag) => tag.tag) };
 
-  console.log(review);
-
   res.status(200).json(review);
 
   // .then((review) => ({...review, revire.body.}))

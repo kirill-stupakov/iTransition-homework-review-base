@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Card, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
-import { isoToReadableString } from "../types";
+import { isoToReadableString, ratingToColor } from "../types";
 
 interface Props {
   review: any;
@@ -18,7 +18,7 @@ const ReviewCard: React.FC<Props> = ({ review, showAuthor = false }) => {
       key={review.id}
       className={`border-0 ${
         hover ? "shadow-sm bg-opacity-25" : "bg-opacity-10"
-      } ${review.rating >= 0 ? "bg-success" : "bg-danger"}`}
+      } bg-${ratingToColor(review.rating, 10)}`}
       style={{ cursor: "pointer", transition: "0.3s" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -26,16 +26,14 @@ const ReviewCard: React.FC<Props> = ({ review, showAuthor = false }) => {
     >
       <Card.Body>
         <Card.Title>
-          <Badge bg={review.rating >= 0 ? "success" : "danger"}>
-            {review.rating}
-          </Badge>{" "}
+          <Badge bg={ratingToColor(review.rating, 10)}>{review.rating}</Badge>{" "}
           <i className="bi bi-hash" />
           {review.category}: {review.title}
         </Card.Title>
         <Card.Subtitle className="fw-light">
           {showAuthor && (
             <>
-              <i className="bi bi-person-fill" />{" "}
+              <i className="bi bi-person" />{" "}
               <a
                 href={"/users/" + review.User.uuid}
                 className="text-reset"
@@ -45,9 +43,8 @@ const ReviewCard: React.FC<Props> = ({ review, showAuthor = false }) => {
               </a>{" "}
             </>
           )}
-          <i className="bi bi-clock-fill" />{" "}
-          {isoToReadableString(review.createdAt)}{" "}
-          <i className="bi bi-bar-chart-fill" /> {review.mark}/5{" "}
+          <i className="bi bi-clock" /> {isoToReadableString(review.createdAt)}{" "}
+          <i className="bi bi-bar-chart" /> {review.mark}/5{" "}
         </Card.Subtitle>
       </Card.Body>
     </Card>
