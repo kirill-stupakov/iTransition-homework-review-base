@@ -45,7 +45,8 @@ const ReviewCard: React.FC<Props> = ({ review, showAuthor = false }) => {
               </a>{" "}
             </>
           )}
-          <i className="bi bi-clock" /> {isoToReadableString(review.createdAt)}{" "}
+          <i className="bi bi-clock-fill" />{" "}
+          {isoToReadableString(review.createdAt)}{" "}
           <i className="bi bi-bar-chart-fill" /> {review.mark}/5{" "}
         </Card.Subtitle>
       </Card.Body>

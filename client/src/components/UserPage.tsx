@@ -66,7 +66,7 @@ const UserPage = () => {
   return (
     user && (
       <Container>
-        <h1>
+        <h1 className="fw-bold">
           {user.name}{" "}
           <Badge bg={user.isAdmin ? "primary" : "secondary"}>
             {user.isAdmin ? "admin" : "user"}
