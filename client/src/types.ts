@@ -16,6 +16,7 @@ export type review = {
   User?: user;
   authorUUID: string;
   category: string;
+  tags?: string[];
   title: string;
   body: string;
   mark: number;

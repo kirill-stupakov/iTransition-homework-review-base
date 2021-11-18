@@ -24,21 +24,31 @@ const ReviewPage = () => {
   return (
     review && (
       <Container>
-        <h1>
+        <h1 className="fw-bold">
           {review.title}{" "}
           <Badge className={review.rating >= 0 ? "bg-success" : "bg-danger"}>
             {review.rating}
           </Badge>
         </h1>
         <h5 className="fw-light">
-          <i className="bi bi-person-fill" />
+          <i className="bi bi-person-fill" />{" "}
           <a className="text-reset" href={"/users/" + review.authorUUID}>
             {review.User?.name}{" "}
           </a>
         </h5>
         <h5 className="fw-light">
-          <i className="bi bi-clock" /> {isoToReadableString(review.createdAt)},{" "}
+          <i className="bi bi-clock-fill" />{" "}
+          {isoToReadableString(review.createdAt)},{" "}
           <i className="bi bi-bar-chart-fill" /> {review.mark}/5
+        </h5>
+
+        <h5 className="fw-light">
+          <i className="bi bi-tags-fill" />{" "}
+          {review.tags?.map((tag) => (
+            <Badge className="bg-primary bg-opacity-10 text-primary fw-normal p-2 mx-1">
+              {tag}
+            </Badge>
+          ))}
         </h5>
         <hr />
 

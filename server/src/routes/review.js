@@ -1,18 +1,17 @@
 const express = require("express");
 const { sequelize, Review, User, Tag, TagRelation } = require("../db");
-const { Op, TableHints } = require("sequelize");
+const { Op } = require("sequelize");
 const axios = require("axios");
 // const { uploadImage } = require("../uploadImage");
 
 const router = express.Router();
 
 router.get("/reviews/id=:id", async (req, res) => {
-  const review = await Review.findOne({
-    where: { id: req.params.id },
+  let review = await Review.findByPk(req.params.id, {
     include: [
       {
         model: User,
-        attributes: ["name"],
+        attributes: ["name", "uuid"],
       },
     ],
     attributes: [
@@ -26,11 +25,17 @@ router.get("/reviews/id=:id", async (req, res) => {
     ],
   });
 
+  review = review.get({ plain: true });
+
   const tags = await TagRelation.findAll({
+    raw: true,
     where: { reviewId: req.params.id },
+    attributes: ["tag"],
   });
 
-  review.tags = tags;
+  review = { ...review, tags: tags.map((tag) => tag.tag) };
+
+  console.log(review);
 
   res.status(200).json(review);
 
