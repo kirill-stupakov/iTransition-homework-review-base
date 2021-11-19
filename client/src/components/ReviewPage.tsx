@@ -42,7 +42,10 @@ const ReviewPage = () => {
         <h5 className="fw-light">
           <i className="bi bi-tags" />{" "}
           {review.tags?.map((tag) => (
-            <Badge className="bg-primary bg-opacity-10 text-primary fw-normal p-2 mx-1">
+            <Badge
+              key={tag}
+              className="bg-primary bg-opacity-10 text-primary fw-normal p-2 mx-1"
+            >
               {tag}
             </Badge>
           ))}
