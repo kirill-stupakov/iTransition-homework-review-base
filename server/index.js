@@ -50,6 +50,7 @@ app.get("/getUser", (req, res) => {
 app.get("/auth/logout", (req, res) => {
   if (req.user) {
     req.logout();
+    res.json({ message: "done" });
   }
 });
 
