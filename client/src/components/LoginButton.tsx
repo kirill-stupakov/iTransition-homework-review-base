@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-bootstrap";
+import { DropdownButton, Dropdown } from "react-bootstrap";
 
 import { apiURI } from "../types";
 
@@ -7,9 +7,13 @@ const googleAuth = () => {
   window.open(apiURI + "auth/google");
 };
 
-const githubAuth = () => {};
+const githubAuth = () => {
+  window.open(apiURI + "auth/github");
+};
 
-const twitterAuth = () => {};
+const twitterAuth = () => {
+  window.open(apiURI + "auth/twitter");
+};
 
 const imageSize = 20;
 
@@ -19,16 +23,11 @@ const authMethods = [
   { name: "Twitter", func: twitterAuth },
 ];
 
-const AuthButtons = () => {
+const LoginButton = () => {
   return (
-    <>
+    <DropdownButton variant="secondary" id="login-button" title="Log in">
       {authMethods.map((method) => (
-        <Button
-          variant="outline-secondary"
-          className="mx-1 px-2 py-1 d-flex justify-content-center align-items-center"
-          onClick={method.func}
-          key={method.name}
-        >
+        <Dropdown.Item onClick={method.func} key={method.name}>
           <img
             src={"/" + method.name.toLowerCase() + ".svg"}
             alt={method.name}
@@ -37,10 +36,10 @@ const AuthButtons = () => {
             className="mr-1"
           />{" "}
           {method.name}
-        </Button>
+        </Dropdown.Item>
       ))}
-    </>
+    </DropdownButton>
   );
 };
 
-export default AuthButtons;
+export default LoginButton;

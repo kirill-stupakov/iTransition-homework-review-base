@@ -1,24 +1,34 @@
 import React, { useContext } from "react";
 import { Container, Navbar, Nav } from "react-bootstrap";
 
-import AuthButtons from "./AuthButtons";
+import LoginButton from "./LoginButton";
 import { myContext } from "./Context";
 
 const TopBar = () => {
-  const userObject = useContext(myContext);
+  const userObject = useContext<any>(myContext);
+
   console.log(userObject);
 
   return (
-    <Navbar expand="lg" className="mb-3">
+    <Navbar sticky="top" expand="md" className="mb-3" bg="light">
       <Container>
         <Navbar.Brand href="/">Review-Base</Navbar.Brand>
-        <Nav className="me-auto">
-          <Nav.Link href="/createReview">Create review</Nav.Link>
-        </Nav>
+        {userObject && (
+          <Nav className="me-auto">
+            <Nav.Link href="/createReview">Create review</Nav.Link>
+          </Nav>
+        )}
 
-        <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text className="mr-2">Log in:</Navbar.Text>
-          <AuthButtons />
+        <Navbar.Toggle aria-controls="navbar-collapse" />
+        <Navbar.Collapse id="navbar-collapse" className="justify-content-end">
+          {userObject ? (
+            <Navbar.Text>
+              Logged in as{" "}
+              <a href={"/users/" + userObject.uuid}>{userObject.name}</a>
+            </Navbar.Text>
+          ) : (
+            <LoginButton />
+          )}
         </Navbar.Collapse>
       </Container>
     </Navbar>
