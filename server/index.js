@@ -1,12 +1,10 @@
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
-const passport = require("passport");
 const morgan = require("morgan");
 const fileUpload = require("express-fileupload");
 
-const googleStrategy = require("./src/auth/googleStrategy");
-const githubStrategy = require("./src/auth/githubStrategy");
+const passport = require("./src/auth/passport");
 
 require("dotenv").config();
 
@@ -25,19 +23,9 @@ app.use(
     saveUninitialized: true,
   })
 );
+app.enable("trust proxy");
 app.use(passport.initialize());
 app.use(passport.session());
-
-passport.serializeUser((user, done) => {
-  return done(null, user);
-});
-
-passport.deserializeUser((user, done) => {
-  return done(null, user);
-});
-
-passport.use(googleStrategy);
-passport.use(githubStrategy);
 
 app.use(morgan("dev"));
 app.use(
@@ -51,47 +39,18 @@ app.use(require("./src/routes/category"));
 app.use(require("./src/routes/user"));
 app.use(require("./src/routes/tag"));
 
-app.get(
-  "/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
-);
-
-app.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/login" }),
-  (req, res) => {
-    // Successful authentication, redirect home.
-    res.redirect(process.env.CLIENT_URI);
-  }
-);
-
-app.get(
-  "/auth/github",
-  passport.authenticate("github", { scope: ["read:user"] })
-);
-
-app.get(
-  "/auth/github/callback",
-  passport.authenticate("github", { failureRedirect: "/login" }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect(process.env.CLIENT_URI);
-  }
-);
-
-app.get("/auth/twitter", passport.authenticate("twitter"));
-
-app.get(
-  "/auth/twitter/callback",
-  passport.authenticate("twitter", { failureRedirect: "/login" }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    res.redirect(process.env.CLIENT_URI);
-  }
-);
+app.use(require("./src/auth/google"));
+app.use(require("./src/auth/github"));
+// app.use(require("./src/auth/twitter"));
 
 app.get("/getUser", (req, res) => {
   res.json(req.user);
+});
+
+app.get("/auth/logout", (req, res) => {
+  if (req.user) {
+    req.logout();
+  }
 });
 
 const PORT = process.env.PORT || 5000;
