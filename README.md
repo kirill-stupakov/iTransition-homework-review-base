@@ -12,7 +12,7 @@
 - [x] Responsive UI
 - [x] ORM
 - [x] DB
-- [ ] Authentification through at least two services
+- [x] Authentification through at least two services
 - [x] Profile page (karma, list of all reviews, filter, sort, edit, delete, etc.)
 - [ ] Admin panel (list of all users with links to their pages)
 - [ ] Full-text search on every page
