@@ -25,6 +25,11 @@ router.get("/reviews/id=:id", async (req, res) => {
     ],
   });
 
+  if (!review) {
+    res.status(404).json({ message: "invalid ID" });
+    return;
+  }
+
   review = review.get({ plain: true });
 
   const tags = await TagRelation.findAll({
@@ -95,7 +100,6 @@ router.post("/reviews", async (req, res) => {
   const { category, title, body, mark, tags } = JSON.parse(
     req.files.document.data
   );
-  // console.log(req.files);
 
   const newTags = tags.filter((tag) => tag.label).map((tag) => tag.label);
   const tagNames = tags.map((tag) => (tag.label ? tag.label : tag));
@@ -126,7 +130,7 @@ router.post("/reviews", async (req, res) => {
     tagNames.map((tag) => ({ tag, reviewId: newReview.id }))
   );
 
-  res.status(201).json({ message: "success" });
+  res.status(201).json({ message: "success", id: newReview.id });
 });
 
 module.exports = router;

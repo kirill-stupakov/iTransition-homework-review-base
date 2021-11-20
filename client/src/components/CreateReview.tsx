@@ -24,6 +24,8 @@ const CreateReview = () => {
   const [images, setImages] = useState<File[]>([]);
 
   const [validated, setValidated] = useState(false);
+  const [authorized, setAuthorized] = useState(true);
+  const [sendingReview, setSendingReview] = useState(false);
 
   const imagesValidator = () =>
     images.every((image) => image.type.split("/")[0] === "image");
@@ -33,6 +35,7 @@ const CreateReview = () => {
     const form = event.currentTarget;
 
     if (form.checkValidity() && imagesValidator()) {
+      setSendingReview(true);
       event.stopPropagation();
       const json = JSON.stringify({
         category: selectedCategory,
@@ -57,7 +60,14 @@ const CreateReview = () => {
             "Content-Type": "multipart/form-data",
           },
         })
-        .then((res) => console.log(res));
+        .then((res) => {
+          setSendingReview(false);
+          if (res.status === 201) {
+            window.location.href = "/reviews/id=" + res.data.id;
+          } else {
+            setAuthorized(false);
+          }
+        });
     }
 
     setValidated(true);
@@ -81,7 +91,11 @@ const CreateReview = () => {
   return (
     <Container>
       <h1>Create your own review</h1>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form
+        noValidate
+        validated={validated}
+        onSubmit={sendingReview ? undefined : handleSubmit}
+      >
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group>
@@ -186,7 +200,13 @@ const CreateReview = () => {
             </Tab>
           </Tabs>
         </Form.Group>
-        <Button type="submit">Submit</Button>
+        <Button
+          type="submit"
+          variant={authorized ? "primary" : "danger"}
+          disabled={!authorized || sendingReview}
+        >
+          {sendingReview ? "Loading..." : "Submit"}
+        </Button>
       </Form>
     </Container>
   );
