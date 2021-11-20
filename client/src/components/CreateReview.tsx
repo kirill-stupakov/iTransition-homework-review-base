@@ -35,7 +35,6 @@ const CreateReview = () => {
     if (form.checkValidity() && imagesValidator()) {
       event.stopPropagation();
       const json = JSON.stringify({
-        authorUUID: "73c3ed4e-46fe-4f50-ba92-c46ab7ef0206",
         category: selectedCategory,
         title,
         body,
@@ -53,6 +52,7 @@ const CreateReview = () => {
 
       axios
         .post(apiURI + "reviews", data, {
+          withCredentials: true,
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -66,7 +66,10 @@ const CreateReview = () => {
   useEffect(() => {
     axios
       .get(apiURI + "categories")
-      .then((res) => setCategories(res.data))
+      .then((res) => {
+        setCategories(res.data);
+        setSelectedCategory(res.data[0].name);
+      })
       .catch((error) => console.error(error));
 
     axios

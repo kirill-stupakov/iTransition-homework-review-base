@@ -84,8 +84,15 @@ router.get(
 );
 
 router.post("/reviews", async (req, res) => {
-  res.json({ qwe: "QWEQ" });
-  const { authorUUID, category, title, body, mark, tags } = JSON.parse(
+  console.log(req.user);
+  if (!req.user) {
+    res.status(401).json({ message: "unauthorized" });
+    return;
+  }
+
+  const authorUUID = req.user.uuid;
+
+  const { category, title, body, mark, tags } = JSON.parse(
     req.files.document.data
   );
   // console.log(req.files);
@@ -118,6 +125,8 @@ router.post("/reviews", async (req, res) => {
   await TagRelation.bulkCreate(
     tagNames.map((tag) => ({ tag, reviewId: newReview.id }))
   );
+
+  res.status(201).json({ message: "success" });
 });
 
 module.exports = router;
