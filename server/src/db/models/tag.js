@@ -15,7 +15,6 @@ module.exports = (sequelize, DataTypes) => {
   Tag.init(
     {
       name: { type: DataTypes.STRING(16), primaryKey: true, allowNull: false },
-      count: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
     },
     {
       sequelize,

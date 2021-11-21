@@ -13,8 +13,6 @@ passport.use(
       callbackURL: "/auth/github/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
-      console.log(profile);
-
       const [user, created] = await User.findOrCreate({
         raw: true,
         where: {

@@ -7,9 +7,6 @@ module.exports = {
         primaryKey: true,
         type: DataTypes.STRING(16),
       },
-      count: {
-        type: DataTypes.INTEGER,
-      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

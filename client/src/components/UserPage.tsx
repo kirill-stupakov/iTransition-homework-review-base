@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 import {
@@ -13,6 +13,7 @@ import {
 
 import { user, apiURI, isoToReadableString, review } from "../types";
 import ReviewCard from "./ReviewCard";
+import { myContext } from "./Context";
 
 const UserPage = () => {
   const sortAttributes: { attribute: string; name: string }[] = [
@@ -24,6 +25,8 @@ const UserPage = () => {
     { mode: "DESC", name: "Descending" },
     { mode: "ASC", name: "Ascending" },
   ];
+
+  const userObject = useContext<any>(myContext);
 
   const { uuid } = useParams();
   const [user, setUser] = useState<user | null>(null);
@@ -88,6 +91,7 @@ const UserPage = () => {
           <DropdownButton title="Sort by" id="input-group-dropdown-1">
             {sortAttributes.map((attr) => (
               <Dropdown.Item
+                key={attr.name}
                 active={sortBy === attr.attribute}
                 onClick={() => setSortBy(attr.attribute)}
               >
@@ -98,6 +102,7 @@ const UserPage = () => {
           <DropdownButton title="Ordering" id="input-group-dropdown-2">
             {sortModes.map((mode) => (
               <Dropdown.Item
+                key={mode.name}
                 active={sortMode === mode.mode}
                 onClick={() => setSortMode(mode.mode)}
               >
@@ -109,8 +114,26 @@ const UserPage = () => {
 
         {reviews.length ? (
           <Stack gap={3} className="mt-3">
-            {reviews.map((review: any) => (
-              <ReviewCard review={review} key={review.id} />
+            {reviews.map((review: any, index) => (
+              <ReviewCard
+                showControls={
+                  userObject && (userObject.isAdmin || userObject.uuid === uuid)
+                }
+                review={review}
+                key={review.id}
+                onDelete={() => {
+                  axios
+                    .delete(apiURI + "reviews/" + review.id, {
+                      withCredentials: true,
+                    })
+                    .then((res) => {
+                      setReviews(reviews.filter((_, ind) => ind !== index));
+                      setKarma(karma - review.rating);
+                      setReviewCount(reviewCount - 1);
+                    })
+                    .catch((error) => console.error(error));
+                }}
+              />
             ))}
           </Stack>
         ) : (

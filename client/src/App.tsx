@@ -6,6 +6,7 @@ import UserPage from "./components/UserPage";
 import HomePage from "./components/HomePage";
 import ReviewPage from "./components/ReviewPage";
 import CreateReview from "./components/CreateReview";
+import AdminPanel from "./components/AdminPanel";
 
 function App() {
   return (
@@ -15,7 +16,8 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/users/:uuid" element={<UserPage />} />
         <Route path="/reviews/id=:id" element={<ReviewPage />} />
-        <Route path="/createReview" element={<CreateReview />} />
+        <Route path="/createReview/:authorUUID" element={<CreateReview />} />
+        <Route path="/adminPanel" element={<AdminPanel />} />
       </Routes>
     </>
   );

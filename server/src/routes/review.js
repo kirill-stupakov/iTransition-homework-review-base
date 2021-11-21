@@ -1,5 +1,5 @@
 const express = require("express");
-const { sequelize, Review, User, Tag, TagRelation } = require("../db");
+const { Review, User, Tag, TagRelation } = require("../db");
 const { Op } = require("sequelize");
 const axios = require("axios");
 // const { uploadImage } = require("../uploadImage");
@@ -89,21 +89,19 @@ router.get(
 );
 
 router.post("/reviews", async (req, res) => {
-  console.log(req.user);
   if (!req.user) {
     res.status(401).json({ message: "unauthorized" });
     return;
   }
-
-  const authorUUID = req.user.uuid;
-
-  const { category, title, body, mark, tags } = JSON.parse(
+  const { authorUUID, category, title, body, mark, tags } = JSON.parse(
     req.files.document.data
   );
-
+  if (!req.user.isAdmin && authorUUID !== req.user.uuid) {
+    res.status(401).json({ message: "can't post review as another user" });
+    return;
+  }
   const newTags = tags.filter((tag) => tag.label).map((tag) => tag.label);
   const tagNames = tags.map((tag) => (tag.label ? tag.label : tag));
-
   const newReview = await Review.create({
     authorUUID,
     category,
@@ -116,21 +114,33 @@ router.post("/reviews", async (req, res) => {
       name: tag,
     }))
   );
-  await Tag.update(
-    {
-      count: sequelize.literal("`count` +1"),
-    },
-    {
-      where: {
-        name: tagNames,
-      },
-    }
-  );
   await TagRelation.bulkCreate(
     tagNames.map((tag) => ({ tag, reviewId: newReview.id }))
   );
-
   res.status(201).json({ message: "success", id: newReview.id });
+});
+
+router.delete("/reviews/:id", async (req, res) => {
+  if (!req.user) {
+    res.status(401).json({ message: "unauthorized" });
+    return;
+  }
+
+  const { id } = req.params;
+  const review = await Review.findByPk(id, { raw: true });
+  if (!review) {
+    res.status(204).json({ message: "review not found" });
+    return;
+  }
+  if (!req.user.isAdmin && review.authorUUID !== req.user.uuid) {
+    res.status(401).json({ message: "unauthorized" });
+    return;
+  }
+
+  await TagRelation.destroy({ where: { reviewId: id } });
+  await Review.destroy({ where: { id } });
+
+  res.status(201).json({ message: "deleted successfully" });
 });
 
 module.exports = router;

@@ -1,12 +1,21 @@
 const express = require("express");
-const { sequelize, Tag } = require("../db");
+const { Tag, TagRelation } = require("../db");
 
 const router = express.Router();
 
-router.get("/tags", (req, res) => {
-  Tag.findAll({ attributes: ["name", "count"] })
-    .then((review) => res.status(200).json(review))
-    .catch((error) => res.status(500).json(error));
+router.get("/tags", async (req, res) => {
+  const tags = await Tag.findAll({ raw: true });
+
+  let tagsWithCount = await Promise.all(
+    tags.map(async (tag) => {
+      const { name } = tag;
+      const count = await TagRelation.count({ where: { tag: name } });
+
+      return { name, count };
+    })
+  );
+
+  res.status(201).json(tagsWithCount);
 });
 
 module.exports = router;

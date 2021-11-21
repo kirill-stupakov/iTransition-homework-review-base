@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import { Typeahead } from "react-bootstrap-typeahead";
+import { useParams } from "react-router";
 import remarkGfm from "remark-gfm";
 
 import { Container, Form, Tabs, Tab, Row, Col, Button } from "react-bootstrap";
 import Mark from "./Mark";
 
 import { apiURI } from "../types";
+import { myContext } from "./Context";
 
 const CreateReview = () => {
   const maxTitleLength = 100;
   const maxBodyLength = 65535;
+  const { authorUUID } = useParams();
+  const [author, setAuthor] = useState<any>(null);
+  const userObject = useContext(myContext);
 
   const [categories, setCategories] = useState<{ name: string }[]>([]);
   const [tags, setTags] = useState<{ name: string; count: number }[]>([]);
@@ -39,6 +44,7 @@ const CreateReview = () => {
       event.stopPropagation();
       const json = JSON.stringify({
         category: selectedCategory,
+        authorUUID,
         title,
         body,
         mark: mark + 1,
@@ -74,6 +80,10 @@ const CreateReview = () => {
   };
 
   useEffect(() => {
+    setAuthorized(!!userObject);
+  }, [userObject]);
+
+  useEffect(() => {
     axios
       .get(apiURI + "categories")
       .then((res) => {
@@ -86,11 +96,23 @@ const CreateReview = () => {
       .get(apiURI + "tags")
       .then((res) => setTags(res.data))
       .catch((error) => console.error(error));
-  }, []);
+
+    axios
+      .get(apiURI + "users/" + authorUUID)
+      .then((res) => setAuthor(res.data))
+      .catch((error) => console.error(error));
+  }, [authorUUID]);
 
   return (
     <Container>
-      <h1>Create your own review</h1>
+      <h1>
+        Post review as{" "}
+        {author ? (
+          <a className="text-reset" href={"/users/" + author.uuid}>
+            {author.name}
+          </a>
+        ) : null}
+      </h1>
       <Form
         noValidate
         validated={validated}
@@ -144,7 +166,6 @@ const CreateReview = () => {
             </Form.Group>
           </Col>
         </Row>
-
         <Row>
           <Col md={3} xl={2} className="mb-3">
             <Form.Group>
@@ -168,7 +189,6 @@ const CreateReview = () => {
             </Form.Group>
           </Col>
         </Row>
-
         <Form.Group className="mb-3">
           <Form.Label>Body</Form.Label>
           <Tabs className="mb-3">
@@ -202,11 +222,17 @@ const CreateReview = () => {
         </Form.Group>
         <Button
           type="submit"
-          variant={authorized ? "primary" : "danger"}
-          disabled={!authorized || sendingReview}
+          variant={authorized && !!author ? "primary" : "danger"}
+          disabled={!authorized || sendingReview || !author}
         >
-          {sendingReview ? "Loading..." : "Submit"}
-        </Button>
+          {sendingReview ? "Loading..." : "Post"}
+        </Button>{" "}
+        {authorized ? null : (
+          <span className="text-danger">Please, log in to post reviews. </span>
+        )}
+        {author ? null : (
+          <span className="text-danger">Author UUID is incorrect. </span>
+        )}
       </Form>
     </Container>
   );

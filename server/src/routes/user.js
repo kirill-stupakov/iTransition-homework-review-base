@@ -1,5 +1,5 @@
 const express = require("express");
-const { sequelize, User } = require("../db");
+const { User } = require("../db");
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.get("/users/:uuid", (req, res) => {
     where: {
       uuid,
     },
-    attributes: ["name", "isAdmin", "createdAt"],
+    attributes: ["uuid", "name", "isAdmin", "createdAt"],
   })
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));

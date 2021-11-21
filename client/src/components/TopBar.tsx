@@ -9,8 +9,6 @@ import { apiURI } from "../types";
 const TopBar = () => {
   const userObject = useContext<any>(myContext);
 
-  console.log(userObject);
-
   const logOut = () => {
     axios.get(apiURI + "auth/logout", { withCredentials: true }).then((res) => {
       if (res.data.message === "done") {
@@ -25,7 +23,12 @@ const TopBar = () => {
         <Navbar.Brand href="/">Review-Base</Navbar.Brand>
         {userObject && (
           <Nav className="me-auto">
-            <Nav.Link href="/createReview">Create review</Nav.Link>
+            <Nav.Link href={"/createReview/" + userObject.uuid}>
+              Create review
+            </Nav.Link>
+            {userObject.isAdmin ? (
+              <Nav.Link href="/adminPanel">Admin panel</Nav.Link>
+            ) : null}
           </Nav>
         )}
 
