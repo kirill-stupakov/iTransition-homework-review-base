@@ -15,17 +15,17 @@ import { user, apiURI, isoToReadableString, review } from "../types";
 import ReviewCard from "./ReviewCard";
 import { myContext } from "./Context";
 
-const UserPage = () => {
-  const sortAttributes: { attribute: string; name: string }[] = [
-    { attribute: "id", name: "Creation date" },
-    { attribute: "mark", name: "Mark" },
-    { attribute: "rating", name: "Rating" },
-  ];
-  const sortModes: { mode: string; name: string }[] = [
-    { mode: "DESC", name: "Descending" },
-    { mode: "ASC", name: "Ascending" },
-  ];
+const sortAttributes: { attribute: string; name: string }[] = [
+  { attribute: "id", name: "Creation date" },
+  { attribute: "mark", name: "Mark" },
+  { attribute: "rating", name: "Rating" },
+];
+const sortModes: { mode: string; name: string }[] = [
+  { mode: "DESC", name: "Descending" },
+  { mode: "ASC", name: "Ascending" },
+];
 
+const UserPage = () => {
   const userObject = useContext<any>(myContext);
 
   const { uuid } = useParams();
@@ -88,7 +88,7 @@ const UserPage = () => {
             placeholder="Filter"
             onChange={(event) => setSearchString(event.target.value)}
           />
-          <DropdownButton title="Sort by" id="input-group-dropdown-1">
+          <DropdownButton title="Sort by" id="user-page-sort-by">
             {sortAttributes.map((attr) => (
               <Dropdown.Item
                 key={attr.name}
@@ -99,7 +99,7 @@ const UserPage = () => {
               </Dropdown.Item>
             ))}
           </DropdownButton>
-          <DropdownButton title="Ordering" id="input-group-dropdown-2">
+          <DropdownButton title="Ordering" id="user-page-sort-mode">
             {sortModes.map((mode) => (
               <Dropdown.Item
                 key={mode.name}

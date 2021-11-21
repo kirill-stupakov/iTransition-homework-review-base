@@ -6,8 +6,10 @@ export type tag = {
 };
 
 export type user = {
+  uuid?: string;
   name: string;
   isAdmin: boolean;
+  authService?: string;
   createdAt: string;
 };
 
