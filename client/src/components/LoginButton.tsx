@@ -4,15 +4,15 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 import { apiURI } from "../types";
 
 const googleAuth = () => {
-  window.open(apiURI + "auth/google");
+  window.location.href = apiURI + "auth/google";
 };
 
 const githubAuth = () => {
-  window.open(apiURI + "auth/github");
+  window.location.href = apiURI + "auth/github";
 };
 
-const twitterAuth = () => {
-  window.open(apiURI + "auth/twitter");
+const vkontakteAuth = () => {
+  window.location.href = apiURI + "auth/vkontakte";
 };
 
 const imageSize = 20;
@@ -20,7 +20,7 @@ const imageSize = 20;
 const authMethods = [
   { name: "Google", func: googleAuth },
   { name: "GitHub", func: githubAuth },
-  { name: "Twitter", func: twitterAuth },
+  { name: "VKontakte", func: vkontakteAuth },
 ];
 
 const LoginButton = () => {
@@ -29,7 +29,7 @@ const LoginButton = () => {
       {authMethods.map((method) => (
         <Dropdown.Item onClick={method.func} key={method.name}>
           <img
-            src={"/" + method.name.toLowerCase() + ".svg"}
+            src={"/icons/" + method.name.toLowerCase() + ".svg"}
             alt={method.name}
             width={imageSize}
             height={imageSize}

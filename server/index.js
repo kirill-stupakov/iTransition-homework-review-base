@@ -41,7 +41,7 @@ app.use(require("./src/routes/tag"));
 
 app.use(require("./src/auth/google"));
 app.use(require("./src/auth/github"));
-// app.use(require("./src/auth/twitter"));
+app.use(require("./src/auth/vkontakte"));
 
 app.get("/getUser", (req, res) => {
   res.json(req.user);

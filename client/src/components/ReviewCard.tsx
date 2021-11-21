@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Card, Badge } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 
 import { isoToReadableString, ratingToColor } from "../types";
 
@@ -11,7 +10,6 @@ interface Props {
 
 const ReviewCard: React.FC<Props> = ({ review, showAuthor = false }) => {
   const [hover, setHover] = useState(false);
-  const navigate = useNavigate();
 
   return (
     <Card
@@ -22,7 +20,7 @@ const ReviewCard: React.FC<Props> = ({ review, showAuthor = false }) => {
       style={{ cursor: "pointer", transition: "0.3s" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={() => navigate("/reviews/id=" + review.id)}
+      onClick={() => (window.location.href = "/reviews/id=" + review.id)}
     >
       <Card.Body>
         <Card.Title>
