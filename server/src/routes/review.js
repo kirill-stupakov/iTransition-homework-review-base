@@ -1,7 +1,6 @@
 const express = require("express");
 const { Review, User, Tag, TagRelation } = require("../db");
 const { Op } = require("sequelize");
-const axios = require("axios");
 // const { uploadImage } = require("../uploadImage");
 
 const router = express.Router();
@@ -11,7 +10,7 @@ router.get("/reviews/id=:id", async (req, res) => {
     include: [
       {
         model: User,
-        attributes: ["name", "uuid"],
+        attributes: ["name", "uuid", "isAdmin"],
       },
     ],
     attributes: [
@@ -141,6 +140,43 @@ router.delete("/reviews/:id", async (req, res) => {
   await Review.destroy({ where: { id } });
 
   res.status(201).json({ message: "deleted successfully" });
+});
+
+router.put("/reviews/:id", async (req, res) => {
+  console.log(req.user);
+
+  if (!req.user) {
+    res.status(401).json({ message: "unauthorized" });
+    return;
+  }
+
+  const { id } = req.params;
+  const review = await Review.findByPk(id, { raw: true });
+  if (!review) {
+    res.status(204).json({ message: "review not found" });
+    return;
+  }
+  if (!req.user.isAdmin && review.authorUUID !== req.user.uuid) {
+    res.status(401).json({ message: "unauthorized" });
+    return;
+  }
+
+  const { category, title, body, mark, tags } = JSON.parse(
+    req.files.document.data
+  );
+
+  await Review.update({ category, title, body, mark }, { where: { id } });
+  const newTags = tags.filter((tag) => tag.label).map((tag) => tag.label);
+  const tagNames = tags.map((tag) => (tag.label ? tag.label : tag));
+  await Tag.bulkCreate(
+    newTags.map((tag) => ({
+      name: tag,
+    }))
+  );
+  await TagRelation.destroy({ where: { reviewId: id } });
+  await TagRelation.bulkCreate(tagNames.map((tag) => ({ tag, reviewId: id })));
+
+  res.status(201).json({ message: "success", id });
 });
 
 module.exports = router;

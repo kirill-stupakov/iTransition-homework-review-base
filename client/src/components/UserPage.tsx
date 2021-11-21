@@ -133,6 +133,9 @@ const UserPage = () => {
                     })
                     .catch((error) => console.error(error));
                 }}
+                onEdit={() =>
+                  (window.location.href = "/editReview/" + review.id)
+                }
               />
             ))}
           </Stack>
