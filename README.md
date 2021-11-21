@@ -13,15 +13,36 @@
 - [x] ORM
 - [x] DB
 - [x] Authentification through at least two services
-- [x] Profile page (karma, list of all reviews, filter, sort, edit, delete, etc.)
-- [ ] Admin panel (list of all users with links to their pages)
+- - [x] Google
+- - [x] GitHub
+- - [x] VKontakte
+- [x] Profile page
+- - [x] Karma
+- - [x] List of all reviews
+- - [x] Filter
+- - [x] Sort
+- - [x] Edit
+- - [x] Delete 
+- [ ] Admin panel
 - [ ] Full-text search on every page
-- [ ] Reviews (type, tags, body, images, stars, rating)
-- [x] Home page (recently added reviews, most rated reviews, tag cloud)
+- [ ] Review page
+- - [x] Category
+- - [x] Tags
+- - [x] Title
+- - [x] Stars
+- - [ ] Images
+- - [x] Rating
+- [x] Home page
+- - [x] Recently added
+- - [x] Most rated
+- - [x] Tag cloud
 - [ ] Rate reviews
-- [ ] Upvote reviews (+karma to author)
-- [ ] Russian and English UI languages
-- [ ] Dark and light UI theme
+- [ ] UI languages
+- - [x] English
+- - [ ] Russian
+- [ ] UI themes
+- - [x] Light
+- - [ ] Dark
 
 ### Advanced
 
@@ -36,6 +57,7 @@
 
 - [React](https://reactjs.org/)
 - [React Bootstrap](https://react-bootstrap.github.io/)
+- [React Bootstrap Typehead](http://ericgio.github.io/react-bootstrap-typeahead/)
 - [React Router](https://reactrouter.com/)
 - [React Wordcloud](https://react-wordcloud.netlify.app/)
 - [Axios](https://axios-http.com/)
@@ -44,6 +66,7 @@
 
 - [Express](https://expressjs.com/)
 - [Sequelize](https://sequelize.org/)
+- [Passport](http://www.passportjs.org/)
 
 ### Database
 
