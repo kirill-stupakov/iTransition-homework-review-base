@@ -1,74 +1,67 @@
 const express = require("express");
-const { Review, User, Tag, TagRelation } = require("../db");
+const { Review, User, Tag, TagRelation, Rating } = require("../db");
 const { Op } = require("sequelize");
-// const { uploadImage } = require("../uploadImage");
 
 const router = express.Router();
 
+const getInfo = (review) => {
+  const { id, category, title, body, mark, createdAt } = review;
+  const { uuid, name, isAdmin } = review.User;
+  const author = { uuid, name, isAdmin, createdAt: review.User.createdAt };
+  const tags = review.TagRelations.map((tagRelation) => tagRelation.tag);
+  const rating = review.Ratings.reduce((sum, curr) => sum + curr.rating, 0);
+  return { id, category, title, body, mark, createdAt, author, tags, rating };
+};
+
+const getInfoFromArray = (reviews) => reviews.map(getInfo);
+
 router.get("/reviews/id=:id", async (req, res) => {
-  let review = await Review.findByPk(req.params.id, {
+  const { id } = req.params;
+  const review = await Review.findByPk(id, {
     include: [
       {
         model: User,
-        attributes: ["name", "uuid", "isAdmin"],
+      },
+      {
+        model: TagRelation,
+      },
+      {
+        model: Rating,
       },
     ],
-    attributes: [
-      "authorUUID",
-      "category",
-      "title",
-      "body",
-      "mark",
-      "rating",
-      "createdAt",
-    ],
   });
-
   if (!review) {
     res.status(404).json({ message: "invalid ID" });
     return;
   }
 
-  review = review.get({ plain: true });
-
-  const tags = await TagRelation.findAll({
-    raw: true,
-    where: { reviewId: req.params.id },
-    attributes: ["tag"],
-  });
-
-  review = { ...review, tags: tags.map((tag) => tag.tag) };
-
-  res.status(200).json(review);
-
-  // .then((review) => ({...review, revire.body.}))
-  // .then((review) => res.status(200).json(review))
-  // .catch((error) => res.status(500).json(error));
+  res.status(200).json(getInfo(review));
 });
 
-router.get("/reviews/top/:attribute", (req, res) => {
+router.get("/reviews/top/:attribute", async (req, res) => {
   const { attribute } = req.params;
-  Review.findAll({
-    include: [{ model: User }],
-    attributes: [
-      "id",
-      "authorUUID",
-      "category",
-      "title",
-      "mark",
-      "rating",
-      "createdAt",
+  const reviews = await Review.findAll({
+    include: [
+      {
+        model: User,
+      },
+      {
+        model: TagRelation,
+      },
+      {
+        model: Rating,
+      },
     ],
     order: [[attribute, "DESC"]],
     limit: 10,
-  })
-    .then((review) => res.status(200).json(review))
-    .catch((error) => res.status(500).json(error));
+  });
+
+  res.status(200).json(getInfoFromArray(reviews));
 });
 
 router.get(
   "/reviews/byUser/:uuid/:sortBy/:sortMode/:searchString?",
-  (req, res) => {
+  async (req, res) => {
     const { uuid, sortBy, sortMode, searchString } = req.params;
     let where = { authorUUID: uuid };
     if (searchString) {
@@ -77,13 +70,12 @@ router.get(
         { body: { [Op.substring]: searchString } },
       ];
     }
-    Review.findAll({
+    const reviews = await Review.findAll({
       where,
       order: [[sortBy, sortMode]],
-      attributes: ["id", "category", "createdAt", "title", "rating", "mark"],
-    })
-      .then((reviews) => res.status(200).json(reviews))
-      .catch((error) => res.status(500).json(error));
+    });
+
+    res.status(200).json(getInfoFromArray(reviews));
   }
 );
 

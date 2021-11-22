@@ -60,11 +60,11 @@ const ReviewCard: React.FC<Props> = ({
                 <>
                   <i className="bi bi-person" />{" "}
                   <a
-                    href={"/users/" + review.User.uuid}
+                    href={"/users/" + review.author.uuid}
                     className="text-reset"
                     onClick={(event) => event.stopPropagation()}
                   >
-                    {review.User.name}
+                    {review.author.name}
                   </a>{" "}
                 </>
               )}

@@ -1,10 +1,5 @@
 export const apiURI = process.env.REACT_APP_API_URI!;
 
-export type tag = {
-  text: string;
-  value: number;
-};
-
 export type user = {
   uuid?: string;
   name: string;
@@ -13,16 +8,21 @@ export type user = {
   createdAt: string;
 };
 
+export type tag = {
+  name: string;
+  count: number;
+};
+
 export type review = {
   id?: number;
-  User?: user;
+  author: user;
   authorUUID: string;
   category: string;
-  tags?: string[];
   title: string;
   body: string;
   mark: number;
   rating: number;
+  tags: string[];
   createdAt: string;
 };
 

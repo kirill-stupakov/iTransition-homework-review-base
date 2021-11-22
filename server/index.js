@@ -38,6 +38,7 @@ app.use(require("./src/routes/review"));
 app.use(require("./src/routes/category"));
 app.use(require("./src/routes/user"));
 app.use(require("./src/routes/tag"));
+app.use(require("./src/routes/rating"));
 
 app.use(require("./src/auth/google"));
 app.use(require("./src/auth/github"));

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
@@ -7,19 +7,41 @@ import remarkGfm from "remark-gfm";
 import { Container, Badge } from "react-bootstrap";
 
 import { review, apiURI, isoToReadableString, ratingToColor } from "../types";
+import RatingButtons from "./RatingButtons";
+import { myContext } from "./Context";
 
 const ReviewPage = () => {
+  const userObject = useContext(myContext);
   const { id } = useParams();
   const [review, setReview] = useState<review | null>(null);
+  const [userRating, setUserRating] = useState(0);
+
+  const handleChange = (newRating: number) => {
+    axios
+      .put(apiURI + "rating/" + id + "/" + newRating, null, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setReview({
+          ...review!,
+          rating: review!.rating - userRating + newRating,
+        });
+        setUserRating(newRating);
+      })
+      .catch((error) => console.error(error));
+  };
 
   useEffect(() => {
     axios
       .get(apiURI + "reviews/id=" + id)
       .then((res) => setReview(res.data))
       .catch((error) => console.error(error));
-  }, [id]);
 
-  console.log(review);
+    axios
+      .get(apiURI + "rating/" + id, { withCredentials: true })
+      .then((res) => setUserRating(res.data.rating))
+      .catch((error) => console.error(error));
+  }, [id]);
 
   return (
     review && (
@@ -27,11 +49,14 @@ const ReviewPage = () => {
         <h1 className="fw-bold">
           {review.title}{" "}
           <Badge bg={ratingToColor(review.rating, 10)}>{review.rating}</Badge>
+          {userObject && (
+            <RatingButtons userRating={userRating} onChange={handleChange} />
+          )}
         </h1>
         <h5 className="fw-light">
           <i className="bi bi-person" />{" "}
-          <a className="text-reset" href={"/users/" + review.authorUUID}>
-            {review.User?.name}{" "}
+          <a className="text-reset" href={"/users/" + review.author.uuid}>
+            {review.author.name}{" "}
           </a>
         </h5>
         <h5 className="fw-light">

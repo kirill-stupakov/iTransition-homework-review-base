@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ReactWordcloud from "react-wordcloud";
+import ReactWordcloud, { Word } from "react-wordcloud";
 
-import { tag, apiURI } from "../types";
+import { apiURI } from "../types";
 
 const TagCloud = () => {
-  const [tags, setTags] = useState<tag[]>([]);
+  const [tags, setTags] = useState<Word[]>([]);
 
   useEffect(() => {
     axios
