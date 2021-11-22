@@ -23,7 +23,7 @@
 - - [x] Sort
 - - [x] Edit
 - - [x] Delete 
-- [ ] Admin panel
+- [x] Admin panel
 - [ ] Full-text search on every page
 - [ ] Review page
 - - [x] Category
