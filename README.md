@@ -36,7 +36,7 @@
 - - [x] Recently added
 - - [x] Most rated
 - - [x] Tag cloud
-- [ ] Rate reviews
+- [x] Rate reviews
 - [ ] UI languages
 - - [x] English
 - - [ ] Russian
