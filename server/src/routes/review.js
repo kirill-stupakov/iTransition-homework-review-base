@@ -56,6 +56,8 @@ router.get("/reviews/top/:attribute", async (req, res) => {
     limit: 10,
   });
 
+  console.log(attribute);
+
   res.status(200).json(getInfoFromArray(reviews));
 });
 

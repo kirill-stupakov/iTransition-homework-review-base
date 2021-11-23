@@ -1,5 +1,5 @@
 const express = require("express");
-const { Rating } = require("../db");
+const { sequelize, Rating, Review } = require("../db");
 
 const router = express.Router();
 
@@ -19,6 +19,20 @@ router.put("/rating/:reviewId/:rating", async (req, res) => {
   await Rating.upsert(
     { userUUID, reviewId, rating },
     { where: { reviewId, userUUID } }
+  );
+
+  const newRating = await Rating.sum("rating", { where: { reviewId } });
+  console.log(newRating);
+
+  await Review.update(
+    {
+      rating: newRating,
+    },
+    {
+      where: {
+        id: reviewId,
+      },
+    }
   );
 
   res.status(201).json({ message: "rating updated successfully" });

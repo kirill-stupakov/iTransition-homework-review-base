@@ -97,7 +97,7 @@ const EditReview = () => {
       .catch((error) => console.error(error));
 
     axios.get(apiURI + "reviews/id=" + id).then((res) => {
-      setAuthor(res.data.User);
+      setAuthor(res.data.author);
       setSelectedCategory(res.data.category);
       setTitle(res.data.title);
       setBody(res.data.body);
