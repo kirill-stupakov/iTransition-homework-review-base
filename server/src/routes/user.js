@@ -6,6 +6,10 @@ const router = express.Router();
 
 router.get("/users/:uuid", (req, res) => {
   const { uuid } = req.params;
+  if (!req.user || (!req.user.isAdmin && req.user.uuid === uuid)) {
+    res.status(403).json({ message: "unauthorized" });
+    return;
+  }
   User.findOne({
     where: {
       uuid,

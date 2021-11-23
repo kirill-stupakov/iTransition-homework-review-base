@@ -66,84 +66,84 @@ const UserPage = () => {
       .catch((error) => console.error(error));
   }, [uuid, sortBy, sortMode, searchString, gotFields]);
 
-  return (
-    user && (
-      <Container>
-        <h1 className="fw-bold">
-          {user.name}{" "}
-          <Badge bg={user.isAdmin ? "primary" : "secondary"}>
-            {user.isAdmin ? "admin" : "user"}
-          </Badge>
-        </h1>
-        <h5 className="fw-light">
-          Member since {isoToReadableString(user.createdAt)}
-        </h5>
-        <h5 className="fw-light">
-          {reviewCount} reviews, {karma} karma
-        </h5>
-        <hr />
+  return user ? (
+    <Container>
+      <h1 className="fw-bold">
+        {user.name}{" "}
+        <Badge bg={user.isAdmin ? "primary" : "secondary"}>
+          {user.isAdmin ? "admin" : "user"}
+        </Badge>
+      </h1>
+      <h5 className="fw-light">
+        Member since {isoToReadableString(user.createdAt)}
+      </h5>
+      <h5 className="fw-light">
+        {reviewCount} reviews, {karma} karma
+      </h5>
+      <hr />
 
-        <InputGroup className="mb-3">
-          <FormControl
-            placeholder="Filter"
-            onChange={(event) => setSearchString(event.target.value)}
-          />
-          <DropdownButton title="Sort by" id="user-page-sort-by">
-            {sortAttributes.map((attr) => (
-              <Dropdown.Item
-                key={attr.name}
-                active={sortBy === attr.attribute}
-                onClick={() => setSortBy(attr.attribute)}
-              >
-                {attr.name}
-              </Dropdown.Item>
-            ))}
-          </DropdownButton>
-          <DropdownButton title="Ordering" id="user-page-sort-mode">
-            {sortModes.map((mode) => (
-              <Dropdown.Item
-                key={mode.name}
-                active={sortMode === mode.mode}
-                onClick={() => setSortMode(mode.mode)}
-              >
-                {mode.name}
-              </Dropdown.Item>
-            ))}
-          </DropdownButton>
-        </InputGroup>
+      <InputGroup className="mb-3">
+        <FormControl
+          placeholder="Filter"
+          onChange={(event) => setSearchString(event.target.value)}
+        />
+        <DropdownButton title="Sort by" id="user-page-sort-by">
+          {sortAttributes.map((attr) => (
+            <Dropdown.Item
+              key={attr.name}
+              active={sortBy === attr.attribute}
+              onClick={() => setSortBy(attr.attribute)}
+            >
+              {attr.name}
+            </Dropdown.Item>
+          ))}
+        </DropdownButton>
+        <DropdownButton title="Ordering" id="user-page-sort-mode">
+          {sortModes.map((mode) => (
+            <Dropdown.Item
+              key={mode.name}
+              active={sortMode === mode.mode}
+              onClick={() => setSortMode(mode.mode)}
+            >
+              {mode.name}
+            </Dropdown.Item>
+          ))}
+        </DropdownButton>
+      </InputGroup>
 
-        {reviews.length ? (
-          <Stack gap={3} className="mt-3">
-            {reviews.map((review: any, index) => (
-              <ReviewCard
-                showControls={
-                  userObject && (userObject.isAdmin || userObject.uuid === uuid)
-                }
-                review={review}
-                key={review.id}
-                onDelete={() => {
-                  axios
-                    .delete(apiURI + "reviews/" + review.id, {
-                      withCredentials: true,
-                    })
-                    .then((res) => {
-                      setReviews(reviews.filter((_, ind) => ind !== index));
-                      setKarma(karma - review.rating);
-                      setReviewCount(reviewCount - 1);
-                    })
-                    .catch((error) => console.error(error));
-                }}
-                onEdit={() =>
-                  (window.location.href = "/editReview/" + review.id)
-                }
-              />
-            ))}
-          </Stack>
-        ) : (
-          <h4 className="text-muted">No reviews found</h4>
-        )}
-      </Container>
-    )
+      {reviews.length ? (
+        <Stack gap={3} className="mt-3">
+          {reviews.map((review: any, index) => (
+            <ReviewCard
+              showControls={
+                userObject && (userObject.isAdmin || userObject.uuid === uuid)
+              }
+              review={review}
+              key={review.id}
+              onDelete={() => {
+                axios
+                  .delete(apiURI + "reviews/" + review.id, {
+                    withCredentials: true,
+                  })
+                  .then((res) => {
+                    setReviews(reviews.filter((_, ind) => ind !== index));
+                    setKarma(karma - review.rating);
+                    setReviewCount(reviewCount - 1);
+                  })
+                  .catch((error) => console.error(error));
+              }}
+              onEdit={() => (window.location.href = "/editReview/" + review.id)}
+            />
+          ))}
+        </Stack>
+      ) : (
+        <h4 className="text-muted">No reviews found</h4>
+      )}
+    </Container>
+  ) : (
+    <Container>
+      <h1 className="text-danger">No privileges to see this user's page</h1>
+    </Container>
   );
 };
 
