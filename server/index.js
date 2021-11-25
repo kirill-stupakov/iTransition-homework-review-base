@@ -21,7 +21,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true,
-    cookie: { sameSite: "strict" },
+    cookie: { sameSite: "None", secure: true },
   })
 );
 app.enable("trust proxy");
