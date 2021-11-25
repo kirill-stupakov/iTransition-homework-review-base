@@ -40,31 +40,34 @@ const UserPage = () => {
 
   useEffect(() => {
     axios
-      .get(apiURI + "users/" + uuid)
+      .get(apiURI + "users/profile/" + uuid, { withCredentials: true })
       .then((res) => setUser(res.data))
       .catch((error) => console.log(error));
   }, [uuid]);
 
   useEffect(() => {
-    axios
-      .get(
-        `${apiURI}reviews/byUser/${uuid}/${sortBy}/${sortMode}/${searchString}`
-      )
-      .then((res) => {
-        setReviews(res.data);
-        if (!gotFields) {
-          setKarma(
-            res.data.reduce(
-              (prev: number, curr: review) => prev + curr.rating,
-              0
-            )
-          );
-          setReviewCount(res.data.length);
-          setGotFields(true);
-        }
-      })
-      .catch((error) => console.error(error));
-  }, [uuid, sortBy, sortMode, searchString, gotFields]);
+    if (userObject && (userObject.uuid === uuid || userObject.isAdmin)) {
+      axios
+        .get(
+          `${apiURI}reviews/byUser/${uuid}/${sortBy}/${sortMode}/${searchString}`,
+          { withCredentials: true }
+        )
+        .then((res) => {
+          setReviews(res.data);
+          if (!gotFields) {
+            setKarma(
+              res.data.reduce(
+                (prev: number, curr: review) => prev + curr.rating,
+                0
+              )
+            );
+            setReviewCount(res.data.length);
+            setGotFields(true);
+          }
+        })
+        .catch((error) => console.error(error));
+    }
+  }, [uuid, sortBy, sortMode, searchString, gotFields, userObject]);
 
   return user ? (
     <Container>

@@ -65,6 +65,11 @@ router.get(
   "/reviews/byUser/:uuid/:sortBy/:sortMode/:searchString?",
   async (req, res) => {
     const { uuid, sortBy, sortMode, searchString } = req.params;
+    if (!req.user || (!req.user.isAdmin && req.user.uuid !== uuid)) {
+      res.status(403).json({ message: "unauthorized" });
+      return;
+    }
+
     let where = { authorUUID: uuid };
     if (searchString) {
       where[Op.or] = [
@@ -74,6 +79,7 @@ router.get(
     }
     const reviews = await Review.findAll({
       where,
+      include: [{ model: User }, { model: TagRelation }, { model: Rating }],
       order: [[sortBy, sortMode]],
     });
 
@@ -171,6 +177,29 @@ router.put("/reviews/:id", async (req, res) => {
   await TagRelation.bulkCreate(tagNames.map((tag) => ({ tag, reviewId: id })));
 
   res.status(201).json({ message: "success", id });
+});
+
+router.get("/reviews/search/:searchString", async (req, res) => {
+  const { searchString } = req.params;
+  if (searchString.length < 3) {
+    res
+      .status(405)
+      .json({ message: "search string should be at least 5 characters" });
+    return;
+  }
+
+  const reviews = await Review.findAll({
+    include: [{ model: User }, { model: TagRelation }, { model: Rating }],
+    where: {
+      [Op.or]: [
+        { title: { [Op.substring]: searchString } },
+        { body: { [Op.substring]: searchString } },
+      ],
+    },
+    order: [["id", "DESC"]],
+  });
+
+  res.status(200).json(getInfoFromArray(reviews));
 });
 
 module.exports = router;

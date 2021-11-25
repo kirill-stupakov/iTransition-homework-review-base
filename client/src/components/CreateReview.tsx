@@ -98,7 +98,7 @@ const CreateReview = () => {
       .catch((error) => console.error(error));
 
     axios
-      .get(apiURI + "users/" + authorUUID)
+      .get(apiURI + "users/info/" + authorUUID)
       .then((res) => setAuthor(res.data))
       .catch((error) => console.error(error));
   }, [authorUUID]);

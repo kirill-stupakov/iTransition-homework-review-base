@@ -76,19 +76,14 @@ const AdminPanel = () => {
           {users.map((user, index) => (
             <UserCard
               user={user}
-              switchAdmin={() =>
-                axios
-                  .put(apiURI + "users/switchAdmin/" + user.uuid, null, {
-                    withCredentials: true,
-                  })
-                  .then((res) =>
-                    setUsers(
-                      users.map((usr, idx) =>
-                        idx === index ? { ...usr, isAdmin: !usr.isAdmin } : usr
-                      )
-                    )
-                  )
-              }
+              switchAdmin={() => {
+                const newUsers = users;
+                newUsers[index].isAdmin = !newUsers[index].isAdmin;
+                setUsers(newUsers);
+                axios.put(apiURI + "users/switchAdmin/" + user.uuid, null, {
+                  withCredentials: true,
+                });
+              }}
             />
           ))}
         </Stack>

@@ -4,9 +4,9 @@ const { Op, Sequelize } = require("sequelize");
 
 const router = express.Router();
 
-router.get("/users/:uuid", (req, res) => {
+router.get("/users/profile/:uuid", (req, res) => {
   const { uuid } = req.params;
-  if (!req.user || (!req.user.isAdmin && req.user.uuid === uuid)) {
+  if (!req.user || (!req.user.isAdmin && req.user.uuid !== uuid)) {
     res.status(403).json({ message: "unauthorized" });
     return;
   }
@@ -15,6 +15,18 @@ router.get("/users/:uuid", (req, res) => {
       uuid,
     },
     attributes: ["uuid", "name", "isAdmin", "createdAt"],
+  })
+    .then((user) => res.status(200).json(user))
+    .catch((error) => res.status(500).json(error));
+});
+
+router.get("/users/info/:uuid", (req, res) => {
+  const { uuid } = req.params;
+  User.findOne({
+    where: {
+      uuid,
+    },
+    attributes: ["uuid", "name"],
   })
     .then((user) => res.status(200).json(user))
     .catch((error) => res.status(500).json(error));

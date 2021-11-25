@@ -5,6 +5,7 @@ import LoginButton from "./LoginButton";
 import { myContext } from "./Context";
 import axios from "axios";
 import { apiURI } from "../types";
+import ReviewSearchPanel from "./ReviewSearchPanel";
 
 const TopBar = () => {
   const userObject = useContext<any>(myContext);
@@ -18,9 +19,10 @@ const TopBar = () => {
   };
 
   return (
-    <Navbar sticky="top" expand="md" className="mb-3" bg="light">
-      <Container>
+    <Navbar sticky="top" expand="md" className="mb-3 shadow-sm" bg="light">
+      <Container fluid>
         <Navbar.Brand href="/">Review-Base</Navbar.Brand>
+        <ReviewSearchPanel />
         {userObject && (
           <Nav className="me-auto">
             <Nav.Link href={"/createReview/" + userObject.uuid}>

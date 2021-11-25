@@ -17,16 +17,15 @@ const ReviewPage = () => {
   const [userRating, setUserRating] = useState(0);
 
   const handleChange = (newRating: number) => {
+    setReview({
+      ...review!,
+      rating: review!.rating - userRating + newRating,
+    });
+    setUserRating(newRating);
+
     axios
       .put(apiURI + "rating/" + id + "/" + newRating, null, {
         withCredentials: true,
-      })
-      .then((res) => {
-        setReview({
-          ...review!,
-          rating: review!.rating - userRating + newRating,
-        });
-        setUserRating(newRating);
       })
       .catch((error) => console.error(error));
   };

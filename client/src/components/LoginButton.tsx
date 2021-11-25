@@ -25,7 +25,12 @@ const authMethods = [
 
 const LoginButton = () => {
   return (
-    <DropdownButton variant="secondary" id="login-button" title="Log in">
+    <DropdownButton
+      variant="primary"
+      id="login-button"
+      title="Log in"
+      align="end"
+    >
       {authMethods.map((method) => (
         <Dropdown.Item onClick={method.func} key={method.name}>
           <img
