@@ -45,6 +45,7 @@ const ReviewSearchPanel = () => {
       }}
     >
       <AsyncTypeahead
+        id="review-search"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         filterBy={() => true}
@@ -56,7 +57,7 @@ const ReviewSearchPanel = () => {
         paginate
         placeholder="Search..."
         renderMenuItemChildren={renderChildren}
-        className="w-5"
+        className="text-primary"
       />
     </div>
   );

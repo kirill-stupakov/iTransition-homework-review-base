@@ -9,14 +9,14 @@ import { Container, Form, Tabs, Tab, Row, Col, Button } from "react-bootstrap";
 import Mark from "./Mark";
 
 import { apiURI } from "../types";
-import { myContext } from "./UserContext";
+import { userContext } from "./UserContext";
 
 const EditReview = () => {
   const maxTitleLength = 100;
   const maxBodyLength = 65535;
   const { id } = useParams();
   const [author, setAuthor] = useState<any>(null);
-  const userObject = useContext(myContext);
+  const userObject = useContext(userContext);
 
   const [categories, setCategories] = useState<{ name: string }[]>([]);
   const [tags, setTags] = useState<{ name: string; count: number }[]>([]);

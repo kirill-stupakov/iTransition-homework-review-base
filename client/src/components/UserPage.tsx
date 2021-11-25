@@ -11,9 +11,16 @@ import {
   FormControl,
 } from "react-bootstrap";
 
-import { user, apiURI, isoToReadableString, review } from "../types";
+import {
+  user,
+  apiURI,
+  isoToReadableString,
+  review,
+  ThemeContext,
+} from "../types";
 import ReviewCard from "./ReviewCard";
-import { myContext } from "./UserContext";
+import { userContext } from "./UserContext";
+import { themeContext } from "./ThemeContext";
 
 const sortAttributes: { attribute: string; name: string }[] = [
   { attribute: "id", name: "Creation date" },
@@ -26,7 +33,10 @@ const sortModes: { mode: string; name: string }[] = [
 ];
 
 const UserPage = () => {
-  const userObject = useContext<any>(myContext);
+  const userObject = useContext<any>(userContext);
+  const { textColor, backgroundColor } = useContext(
+    themeContext
+  ) as ThemeContext;
 
   const { uuid } = useParams();
   const [user, setUser] = useState<user | null>(null);
@@ -70,7 +80,7 @@ const UserPage = () => {
   }, [uuid, sortBy, sortMode, searchString, gotFields, userObject]);
 
   return user ? (
-    <Container>
+    <Container className={"text-" + textColor}>
       <h1 className="fw-bold">
         {user.name}{" "}
         <Badge bg={user.isAdmin ? "primary" : "secondary"}>
@@ -87,6 +97,7 @@ const UserPage = () => {
 
       <InputGroup className="mb-3">
         <FormControl
+          className={"text-" + textColor + " bg-" + backgroundColor}
           placeholder="Filter"
           onChange={(event) => setSearchString(event.target.value)}
         />

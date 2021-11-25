@@ -53,7 +53,7 @@ router.get("/reviews/top/:attribute", async (req, res) => {
       },
     ],
     order: [[attribute, "DESC"]],
-    limit: 10,
+    limit: 5,
   });
 
   console.log(attribute);

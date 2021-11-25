@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Container,
   Dropdown,
@@ -7,9 +7,10 @@ import {
   InputGroup,
   Stack,
 } from "react-bootstrap";
-import { apiURI, user } from "../types";
+import { apiURI, ThemeContext, user } from "../types";
 import axios from "axios";
 import UserCard from "./UserCard";
+import { themeContext } from "./ThemeContext";
 
 const sortAttributes: { attribute: string; name: string }[] = [
   { attribute: "createdAt", name: "Creation date" },
@@ -29,6 +30,10 @@ const AdminPanel = () => {
   const [sortMode, setSortMode] = useState("DESC");
   const [searchString, setSearchString] = useState("");
 
+  const { textColor, backgroundColor } = useContext(
+    themeContext
+  ) as ThemeContext;
+
   useEffect(() => {
     axios
       .get(`${apiURI}users/${sortBy}/${sortMode}/${searchString}`, {
@@ -42,9 +47,10 @@ const AdminPanel = () => {
 
   return (
     <Container>
-      <h1 className="mb-2">Users</h1>
+      <h1 className={"mb-2 text-" + textColor}>Users</h1>
       <InputGroup className="mb-3">
         <FormControl
+          className={"bg-" + backgroundColor + " text-" + textColor}
           placeholder="Filter"
           onChange={(event) => setSearchString(event.target.value)}
         />

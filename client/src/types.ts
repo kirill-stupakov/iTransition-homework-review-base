@@ -1,5 +1,14 @@
 export const apiURI = process.env.REACT_APP_API_URI!;
 
+export type colorTheme = "light" | "dark";
+
+export interface ThemeContext {
+  switchTheme: () => void;
+  textColor: string;
+  backgroundColor: string;
+  colorTheme: colorTheme;
+}
+
 export type user = {
   uuid?: string;
   name: string;
@@ -37,12 +46,12 @@ export function isoToReadableString(string: string) {
 }
 
 export function ratingToColor(rating: number) {
-  const neutralThreshold = 5;
-  if (rating < -neutralThreshold) {
+  const neutralThreshold = 1;
+  if (rating <= -neutralThreshold) {
     return "danger";
   }
-  if (Math.abs(rating) <= neutralThreshold) {
-    return "secondary";
+  if (rating >= neutralThreshold) {
+    return "success";
   }
-  return "success";
+  return "secondary";
 }

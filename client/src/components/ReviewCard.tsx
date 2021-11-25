@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Card, Badge, Row, Col, Button } from "react-bootstrap";
 
-import { isoToReadableString, ratingToColor } from "../types";
+import { isoToReadableString, ratingToColor, ThemeContext } from "../types";
+import { themeContext } from "./ThemeContext";
 
 interface Props {
   review: any;
@@ -19,6 +20,7 @@ const ReviewCard: React.FC<Props> = ({
   onDelete = () => {},
 }) => {
   const [hover, setHover] = useState(false);
+  const { textColor } = useContext(themeContext) as ThemeContext;
 
   const handleEdit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -45,7 +47,7 @@ const ReviewCard: React.FC<Props> = ({
       onMouseLeave={() => setHover(false)}
       onClick={() => (window.location.href = "/reviews/id=" + review.id)}
     >
-      <Card.Body>
+      <Card.Body className={"text-" + textColor}>
         <Row>
           <Col>
             <Card.Title>

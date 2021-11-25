@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 
 import { Container, Row, Col, Stack } from "react-bootstrap";
 
 import TagCloud from "./TagCloud";
 import ReviewCard from "./ReviewCard";
-import { review, apiURI } from "../types";
+import { review, apiURI, ThemeContext } from "../types";
+import { themeContext } from "./ThemeContext";
 
 const HomePage = () => {
   const [mostRated, setMostRated] = useState<review[]>([]);
   const [mostRecent, setMostRecent] = useState<review[]>([]);
+  const { textColor } = useContext(themeContext) as ThemeContext;
 
   useEffect(() => {
     axios
@@ -26,9 +28,11 @@ const HomePage = () => {
   return (
     <Container>
       <TagCloud />
-      <Row>
+      <Row className={"text-" + textColor}>
         <Col lg>
-          <h1>Most rated reviews</h1>
+          <h1>
+            <i className="bi bi-bar-chart" /> Most rated reviews
+          </h1>
           <Stack gap={3} className="my-3">
             {mostRated.map((review) => (
               <ReviewCard review={review} showAuthor key={review.id} />
@@ -36,7 +40,9 @@ const HomePage = () => {
           </Stack>
         </Col>
         <Col lg>
-          <h1>Most recent reviews</h1>
+          <h1>
+            <i className="bi bi-clock" /> Most recent reviews
+          </h1>
           <Stack gap={3} className="my-3">
             {mostRecent.map((review) => (
               <ReviewCard review={review} showAuthor key={review.id} />

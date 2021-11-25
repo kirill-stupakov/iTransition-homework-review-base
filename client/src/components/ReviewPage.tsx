@@ -6,12 +6,20 @@ import remarkGfm from "remark-gfm";
 
 import { Container, Badge } from "react-bootstrap";
 
-import { review, apiURI, isoToReadableString, ratingToColor } from "../types";
+import {
+  review,
+  apiURI,
+  isoToReadableString,
+  ratingToColor,
+  ThemeContext,
+} from "../types";
 import RatingButtons from "./RatingButtons";
-import { myContext } from "./UserContext";
+import { userContext } from "./UserContext";
+import { themeContext } from "./ThemeContext";
 
 const ReviewPage = () => {
-  const userObject = useContext(myContext);
+  const userObject = useContext(userContext);
+  const { textColor } = useContext(themeContext) as ThemeContext;
   const { id } = useParams();
   const [review, setReview] = useState<review | null>(null);
   const [userRating, setUserRating] = useState(0);
@@ -44,7 +52,7 @@ const ReviewPage = () => {
 
   return (
     review && (
-      <Container>
+      <Container className={"text-" + textColor}>
         <h1 className="fw-bold">
           {review.title}{" "}
           <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>

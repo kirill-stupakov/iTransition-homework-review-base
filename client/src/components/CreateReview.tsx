@@ -8,15 +8,19 @@ import remarkGfm from "remark-gfm";
 import { Container, Form, Tabs, Tab, Row, Col, Button } from "react-bootstrap";
 import Mark from "./Mark";
 
-import { apiURI } from "../types";
-import { myContext } from "./UserContext";
+import { apiURI, ThemeContext } from "../types";
+import { userContext } from "./UserContext";
+import { themeContext } from "./ThemeContext";
 
 const CreateReview = () => {
   const maxTitleLength = 100;
   const maxBodyLength = 65535;
   const { authorUUID } = useParams();
   const [author, setAuthor] = useState<any>(null);
-  const userObject = useContext(myContext);
+  const userObject = useContext(userContext);
+  const { textColor, backgroundColor } = useContext(
+    themeContext
+  ) as ThemeContext;
 
   const [categories, setCategories] = useState<{ name: string }[]>([]);
   const [tags, setTags] = useState<{ name: string; count: number }[]>([]);
@@ -104,7 +108,7 @@ const CreateReview = () => {
   }, [authorUUID]);
 
   return (
-    <Container>
+    <Container className={"text-" + textColor}>
       <h1>
         Post review as{" "}
         {author ? (
@@ -123,6 +127,7 @@ const CreateReview = () => {
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
+                className={"bg-" + backgroundColor}
                 type="text"
                 required
                 maxLength={maxTitleLength}
@@ -139,6 +144,7 @@ const CreateReview = () => {
             <Form.Group>
               <Form.Label>Category</Form.Label>
               <Form.Select
+                className={"bg-" + backgroundColor + " text-" + textColor}
                 onChange={(event) => setSelectedCategory(event.target.value)}
               >
                 {categories.map((category) => (
@@ -154,6 +160,7 @@ const CreateReview = () => {
             <Form.Group>
               <Form.Label>Tags</Form.Label>
               <Typeahead
+                className={"bg-" + backgroundColor + " text-" + textColor}
                 id="tags-select"
                 allowNew
                 multiple
@@ -177,6 +184,7 @@ const CreateReview = () => {
             <Form.Group>
               <Form.Label>Images</Form.Label>
               <Form.Control
+                className={"bg-" + backgroundColor + " text-" + textColor}
                 type="file"
                 isValid={images.length > 0 && imagesValidator()}
                 accept="image/*"
@@ -191,9 +199,10 @@ const CreateReview = () => {
         </Row>
         <Form.Group className="mb-3">
           <Form.Label>Body</Form.Label>
-          <Tabs className="mb-3">
+          <Tabs className="mb-3 text-light">
             <Tab eventKey="edit" title="Edit">
               <Form.Control
+                className={"bg-" + backgroundColor + " text-" + textColor}
                 as="textarea"
                 required
                 maxLength={maxBodyLength}

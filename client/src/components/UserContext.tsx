@@ -3,7 +3,7 @@ import axios from "axios";
 
 import { apiURI } from "../types";
 
-export const myContext = createContext({});
+export const userContext = createContext({});
 const UserContext = (props: any) => {
   const [userObject, setUserObject] = useState<any>();
 
@@ -18,7 +18,9 @@ const UserContext = (props: any) => {
   }, []);
 
   return (
-    <myContext.Provider value={userObject}>{props.children}</myContext.Provider>
+    <userContext.Provider value={userObject}>
+      {props.children}
+    </userContext.Provider>
   );
 };
 

@@ -2,13 +2,17 @@ import React, { useContext } from "react";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 
 import LoginButton from "./LoginButton";
-import { myContext } from "./UserContext";
+import { userContext } from "./UserContext";
 import axios from "axios";
-import { apiURI } from "../types";
+import { apiURI, ThemeContext, user } from "../types";
 import ReviewSearchPanel from "./ReviewSearchPanel";
+import { themeContext } from "./ThemeContext";
 
 const TopBar = () => {
-  const userObject = useContext<any>(myContext);
+  const userObject = useContext(userContext) as user;
+  const { switchTheme, backgroundColor, colorTheme } = useContext(
+    themeContext
+  ) as ThemeContext;
 
   const logOut = () => {
     axios.get(apiURI + "auth/logout", { withCredentials: true }).then((res) => {
@@ -19,7 +23,13 @@ const TopBar = () => {
   };
 
   return (
-    <Navbar sticky="top" expand="md" className="mb-3 shadow-sm" bg="light">
+    <Navbar
+      sticky="top"
+      expand="md"
+      className="mb-3 shadow-sm"
+      variant={colorTheme}
+      bg={backgroundColor}
+    >
       <Container fluid>
         <Navbar.Brand href="/">Review-Base</Navbar.Brand>
         <ReviewSearchPanel />
@@ -49,6 +59,13 @@ const TopBar = () => {
           ) : (
             <LoginButton />
           )}
+          <Button onClick={switchTheme} className="ml-2">
+            {backgroundColor === "light" ? (
+              <i className="bi bi-sun-fill" />
+            ) : (
+              <i className="bi bi-moon-fill" />
+            )}
+          </Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>

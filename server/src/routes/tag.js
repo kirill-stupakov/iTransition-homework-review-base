@@ -4,7 +4,7 @@ const { Tag, TagRelation } = require("../db");
 const router = express.Router();
 
 router.get("/tags", async (req, res) => {
-  const tags = await Tag.findAll({ raw: true });
+  const tags = await Tag.findAll({ raw: true, limit: 50 });
 
   let tagsWithCount = await Promise.all(
     tags.map(async (tag) => {

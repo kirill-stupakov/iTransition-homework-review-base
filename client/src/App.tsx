@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Routes, Route } from "react-router-dom";
 
 import TopBar from "./components/TopBar";
@@ -8,10 +8,16 @@ import ReviewPage from "./components/ReviewPage";
 import CreateReview from "./components/CreateReview";
 import AdminPanel from "./components/AdminPanel";
 import EditReview from "./components/EditReview";
+import { ThemeContext } from "./types";
+import { themeContext } from "./components/ThemeContext";
 
 function App() {
+  const { backgroundColor } = useContext(themeContext) as ThemeContext;
   return (
-    <>
+    <div
+      className={"bg-" + backgroundColor}
+      style={{ width: "100%", minHeight: "100vh" }}
+    >
       <TopBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -21,7 +27,7 @@ function App() {
         <Route path="/editReview/:id" element={<EditReview />} />
         <Route path="/adminPanel" element={<AdminPanel />} />
       </Routes>
-    </>
+    </div>
   );
 }
 

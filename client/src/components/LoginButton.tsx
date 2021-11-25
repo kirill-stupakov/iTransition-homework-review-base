@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 
-import { apiURI } from "../types";
+import { apiURI, ThemeContext } from "../types";
+import { themeContext } from "./ThemeContext";
 
 const googleAuth = () => {
   window.location.href = apiURI + "auth/google";
@@ -24,6 +25,10 @@ const authMethods = [
 ];
 
 const LoginButton = () => {
+  const { textColor, backgroundColor } = useContext(
+    themeContext
+  ) as ThemeContext;
+
   return (
     <DropdownButton
       variant="primary"
@@ -32,7 +37,11 @@ const LoginButton = () => {
       align="end"
     >
       {authMethods.map((method) => (
-        <Dropdown.Item onClick={method.func} key={method.name}>
+        <Dropdown.Item
+          onClick={method.func}
+          key={method.name}
+          className={"bg-" + backgroundColor + " text-" + textColor}
+        >
           <img
             src={"/icons/" + method.name.toLowerCase() + ".svg"}
             alt={method.name}

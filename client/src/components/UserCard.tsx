@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { isoToReadableString, user } from "../types";
+import React, { useContext, useState } from "react";
+import { isoToReadableString, ThemeContext, user } from "../types";
 import { Button, Card, Col, Row } from "react-bootstrap";
+import { themeContext } from "./ThemeContext";
 
 interface Props {
   user: user;
@@ -9,6 +10,8 @@ interface Props {
 
 const UserCard: React.FC<Props> = ({ user, switchAdmin }) => {
   const [hover, setHover] = useState(false);
+
+  const { textColor } = useContext(themeContext) as ThemeContext;
 
   return (
     <Card
@@ -20,7 +23,7 @@ const UserCard: React.FC<Props> = ({ user, switchAdmin }) => {
       onMouseLeave={() => setHover(false)}
       onClick={() => (window.location.href = "/users/" + user.uuid)}
     >
-      <Card.Body>
+      <Card.Body className={"text-" + textColor}>
         <Row>
           <Col>
             <Card.Title>

@@ -5,12 +5,15 @@ import "./index.scss";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import UserContext from "./components/UserContext";
+import ThemeContext from "./components/ThemeContext";
 
 ReactDOM.render(
   <UserContext>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <ThemeContext>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ThemeContext>
   </UserContext>,
   document.getElementById("root")
 );
