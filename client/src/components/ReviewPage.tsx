@@ -8,7 +8,7 @@ import { Container, Badge } from "react-bootstrap";
 
 import { review, apiURI, isoToReadableString, ratingToColor } from "../types";
 import RatingButtons from "./RatingButtons";
-import { myContext } from "./Context";
+import { myContext } from "./UserContext";
 
 const ReviewPage = () => {
   const userObject = useContext(myContext);
@@ -47,7 +47,7 @@ const ReviewPage = () => {
       <Container>
         <h1 className="fw-bold">
           {review.title}{" "}
-          <Badge bg={ratingToColor(review.rating, 10)}>{review.rating}</Badge>
+          <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>
           {userObject && (
             <RatingButtons userRating={userRating} onChange={handleChange} />
           )}

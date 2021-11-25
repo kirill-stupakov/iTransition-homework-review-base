@@ -36,11 +36,12 @@ export function isoToReadableString(string: string) {
   return dateTimeFormat.format(date);
 }
 
-export function ratingToColor(rating: number, width: number) {
-  if (rating < -width) {
+export function ratingToColor(rating: number) {
+  const neutralThreshold = 5;
+  if (rating < -neutralThreshold) {
     return "danger";
   }
-  if (Math.abs(rating) <= width) {
+  if (Math.abs(rating) <= neutralThreshold) {
     return "secondary";
   }
   return "success";

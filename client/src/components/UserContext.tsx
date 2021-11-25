@@ -4,7 +4,7 @@ import axios from "axios";
 import { apiURI } from "../types";
 
 export const myContext = createContext({});
-const Context = (props: any) => {
+const UserContext = (props: any) => {
   const [userObject, setUserObject] = useState<any>();
 
   console.log(userObject);
@@ -22,4 +22,4 @@ const Context = (props: any) => {
   );
 };
 
-export default Context;
+export default UserContext;

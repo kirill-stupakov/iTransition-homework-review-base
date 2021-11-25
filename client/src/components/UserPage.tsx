@@ -13,7 +13,7 @@ import {
 
 import { user, apiURI, isoToReadableString, review } from "../types";
 import ReviewCard from "./ReviewCard";
-import { myContext } from "./Context";
+import { myContext } from "./UserContext";
 
 const sortAttributes: { attribute: string; name: string }[] = [
   { attribute: "id", name: "Creation date" },

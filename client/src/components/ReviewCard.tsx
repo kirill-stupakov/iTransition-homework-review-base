@@ -39,7 +39,7 @@ const ReviewCard: React.FC<Props> = ({
       key={review.id}
       className={`border-0 ${
         hover ? "shadow-sm bg-opacity-25" : "bg-opacity-10"
-      } bg-${ratingToColor(review.rating, 10)}`}
+      } bg-${ratingToColor(review.rating)}`}
       style={{ cursor: "pointer", transition: "0.3s" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -49,9 +49,7 @@ const ReviewCard: React.FC<Props> = ({
         <Row>
           <Col>
             <Card.Title>
-              <Badge bg={ratingToColor(review.rating, 10)}>
-                {review.rating}
-              </Badge>{" "}
+              <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>{" "}
               <i className="bi bi-hash" />
               {review.category}: {review.title}
             </Card.Title>

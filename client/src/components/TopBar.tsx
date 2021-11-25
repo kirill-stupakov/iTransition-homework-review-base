@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 
 import LoginButton from "./LoginButton";
-import { myContext } from "./Context";
+import { myContext } from "./UserContext";
 import axios from "axios";
 import { apiURI } from "../types";
 import ReviewSearchPanel from "./ReviewSearchPanel";

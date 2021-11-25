@@ -20,7 +20,7 @@ const ReviewSearchPanel = () => {
   const renderChildren = (review: TypeaheadResult<review>) => (
     <>
       <h5 className="text-wrap">
-        <Badge bg={ratingToColor(review.rating, 10)}>{review.rating}</Badge>{" "}
+        <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>{" "}
         <i className="bi bi-hash" />
         {review.category}: {review.title}
       </h5>
