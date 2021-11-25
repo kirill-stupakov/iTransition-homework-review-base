@@ -24,7 +24,7 @@
 - - [x] Edit
 - - [x] Delete 
 - [x] Admin panel
-- [ ] Full-text search on every page
+- [x] Full-text search on every page
 - [ ] Review page
 - - [x] Category
 - - [x] Tags
