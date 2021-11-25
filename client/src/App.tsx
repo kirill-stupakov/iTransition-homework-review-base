@@ -16,7 +16,7 @@ function App() {
   return (
     <div
       className={"bg-" + backgroundColor}
-      style={{ width: "100%", minHeight: "100vh" }}
+      style={{ minWidth: "100%", minHeight: "100vh" }}
     >
       <TopBar />
       <Routes>
