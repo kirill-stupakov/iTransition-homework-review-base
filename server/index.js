@@ -40,21 +40,11 @@ app.use(require("./src/routes/category"));
 app.use(require("./src/routes/user"));
 app.use(require("./src/routes/tag"));
 app.use(require("./src/routes/rating"));
+app.use(require("./src/routes/auth"));
 
 app.use(require("./src/auth/google"));
 app.use(require("./src/auth/github"));
 app.use(require("./src/auth/vkontakte"));
-
-app.get("/getUser", (req, res) => {
-  res.json(req.user);
-});
-
-app.get("/auth/logout", (req, res) => {
-  if (req.user) {
-    req.logout();
-    res.json({ message: "done" });
-  }
-});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
