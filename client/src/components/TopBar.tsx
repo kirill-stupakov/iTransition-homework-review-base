@@ -10,15 +10,13 @@ import { themeContext } from "./ThemeContext";
 
 const TopBar = () => {
   const userObject = useContext(userContext) as user;
-  const { switchTheme, backgroundColor, colorTheme } = useContext(
+  const { switchTheme, backgroundColor, colorTheme, textColor } = useContext(
     themeContext
   ) as ThemeContext;
 
   const logOut = () => {
     axios.get(apiURI + "auth/logout", { withCredentials: true }).then((res) => {
-      if (res.data.message === "done") {
-        window.location.href = "/";
-      }
+      window.location.href = "/";
     });
   };
 
@@ -59,7 +57,7 @@ const TopBar = () => {
           ) : (
             <LoginButton />
           )}
-          <Button onClick={switchTheme} className="ml-2">
+          <Button onClick={switchTheme} className="ml-2" variant={textColor}>
             {backgroundColor === "light" ? (
               <i className="bi bi-sun-fill" />
             ) : (

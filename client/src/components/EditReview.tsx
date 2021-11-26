@@ -211,7 +211,7 @@ const EditReview = () => {
                 Supports{" "}
                 <a
                   className="text-muted"
-                  href="https://www.markdownguide.org"
+                  href="https://www.markdownguide.org/cheat-sheet"
                   target="_blank"
                   rel="noreferrer"
                 >

@@ -40,7 +40,7 @@ const LoginButton = () => {
         <Dropdown.Item
           onClick={method.func}
           key={method.name}
-          className={"bg-" + backgroundColor + " text-" + textColor}
+          className={"py-2 bg-" + backgroundColor + " text-" + textColor}
         >
           <img
             src={"/icons/" + method.name.toLowerCase() + ".svg"}

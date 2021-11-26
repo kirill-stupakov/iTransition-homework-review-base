@@ -136,6 +136,7 @@ router.delete("/reviews/:id", async (req, res) => {
     return;
   }
 
+  await Rating.destroy({ where: { reviewId: id } });
   await TagRelation.destroy({ where: { reviewId: id } });
   await Review.destroy({ where: { id } });
 

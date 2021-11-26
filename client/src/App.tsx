@@ -15,7 +15,7 @@ function App() {
   const { backgroundColor } = useContext(themeContext) as ThemeContext;
   return (
     <div
-      className={"bg-" + backgroundColor}
+      className={backgroundColor === "dark" ? "bg-dark" : "bg-white"}
       style={{ minWidth: "100%", minHeight: "100vh" }}
     >
       <TopBar />

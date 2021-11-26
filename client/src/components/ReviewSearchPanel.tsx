@@ -1,13 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { AsyncTypeahead, TypeaheadResult } from "react-bootstrap-typeahead";
-import { apiURI, isoToReadableString, ratingToColor, review } from "../types";
+import {
+  apiURI,
+  isoToReadableString,
+  ratingToColor,
+  review,
+  ThemeContext,
+} from "../types";
 import axios from "axios";
-import { Badge } from "react-bootstrap";
+import { Badge, Container } from "react-bootstrap";
+import { themeContext } from "./ThemeContext";
 
 const ReviewSearchPanel = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [options, setOptions] = useState<review[]>([]);
   const [isFocused, setIsFocused] = useState(false);
+
+  const { textColor } = useContext(themeContext) as ThemeContext;
 
   const handleSearch = (searchString: string) => {
     setIsLoading(true);
@@ -18,7 +27,7 @@ const ReviewSearchPanel = () => {
   };
 
   const renderChildren = (review: TypeaheadResult<review>) => (
-    <>
+    <Container className={"my-2 text-" + textColor}>
       <h5 className="text-wrap">
         <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>{" "}
         <i className="bi bi-hash" />
@@ -34,7 +43,7 @@ const ReviewSearchPanel = () => {
       </a>{" "}
       <i className="bi bi-clock" /> {isoToReadableString(review.createdAt)}{" "}
       <i className="bi bi-bar-chart" /> {review.mark}/5{" "}
-    </>
+    </Container>
   );
 
   return (

@@ -4,8 +4,6 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import "./styles/ReviewPage.scss";
-
 import { Container, Badge } from "react-bootstrap";
 
 import {

@@ -5,7 +5,7 @@ import { Typeahead } from "react-bootstrap-typeahead";
 import { useParams } from "react-router";
 import remarkGfm from "remark-gfm";
 
-import { Container, Form, Tabs, Tab, Row, Col, Button } from "react-bootstrap";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import Mark from "./Mark";
 
 import { apiURI, ThemeContext } from "../types";
@@ -35,6 +35,7 @@ const CreateReview = () => {
   const [validated, setValidated] = useState(false);
   const [authorized, setAuthorized] = useState(true);
   const [sendingReview, setSendingReview] = useState(false);
+  const [isPreview, setIsPreview] = useState(false);
 
   const imagesValidator = () =>
     images.every((image) => image.type.split("/")[0] === "image");
@@ -92,7 +93,6 @@ const CreateReview = () => {
       .get(apiURI + "categories")
       .then((res) => {
         setCategories(res.data);
-        setSelectedCategory(res.data[0].name);
       })
       .catch((error) => console.error(error));
 
@@ -108,7 +108,7 @@ const CreateReview = () => {
   }, [authorUUID]);
 
   return (
-    <Container className={"text-" + textColor}>
+    <Container className={"mb-3 text-" + textColor}>
       <h1>
         Post review as{" "}
         {author ? (
@@ -143,16 +143,15 @@ const CreateReview = () => {
           <Col md={2} className="mb-3">
             <Form.Group>
               <Form.Label>Category</Form.Label>
-              <Form.Select
+              <Typeahead
+                isValid={!!selectedCategory}
                 className={"bg-" + backgroundColor + " text-" + textColor}
-                onChange={(event) => setSelectedCategory(event.target.value)}
-              >
-                {categories.map((category) => (
-                  <option value={category.name} key={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </Form.Select>
+                id="category-select"
+                labelKey={(category) => category.name}
+                onChange={(selected) => setSelectedCategory(selected[0]?.name)}
+                options={categories}
+                placeholder="Select category"
+              />
             </Form.Group>
           </Col>
 
@@ -198,15 +197,36 @@ const CreateReview = () => {
           </Col>
         </Row>
         <Form.Group className="mb-3">
-          <Form.Label>Body</Form.Label>
-          <Tabs className="mb-3 text-light">
-            <Tab eventKey="edit" title="Edit">
+          <Form.Label>
+            Body{" "}
+            <Button className="ml-2" onClick={() => setIsPreview(!isPreview)}>
+              {isPreview ? (
+                <>
+                  <i className="bi bi-eye-slash" /> Edit
+                </>
+              ) : (
+                <>
+                  <i className="bi bi-eye-fill" /> Preview
+                </>
+              )}
+            </Button>
+          </Form.Label>
+          {isPreview ? (
+            <ReactMarkdown
+              className="markdown-container"
+              remarkPlugins={[remarkGfm]}
+            >
+              {body}
+            </ReactMarkdown>
+          ) : (
+            <>
               <Form.Control
                 className={"bg-" + backgroundColor + " text-" + textColor}
                 as="textarea"
                 required
                 maxLength={maxBodyLength}
                 placeholder="Your body"
+                value={body}
                 onChange={(event) => setBody(event.target.value)}
                 style={{ height: "400px" }}
               />
@@ -214,7 +234,7 @@ const CreateReview = () => {
                 Supports{" "}
                 <a
                   className="text-muted"
-                  href="https://www.markdownguide.org"
+                  href="https://www.markdownguide.org/cheat-sheet"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -222,12 +242,8 @@ const CreateReview = () => {
                 </a>
                 . {maxBodyLength - body.length} characters left
               </Form.Text>
-            </Tab>
-
-            <Tab eventKey="preview" title="Markdown preview">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{body}</ReactMarkdown>
-            </Tab>
-          </Tabs>
+            </>
+          )}
         </Form.Group>
         <Button
           type="submit"
