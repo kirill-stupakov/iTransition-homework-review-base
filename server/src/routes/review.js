@@ -144,8 +144,6 @@ router.delete("/reviews/:id", async (req, res) => {
 });
 
 router.put("/reviews/:id", async (req, res) => {
-  console.log(req.user);
-
   if (!req.user) {
     res.status(401).json({ message: "unauthorized" });
     return;
