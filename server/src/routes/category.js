@@ -3,16 +3,10 @@ const { Category } = require("../db");
 
 const router = express.Router();
 
-router.get("/categories", (req, res) => {
-  Category.findAll({ attributes: ["name"] })
-    .then((categories) => res.status(200).json(categories))
-    .catch((error) => req.status(500).json(error));
-});
-
-router.post("/categories", (req, res) => {
-  Category.create({ name: req.body.name })
-    .then((categories) => res.status(201).json(categories))
-    .catch((error) => res.status(500).json(error));
+router.get("/categories", async (req, res) => {
+  const categories = await Category.findAll({ attributes: ["name"] });
+  const categoryNameArray = categories.map((category) => category.name);
+  res.status(200).json(categoryNameArray);
 });
 
 module.exports = router;
