@@ -127,7 +127,7 @@ const CreateReview = () => {
             <Form.Group>
               <Form.Label>Title</Form.Label>
               <Form.Control
-                className={"bg-" + backgroundColor}
+                className={"bg-" + backgroundColor + " text-" + textColor}
                 type="text"
                 required
                 maxLength={maxTitleLength}

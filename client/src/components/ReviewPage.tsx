@@ -4,6 +4,8 @@ import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
+import "./styles/ReviewPage.scss";
+
 import { Container, Badge } from "react-bootstrap";
 
 import {
@@ -84,7 +86,12 @@ const ReviewPage = () => {
         </h5>
         <hr />
 
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>{review.body}</ReactMarkdown>
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          className="markdown-container"
+        >
+          {review.body}
+        </ReactMarkdown>
       </Container>
     )
   );
