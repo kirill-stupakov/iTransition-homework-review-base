@@ -48,7 +48,7 @@ const UserCard: React.FC<Props> = ({ user, switchAdmin }) => {
                 switchAdmin();
               }}
             >
-              {user.isAdmin ? "Downgrade" : "Upgrade"}
+              {user.isAdmin ? "Admin" : "User"}
             </Button>
           </Col>
         </Row>
