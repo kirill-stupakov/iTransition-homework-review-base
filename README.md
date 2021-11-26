@@ -42,7 +42,7 @@
 - - [ ] Russian
 - [ ] UI themes
 - - [x] Light
-- - [ ] Dark
+- - [x] Dark
 
 ### Advanced
 
