@@ -21,7 +21,7 @@ router.get("/users/profile/:uuid", async (req, res) => {
 
 router.get("/users/info/:uuid", async (req, res) => {
   const { uuid } = req.params;
-  const user = User.findOne({
+  const user = await User.findOne({
     where: {
       uuid,
     },
