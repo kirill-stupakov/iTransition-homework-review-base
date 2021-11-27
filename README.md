@@ -40,7 +40,7 @@
 - [ ] UI languages
 - - [x] English
 - - [ ] Russian
-- [ ] UI themes
+- [x] UI themes
 - - [x] Light
 - - [x] Dark
 
