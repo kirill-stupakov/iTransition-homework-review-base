@@ -24,6 +24,10 @@
   .rbt {
     .rbt-input-main {
       color: $light;
+
+      &:focus {
+        background-color: $dark;
+      }
     }
 
     .rbt-token {
