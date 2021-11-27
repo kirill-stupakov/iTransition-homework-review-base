@@ -1,4 +1,6 @@
-@import "../node_modules/bootstrap/scss/bootstrap";
+@import "./components/styles/Common.scss";
+@import "./components/styles/DarkTheme.scss";
+@import "./components/styles/LightTheme.scss";
 
 body {
   margin: 0;
@@ -12,51 +14,4 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
-}
-
-.bg-light {
-  .form-control {
-    background-color: $gray-100;
-  }
-}
-
-.bg-dark {
-  .dropdown-menu {
-    background-color: $dark;
-    border: 1px solid $secondary;
-    box-shadow: $box-shadow-sm;
-
-    .dropdown-item {
-      color: $light;
-
-      &:hover {
-        background-color: $gray-800 !important;
-      }
-    }
-  }
-
-  .form-control, .form-select {
-    background-color: $dark;
-    color: $light;
-    border: 1px solid $secondary;
-  }
-
-  .rbt {
-    .rbt-input-main {
-      color: $light;
-    }
-
-    .rbt-token {
-      background-color: rgba($primary, 0.1);
-    }
-  }
-}
-
-.markdown-container {
-  img {
-    display: block;
-    max-width: 80vw;
-    box-shadow: $box-shadow-sm;
-    border-radius: $border-radius;
-  }
 }

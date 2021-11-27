@@ -23,8 +23,6 @@ const UserContext = (props: any) => {
     setTextColor(colorTheme === "light" ? "dark" : "light");
   }, [colorTheme]);
 
-  console.log(colorTheme);
-
   return (
     <themeContext.Provider
       value={{ switchTheme, backgroundColor, textColor, colorTheme }}

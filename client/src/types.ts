@@ -32,6 +32,7 @@ export type review = {
   mark: number;
   rating: number;
   tags: string[];
+  imageGroupUUID?: string;
   createdAt: string;
 };
 
@@ -54,4 +55,14 @@ export function ratingToColor(rating: number) {
     return "success";
   }
   return "secondary";
+}
+
+export function groupUUIDToArrayOfImages(uuid?: string) {
+  if (!uuid) {
+    return [];
+  }
+  const numberOfImages = parseInt(uuid.split("~")[1]);
+  return [...Array(numberOfImages)].map(
+    (_, index) => `https://ucarecdn.com/${uuid}/nth/${index}/`
+  );
 }

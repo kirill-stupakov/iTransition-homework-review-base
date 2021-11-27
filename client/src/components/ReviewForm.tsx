@@ -5,9 +5,17 @@ import Mark from "./Mark";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { themeContext } from "./ThemeContext";
-import { apiURI, tag, ThemeContext, user } from "../types";
+import {
+  apiURI,
+  groupUUIDToArrayOfImages,
+  tag,
+  ThemeContext,
+  user,
+} from "../types";
 import axios from "axios";
 import { userContext } from "./UserContext";
+import ImageUploadWidget from "./ImageUploadWidget";
+import ImageViewer from "./ImageViewer";
 
 interface Props {
   getAuthor: () => Promise<any>;
@@ -15,8 +23,8 @@ interface Props {
   initialSelectedCategory?: string;
   initialSelectedTags?: string[];
   initialMark?: number;
-  initialImages?: any;
-  initialBody?: any;
+  initialBody?: string;
+  initialImageGroupUUID?: string;
   postFunction: (data: any) => Promise<any>;
   actionName: string;
 }
@@ -27,8 +35,8 @@ const ReviewForm: React.FC<Props> = ({
   initialSelectedCategory = "",
   initialSelectedTags = [],
   initialMark = 3,
-  initialImages = [],
   initialBody = "",
+  initialImageGroupUUID,
   postFunction,
   actionName,
 }) => {
@@ -51,18 +59,17 @@ const ReviewForm: React.FC<Props> = ({
   const [mark, setMark] = useState(initialMark);
   const [selectedTags, setSelectedTags] =
     useState<string[]>(initialSelectedTags);
-  const [images, setImages] = useState<File[]>([]);
+  const [imageGroupUUID, setImageGroupUUID] = useState(initialImageGroupUUID);
 
   const [authorized, setAuthorized] = useState(true);
   const [sendingReview, setSendingReview] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
 
-  const imagesValidator = () =>
-    images.every((image) => image.type.split("/")[0] === "image");
-
   const formIsValid = () => {
-    return imagesValidator() && body && title && selectedCategory && author;
+    return body && title && selectedCategory && author;
   };
+  console.log(imageGroupUUID);
+  console.log(initialImageGroupUUID);
 
   const decideErrorMessage = () => {
     if (authorized) {
@@ -82,24 +89,17 @@ const ReviewForm: React.FC<Props> = ({
     if (formIsValid()) {
       setSendingReview(true);
       event.stopPropagation();
-      const json = JSON.stringify({
+      const review = {
         category: selectedCategory,
         authorUUID: author!.uuid,
         title,
         body,
+        imageGroupUUID,
         mark: mark + 1,
         tags: selectedTags,
-      });
+      };
 
-      const blob = new Blob([json], {
-        type: "application/json",
-      });
-
-      const data = new FormData();
-      images.forEach((image) => data.append("files", image));
-      data.append("document", blob);
-
-      postFunction(data).then((res) => {
+      postFunction(review).then((res) => {
         setSendingReview(false);
         if (res.status === 201) {
           window.location.href = "/reviews/id=" + res.data.id;
@@ -195,21 +195,23 @@ const ReviewForm: React.FC<Props> = ({
               <Mark mark={mark} onChange={setMark} max={5} />
             </Form.Group>
           </Col>
+
           <Col md={3} className="mb-3">
             <Form.Group>
               <Form.Label>Images</Form.Label>
-              <Form.Control
-                className={"bg-" + backgroundColor + " text-" + textColor}
-                type="file"
-                isValid={images.length > 0 && imagesValidator()}
-                accept="image/*"
-                multiple
-                onChange={(event: any) => setImages([...event.target.files])}
+              <br />
+              <ImageUploadWidget
+                enabled={authorized}
+                imageGroupUUID={imageGroupUUID}
+                setImageGroupUUID={setImageGroupUUID}
               />
               <Form.Text className="text-muted">
                 Optional. Must be of valid types
               </Form.Text>
             </Form.Group>
+          </Col>
+          <Col className="mb-3 d-flex align-items-center">
+            <ImageViewer images={groupUUIDToArrayOfImages(imageGroupUUID)} />
           </Col>
         </Row>
         <Form.Group className="mb-3">

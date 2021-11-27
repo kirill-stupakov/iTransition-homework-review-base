@@ -1,0 +1,33 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+.dark-mode {
+  .dropdown-menu {
+    background-color: $dark;
+    border: 1px solid $secondary;
+    box-shadow: $box-shadow-sm;
+
+    .dropdown-item {
+      color: $light;
+
+      &:hover {
+        background-color: $gray-800 !important;
+      }
+    }
+  }
+
+  .form-control, .form-select {
+    background-color: $dark;
+    color: $light;
+    border: 1px solid $secondary;
+  }
+
+  .rbt {
+    .rbt-input-main {
+      color: $light;
+    }
+
+    .rbt-token {
+      background-color: rgba($primary, 0.1);
+    }
+  }
+}

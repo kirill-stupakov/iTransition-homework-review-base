@@ -1,0 +1,19 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+.uploadcare--widget__button {
+  background-color: $primary;
+  border-radius: $border-radius-sm;
+
+  &:hover {
+    background-color: #0b5ed7;
+  }
+}
+
+.markdown-container {
+  img {
+    display: block;
+    max-width: 80vw;
+    box-shadow: $box-shadow-sm;
+    border-radius: $border-radius;
+  }
+}

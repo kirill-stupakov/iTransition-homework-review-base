@@ -12,10 +12,12 @@ import {
   isoToReadableString,
   ratingToColor,
   ThemeContext,
+  groupUUIDToArrayOfImages,
 } from "../types";
 import RatingButtons from "./RatingButtons";
 import { userContext } from "./UserContext";
 import { themeContext } from "./ThemeContext";
+import ImageViewer from "./ImageViewer";
 
 const ReviewPage = () => {
   const userObject = useContext(userContext);
@@ -83,7 +85,7 @@ const ReviewPage = () => {
           ))}
         </h5>
         <hr />
-
+        <ImageViewer images={groupUUIDToArrayOfImages(review.imageGroupUUID)} />
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
           className="markdown-container"

@@ -33,6 +33,10 @@ module.exports = {
         type: DataTypes.INTEGER,
         defaultValue: 0,
       },
+      imageGroupUUID: {
+        allowNull: true,
+        type: DataTypes.STRING(40),
+      },
       createdAt: {
         allowNull: false,
         type: DataTypes.DATE,

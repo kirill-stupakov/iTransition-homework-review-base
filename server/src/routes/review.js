@@ -5,12 +5,23 @@ const { Op } = require("sequelize");
 const router = express.Router();
 
 const getInfo = (review) => {
-  const { id, category, title, body, mark, createdAt } = review;
+  const { id, category, title, body, mark, createdAt, imageGroupUUID } = review;
   const { uuid, name, isAdmin } = review.User;
   const author = { uuid, name, isAdmin, createdAt: review.User.createdAt };
   const tags = review.TagRelations.map((tagRelation) => tagRelation.tag);
   const rating = review.Ratings.reduce((sum, curr) => sum + curr.rating, 0);
-  return { id, category, title, body, mark, createdAt, author, tags, rating };
+  return {
+    id,
+    category,
+    title,
+    body,
+    mark,
+    createdAt,
+    author,
+    tags,
+    rating,
+    imageGroupUUID,
+  };
 };
 
 const getInfoFromArray = (reviews) => reviews.map(getInfo);
@@ -92,13 +103,14 @@ router.post("/reviews", async (req, res) => {
     res.status(401).json({ message: "unauthorized" });
     return;
   }
-  const { authorUUID, category, title, body, mark, tags } = JSON.parse(
-    req.files.document.data
-  );
+  const { authorUUID, category, title, body, mark, tags, imageGroupUUID } =
+    req.body;
+
   if (!req.user.isAdmin && authorUUID !== req.user.uuid) {
     res.status(401).json({ message: "can't post review as another user" });
     return;
   }
+
   const newTags = tags.filter((tag) => tag.label).map((tag) => tag.label);
   const tagNames = tags.map((tag) => (tag.label ? tag.label : tag));
   const newReview = await Review.create({
@@ -107,7 +119,9 @@ router.post("/reviews", async (req, res) => {
     title,
     body,
     mark,
+    imageGroupUUID,
   });
+
   await Tag.bulkCreate(
     newTags.map((tag) => ({
       name: tag,
@@ -116,6 +130,7 @@ router.post("/reviews", async (req, res) => {
   await TagRelation.bulkCreate(
     tagNames.map((tag) => ({ tag, reviewId: newReview.id }))
   );
+
   res.status(201).json({ message: "success", id: newReview.id });
 });
 
@@ -160,11 +175,12 @@ router.put("/reviews/:id", async (req, res) => {
     return;
   }
 
-  const { category, title, body, mark, tags } = JSON.parse(
-    req.files.document.data
-  );
+  const { category, title, body, mark, tags, imageGroupUUID } = req.body;
 
-  await Review.update({ category, title, body, mark }, { where: { id } });
+  await Review.update(
+    { category, title, body, mark, imageGroupUUID },
+    { where: { id } }
+  );
   const newTags = tags.filter((tag) => tag.label).map((tag) => tag.label);
   const tagNames = tags.map((tag) => (tag.label ? tag.label : tag));
   await Tag.bulkCreate(

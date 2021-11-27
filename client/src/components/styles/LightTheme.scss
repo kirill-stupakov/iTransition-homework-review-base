@@ -1,0 +1,7 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+.light-mode {
+  .form-control {
+    background-color: $gray-100;
+  }
+}

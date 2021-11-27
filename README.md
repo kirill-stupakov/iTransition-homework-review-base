@@ -25,12 +25,12 @@
 - - [x] Delete 
 - [x] Admin panel
 - [x] Full-text search on every page
-- [ ] Review page
+- [x] Review page
 - - [x] Category
 - - [x] Tags
 - - [x] Title
 - - [x] Stars
-- - [ ] Images
+- - [x] Images
 - - [x] Rating
 - [x] Home page
 - - [x] Recently added
