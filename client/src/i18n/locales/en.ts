@@ -83,6 +83,39 @@ const en = {
       logIn: "Log in",
       search: "Search...",
     },
+
+    createReview: {
+      action: "Post",
+    },
+
+    editReview: {
+      action: "Edit",
+    },
+
+    reviewCard: {
+      edit: "Edit",
+      delete: "Delete",
+    },
+
+    userPage: {
+      admin: "admin",
+      user: "user",
+      memberSince: "Member since",
+      reviews: "reviews",
+      karma: "karma",
+      filter: "Filter",
+      sortBy: "Sort by",
+      sortAttributes: {
+        id: "Creation date",
+        mark: "Mark",
+        rating: "Rating",
+      },
+      ordering: "Ordering",
+      sortOrder: {
+        asc: "Ascending",
+        desc: "Descending",
+      },
+    },
   },
 };
 

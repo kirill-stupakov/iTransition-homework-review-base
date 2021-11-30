@@ -17,22 +17,17 @@ import { userContext } from "./UserContext";
 import { themeContext } from "./ThemeContext";
 import { isoToReadableString } from "../functions";
 import { apiURI } from "../constants";
+import { useTranslation } from "react-i18next";
 
-const sortAttributes: { attribute: string; name: string }[] = [
-  { attribute: "id", name: "Creation date" },
-  { attribute: "mark", name: "Mark" },
-  { attribute: "rating", name: "Rating" },
-];
-const sortModes: { mode: string; name: string }[] = [
-  { mode: "DESC", name: "Descending" },
-  { mode: "ASC", name: "Ascending" },
-];
+const sortAttributes = ["id", "mark", "rating"];
+const sortModes = ["desc", "asc"];
 
 const UserPage = () => {
   const userObject = useContext<any>(userContext);
   const { textColor, backgroundColor } = useContext(
     themeContext
   ) as ThemeContext;
+  const { t } = useTranslation();
 
   const { uuid } = useParams();
   const [user, setUser] = useState<user | null>(null);
@@ -41,8 +36,8 @@ const UserPage = () => {
   const [gotFields, setGotFields] = useState(false);
   const [reviews, setReviews] = useState<review[]>([]);
   const [searchString, setSearchString] = useState("");
-  const [sortBy, setSortBy] = useState(sortAttributes[0].attribute);
-  const [sortMode, setSortMode] = useState(sortModes[0].mode);
+  const [sortBy, setSortBy] = useState(sortAttributes[0]);
+  const [sortMode, setSortMode] = useState(sortModes[0]);
 
   useEffect(() => {
     axios
@@ -75,47 +70,64 @@ const UserPage = () => {
     }
   }, [uuid, sortBy, sortMode, searchString, gotFields, userObject]);
 
+  function handleDelete(review: review, index: number) {
+    axios
+      .delete(apiURI + "reviews/" + review.id, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        setReviews(reviews.filter((_, ind) => ind !== index));
+        setKarma(karma - review.rating);
+        setReviewCount(reviewCount - 1);
+      })
+      .catch((error) => console.error(error));
+  }
+
+  function handleEdit(review: review) {
+    return (window.location.href = "/editReview/" + review.id);
+  }
+
   return user ? (
     <Container className={"text-" + textColor}>
       <h1 className="fw-bold">
         {user.name}{" "}
         <Badge bg={user.isAdmin ? "primary" : "secondary"}>
-          {user.isAdmin ? "admin" : "user"}
+          {user.isAdmin ? t("userPage.admin") : t("userPage.user")}
         </Badge>
       </h1>
       <h5 className="fw-light">
-        Member since {isoToReadableString(user.createdAt)}
+        {t("userPage.memberSince")} {isoToReadableString(user.createdAt)}
       </h5>
       <h5 className="fw-light">
-        {reviewCount} reviews, {karma} karma
+        {reviewCount} {t("userPage.reviews")}, {karma} {t("userPage.karma")}
       </h5>
       <hr />
 
       <InputGroup className="mb-3">
         <FormControl
           className={"text-" + textColor + " bg-" + backgroundColor}
-          placeholder="Filter"
+          placeholder={t("userPage.filter")}
           onChange={(event) => setSearchString(event.target.value)}
         />
-        <DropdownButton title="Sort by" id="user-page-sort-by">
+        <DropdownButton title={t("userPage.sortBy")} id="user-page-sort-by">
           {sortAttributes.map((attr) => (
             <Dropdown.Item
-              key={attr.name}
-              active={sortBy === attr.attribute}
-              onClick={() => setSortBy(attr.attribute)}
+              key={attr}
+              active={sortBy === attr}
+              onClick={() => setSortBy(attr)}
             >
-              {attr.name}
+              {t("userPage.sortAttributes." + attr)}
             </Dropdown.Item>
           ))}
         </DropdownButton>
-        <DropdownButton title="Ordering" id="user-page-sort-mode">
+        <DropdownButton title={t("userPage.ordering")} id="user-page-sort-mode">
           {sortModes.map((mode) => (
             <Dropdown.Item
-              key={mode.name}
-              active={sortMode === mode.mode}
-              onClick={() => setSortMode(mode.mode)}
+              key={mode}
+              active={sortMode === mode}
+              onClick={() => setSortMode(mode)}
             >
-              {mode.name}
+              {t("userPage.sortOrder." + mode)}
             </Dropdown.Item>
           ))}
         </DropdownButton>
@@ -130,19 +142,8 @@ const UserPage = () => {
               }
               review={review}
               key={review.id}
-              onDelete={() => {
-                axios
-                  .delete(apiURI + "reviews/" + review.id, {
-                    withCredentials: true,
-                  })
-                  .then((res) => {
-                    setReviews(reviews.filter((_, ind) => ind !== index));
-                    setKarma(karma - review.rating);
-                    setReviewCount(reviewCount - 1);
-                  })
-                  .catch((error) => console.error(error));
-              }}
-              onEdit={() => (window.location.href = "/editReview/" + review.id)}
+              onDelete={() => handleDelete(review, index)}
+              onEdit={() => handleEdit(review)}
             />
           ))}
         </Stack>

@@ -4,6 +4,7 @@ import { Card, Badge, Row, Col, Button } from "react-bootstrap";
 import { ThemeContext } from "../types";
 import { themeContext } from "./ThemeContext";
 import { isoToReadableString, ratingToColor } from "../functions";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   review: any;
@@ -22,6 +23,7 @@ const ReviewCard: React.FC<Props> = ({
 }) => {
   const [hover, setHover] = useState(false);
   const { textColor } = useContext(themeContext) as ThemeContext;
+  const { t } = useTranslation();
 
   const handleEdit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -80,10 +82,10 @@ const ReviewCard: React.FC<Props> = ({
               className="d-flex justify-content-end align-items-center"
             >
               <Button variant="secondary" className="mr-3" onClick={handleEdit}>
-                Edit
+                {t("reviewCard.edit")}
               </Button>
               <Button variant="danger" onClick={handleDelete}>
-                Delete
+                {t("reviewCard.delete")}
               </Button>
             </Col>
           ) : null}

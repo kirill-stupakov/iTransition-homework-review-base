@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 
 import ReviewForm from "./ReviewForm";
 import { apiURI } from "../constants";
+import { useTranslation } from "react-i18next";
 
 const EditReview = () => {
   const { id } = useParams();
@@ -16,9 +17,10 @@ const EditReview = () => {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [imageGroupUUID, setImageGroupUUID] = useState<string>();
 
+  const { t } = useTranslation();
+
   useEffect(() => {
     axios.get(apiURI + "reviews/id=" + id).then((res) => {
-      console.log(res.data);
       setSelectedCategory(res.data.category);
       setTitle(res.data.title);
       setImageGroupUUID(res.data.imageGroupUUID);
@@ -41,7 +43,7 @@ const EditReview = () => {
             },
           })
         }
-        actionName="Edit"
+        actionName={t("editReview.action")}
         initialTitle={title}
         initialSelectedCategory={selectedCategory!}
         initialSelectedTags={selectedTags}

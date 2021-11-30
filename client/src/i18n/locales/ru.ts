@@ -84,6 +84,39 @@ const ru = {
       logIn: "Войти",
       search: "Поиск...",
     },
+
+    createReview: {
+      action: "Создать",
+    },
+
+    editReview: {
+      action: "Редактировать",
+    },
+
+    reviewCard: {
+      edit: "Редактировать",
+      delete: "Удалить",
+    },
+
+    userPage: {
+      admin: "администратор",
+      user: "пользователь",
+      memberSince: "Дата регистрации: ",
+      reviews: "обзоров",
+      karma: "кармы",
+      filter: "Поиск",
+      sortBy: "Сортировка",
+      ordering: "Порядок",
+      sortAttributes: {
+        id: "Дата создания",
+        mark: "Оценка",
+        rating: "Рейтинг",
+      },
+      sortOrder: {
+        asc: "Возрастание",
+        desc: "Убывание",
+      },
+    },
   },
 };
 
