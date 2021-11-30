@@ -72,7 +72,7 @@
 
 ### Database
 
-- [MySQL](https://expressjs.com/)
+- [MySQL](https://www.mysql.com/)
 
 ## Database Schema
 
