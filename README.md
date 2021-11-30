@@ -48,7 +48,7 @@
 
 - [ ] Comments on reviews
 - [ ] Advanced admin panel
-- [ ] Any number of images in reviews
+- [x] Any number of images in reviews
 - [ ] Group reviews by subject
 
 ## Technologies, Frameworks and Libraries
