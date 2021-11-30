@@ -1,7 +1,9 @@
 import React, { useContext, useState } from "react";
-import { isoToReadableString, ThemeContext, user } from "../../types";
+import { ThemeContext, user } from "../../types";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { themeContext } from "../ThemeContext";
+import { useTranslation } from "react-i18next";
+import { isoToReadableString } from "../../functions";
 
 interface Props {
   user: user;
@@ -10,6 +12,7 @@ interface Props {
 
 const UserCard: React.FC<Props> = ({ user, switchAdmin }) => {
   const [hover, setHover] = useState(false);
+  const { t } = useTranslation();
 
   const { textColor } = useContext(themeContext) as ThemeContext;
 
@@ -48,7 +51,9 @@ const UserCard: React.FC<Props> = ({ user, switchAdmin }) => {
                 switchAdmin();
               }}
             >
-              {user.isAdmin ? "Admin" : "User"}
+              {user.isAdmin
+                ? t("adminPanel.userCard.makeUser")
+                : t("adminPanel.userCard.makeAdmin")}
             </Button>
           </Col>
         </Row>

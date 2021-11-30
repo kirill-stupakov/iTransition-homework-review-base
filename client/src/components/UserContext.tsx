@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
-import { apiURI } from "../types";
+import { apiURI } from "../constants";
 
 export const userContext = createContext({});
 const UserContext = (props: any) => {

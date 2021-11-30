@@ -6,7 +6,7 @@ import UserPage from "./components/UserPage";
 import HomePage from "./components/HomePage";
 import ReviewPage from "./components/ReviewPage";
 import CreateReview from "./components/CreateReview";
-import AdminPanel from "./components/AdminPanel/AdminPanel";
+import AdminPanel from "./components/AdminPanel";
 import EditReview from "./components/EditReview";
 import { ThemeContext } from "./types";
 import { themeContext } from "./components/ThemeContext";

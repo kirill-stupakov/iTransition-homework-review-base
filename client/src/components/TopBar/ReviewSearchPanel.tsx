@@ -1,15 +1,11 @@
 import React, { useContext, useState } from "react";
 import { AsyncTypeahead, TypeaheadResult } from "react-bootstrap-typeahead";
-import {
-  apiURI,
-  isoToReadableString,
-  ratingToColor,
-  review,
-  ThemeContext,
-} from "../../types";
+import { review, ThemeContext } from "../../types";
 import axios from "axios";
 import { Badge, Container } from "react-bootstrap";
 import { themeContext } from "../ThemeContext";
+import { isoToReadableString, ratingToColor } from "../../functions";
+import { apiURI } from "../../constants";
 
 const ReviewSearchPanel = () => {
   const [isLoading, setIsLoading] = useState(false);

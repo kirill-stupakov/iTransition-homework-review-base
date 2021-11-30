@@ -6,18 +6,17 @@ import remarkGfm from "remark-gfm";
 
 import { Container, Badge } from "react-bootstrap";
 
-import {
-  review,
-  apiURI,
-  isoToReadableString,
-  ratingToColor,
-  ThemeContext,
-  groupUUIDToArrayOfImages,
-} from "../types";
+import { review, ThemeContext } from "../types";
 import RatingButtons from "./ReviewForm/RatingButtons";
 import { userContext } from "./UserContext";
 import { themeContext } from "./ThemeContext";
 import ImageViewer from "./ReviewForm/ImageViewer";
+import {
+  groupUUIDToArrayOfImages,
+  isoToReadableString,
+  ratingToColor,
+} from "../functions";
+import { apiURI } from "../constants";
 
 const ReviewPage = () => {
   const userObject = useContext(userContext);

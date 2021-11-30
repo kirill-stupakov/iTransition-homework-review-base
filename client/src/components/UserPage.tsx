@@ -11,16 +11,12 @@ import {
   FormControl,
 } from "react-bootstrap";
 
-import {
-  user,
-  apiURI,
-  isoToReadableString,
-  review,
-  ThemeContext,
-} from "../types";
+import { user, review, ThemeContext } from "../types";
 import ReviewCard from "./ReviewCard";
 import { userContext } from "./UserContext";
 import { themeContext } from "./ThemeContext";
+import { isoToReadableString } from "../functions";
+import { apiURI } from "../constants";
 
 const sortAttributes: { attribute: string; name: string }[] = [
   { attribute: "id", name: "Creation date" },

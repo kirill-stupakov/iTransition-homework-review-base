@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 
-import { apiURI } from "../types";
 import ReviewForm from "./ReviewForm";
+import { apiURI } from "../constants";
 
 const EditReview = () => {
   const { id } = useParams();

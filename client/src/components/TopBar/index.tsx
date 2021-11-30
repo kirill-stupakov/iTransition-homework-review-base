@@ -4,10 +4,12 @@ import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import LoginButton from "./LoginButton";
 import { userContext } from "../UserContext";
 import axios from "axios";
-import { apiURI, ThemeContext, user } from "../../types";
+import { ThemeContext, user } from "../../types";
 import ReviewSearchPanel from "./ReviewSearchPanel";
 import { themeContext } from "../ThemeContext";
 import ThemeSwitchButton from "./ThemeSwitchButton";
+import LanguageSwitchButton from "./LanguageSwitchButton";
+import { apiURI } from "../../constants";
 
 const TopBar = () => {
   const userObject = useContext(userContext) as user;
@@ -59,6 +61,7 @@ const TopBar = () => {
             <LoginButton />
           )}
           <ThemeSwitchButton />
+          <LanguageSwitchButton />
         </Navbar.Collapse>
       </Container>
     </Navbar>

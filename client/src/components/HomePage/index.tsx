@@ -5,8 +5,9 @@ import { Container, Row, Col, Stack } from "react-bootstrap";
 
 import TagCloud from "./TagCloud";
 import ReviewCard from "../ReviewCard";
-import { review, apiURI, ThemeContext } from "../../types";
+import { review, ThemeContext } from "../../types";
 import { themeContext } from "../ThemeContext";
+import { apiURI } from "../../constants";
 
 const HomePage = () => {
   const [mostRated, setMostRated] = useState<review[]>([]);

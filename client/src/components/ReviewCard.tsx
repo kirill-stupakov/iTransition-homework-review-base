@@ -1,8 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Card, Badge, Row, Col, Button } from "react-bootstrap";
 
-import { isoToReadableString, ratingToColor, ThemeContext } from "../types";
+import { ThemeContext } from "../types";
 import { themeContext } from "./ThemeContext";
+import { isoToReadableString, ratingToColor } from "../functions";
 
 interface Props {
   review: any;

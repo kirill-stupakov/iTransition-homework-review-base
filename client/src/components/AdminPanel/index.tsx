@@ -7,32 +7,36 @@ import {
   InputGroup,
   Stack,
 } from "react-bootstrap";
-import { apiURI, ThemeContext, user } from "../../types";
+import { ThemeContext, user } from "../../types";
 import axios from "axios";
 import UserCard from "./UserCard";
 import { themeContext } from "../ThemeContext";
+import { useTranslation } from "react-i18next";
+import { apiURI } from "../../constants";
 
-const sortAttributes: { attribute: string; name: string }[] = [
-  { attribute: "createdAt", name: "Creation date" },
-  { attribute: "name", name: "Name" },
-  { attribute: "uuid", name: "UUID" },
-  { attribute: "isAdmin", name: "Privileges" },
-  { attribute: "authService", name: "Auth service" },
-];
-const sortModes: { mode: string; name: string }[] = [
-  { mode: "DESC", name: "Descending" },
-  { mode: "ASC", name: "Ascending" },
-];
+const sortAttributes = ["createdAt", "name", "uuid", "isAdmin", "authService"];
+const sortModes = ["asc", "desc"];
 
 const AdminPanel = () => {
+  const { t } = useTranslation();
+
   const [users, setUsers] = useState<user[]>([]);
-  const [sortBy, setSortBy] = useState("uuid");
-  const [sortMode, setSortMode] = useState("DESC");
+  const [sortBy, setSortBy] = useState(sortAttributes[0]);
+  const [sortMode, setSortMode] = useState(sortModes[0]);
   const [searchString, setSearchString] = useState("");
 
   const { textColor, backgroundColor } = useContext(
     themeContext
   ) as ThemeContext;
+
+  const switchAdmin = (index: number, user: user) => {
+    const newUsers = users;
+    newUsers[index].isAdmin = !newUsers[index].isAdmin;
+    setUsers(newUsers);
+    axios.put(apiURI + "users/switchAdmin/" + user.uuid, null, {
+      withCredentials: true,
+    });
+  };
 
   useEffect(() => {
     axios
@@ -47,32 +51,35 @@ const AdminPanel = () => {
 
   return (
     <Container>
-      <h1 className={"mb-2 text-" + textColor}>Users</h1>
+      <h1 className={"mb-2 text-" + textColor}>{t("adminPanel.users")}</h1>
       <InputGroup className="mb-3">
         <FormControl
           className={"bg-" + backgroundColor + " text-" + textColor}
-          placeholder="Filter"
+          placeholder={t("adminPanel.filter")}
           onChange={(event) => setSearchString(event.target.value)}
         />
-        <DropdownButton title="Sort by" id="admin-panel-sort-by">
+        <DropdownButton title={t("adminPanel.sortBy")} id="admin-panel-sort-by">
           {sortAttributes.map((attr) => (
             <Dropdown.Item
-              key={attr.name}
-              active={sortBy === attr.attribute}
-              onClick={() => setSortBy(attr.attribute)}
+              key={attr}
+              active={sortBy === attr}
+              onClick={() => setSortBy(attr)}
             >
-              {attr.name}
+              {t("adminPanel.sortAttributes." + attr)}
             </Dropdown.Item>
           ))}
         </DropdownButton>
-        <DropdownButton title="Ordering" id="admin-panel-sort-mode">
+        <DropdownButton
+          title={t("adminPanel.ordering")}
+          id="admin-panel-sort-mode"
+        >
           {sortModes.map((mode) => (
             <Dropdown.Item
-              key={mode.name}
-              active={sortMode === mode.mode}
-              onClick={() => setSortMode(mode.mode)}
+              key={mode}
+              active={sortMode === mode}
+              onClick={() => setSortMode(mode)}
             >
-              {mode.name}
+              {t("adminPanel.sortOrder." + mode)}
             </Dropdown.Item>
           ))}
         </DropdownButton>
@@ -82,19 +89,12 @@ const AdminPanel = () => {
           {users.map((user, index) => (
             <UserCard
               user={user}
-              switchAdmin={() => {
-                const newUsers = users;
-                newUsers[index].isAdmin = !newUsers[index].isAdmin;
-                setUsers(newUsers);
-                axios.put(apiURI + "users/switchAdmin/" + user.uuid, null, {
-                  withCredentials: true,
-                });
-              }}
+              switchAdmin={() => switchAdmin(index, user)}
             />
           ))}
         </Stack>
       ) : (
-        <h4 className="text-muted">No users found</h4>
+        <h4 className="text-muted">{t("adminPanel.noUsersFound")}</h4>
       )}
     </Container>
   );
