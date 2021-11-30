@@ -60,7 +60,9 @@
 - [React Bootstrap Typehead](http://ericgio.github.io/react-bootstrap-typeahead/)
 - [React Router](https://reactrouter.com/)
 - [React Wordcloud](https://react-wordcloud.netlify.app/)
+- [React Viewer](https://www.npmjs.com/package/react-viewer)
 - [Axios](https://axios-http.com/)
+- [i18next](https://www.i18next.com/)
 
 ### Server
 
