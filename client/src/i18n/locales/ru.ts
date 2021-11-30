@@ -22,6 +22,68 @@ const ru = {
         makeUser: "Сделать пользователем",
       },
     },
+
+    homePage: {
+      mostRatedReviews: "Лучшие обзоры",
+      mostRecentReviews: "Новые обзоры",
+    },
+
+    categories: {
+      Movie: "Фильм",
+      Book: "Книга",
+      Game: "Игра",
+    },
+
+    reviewForm: {
+      errors: {
+        requiredFields: "Пожалуйста, заполните все обязательные поля",
+        authorIsIncorrect: "Неверный UUID автора",
+        notLoggedIn: "Пожалуйста, авторизуйтесь, чтобы {{action}} обзоры",
+      },
+      sendAs: "{{action}} обзор как",
+      title: {
+        name: "Название",
+        placeholder: "Введите название",
+        subtext: "Обязательное поле. {{charactersLeft}} символов осталось",
+      },
+      category: {
+        name: "Категория",
+        placeholder: "Выберите категорию",
+        subtext: "Обязательное поле",
+      },
+      tags: {
+        name: "Теги",
+        placeholder: "Выберите теги",
+        subtext: "Опциональное поле",
+      },
+      mark: "Оценка",
+      images: {
+        name: "Картинки",
+        subtext: "Опциональное поле. Принимаются только файлы изображений",
+      },
+      body: {
+        name: "Тело обзора",
+        placeholder: "Введите тело обзора",
+        subtext: {
+          charactersLeft:
+            "Обязательное поле. {{charactersLeft}} символов осталось",
+          supports: "Поддерживает",
+        },
+        edit: "Редактировать",
+        preview: "Предпросмотр",
+      },
+      loading: "Загрузка...",
+    },
+
+    topBar: {
+      reviewBase: "База обзоров",
+      createReview: "Создать",
+      adminPanel: "Администрирование",
+      loggedInAs: "Вы вошли как",
+      logOut: "Выйти",
+      logIn: "Войти",
+      search: "Поиск...",
+    },
   },
 };
 

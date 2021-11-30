@@ -4,6 +4,7 @@ import { DropdownButton, Dropdown } from "react-bootstrap";
 import { ThemeContext } from "../../types";
 import { themeContext } from "../ThemeContext";
 import { apiURI } from "../../constants";
+import { useTranslation } from "react-i18next";
 
 const googleAuth = () => {
   window.location.href = apiURI + "auth/google";
@@ -29,12 +30,13 @@ const LoginButton = () => {
   const { textColor, backgroundColor } = useContext(
     themeContext
   ) as ThemeContext;
+  const { t } = useTranslation();
 
   return (
     <DropdownButton
       variant="primary"
       id="login-button"
-      title="Log in"
+      title={t("topBar.logIn")}
       align="end"
     >
       {authMethods.map((method) => (

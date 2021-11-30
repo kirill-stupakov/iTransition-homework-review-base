@@ -1,5 +1,6 @@
 import React from "react";
-import { Widget } from "@uploadcare/react-widget";
+import { Locale, Widget } from "@uploadcare/react-widget";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   imageGroupUUID?: string;
@@ -12,11 +13,13 @@ const ImageUploadWidget: React.FC<Props> = ({
   imageGroupUUID,
   enabled = true,
 }) => {
-  console.log(imageGroupUUID);
+  const { i18n } = useTranslation();
+
   return (
     <Widget
       publicKey={process.env.REACT_APP_UPLOADCARE_CLIENT_ID!}
       value={imageGroupUUID}
+      locale={i18n.language as Locale}
       multiple
       imagesOnly
       crop="free, 16:9, 3:2, 4:3, 1:1"

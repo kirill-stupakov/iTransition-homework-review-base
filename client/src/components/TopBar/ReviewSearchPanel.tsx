@@ -6,6 +6,7 @@ import { Badge, Container } from "react-bootstrap";
 import { themeContext } from "../ThemeContext";
 import { isoToReadableString, ratingToColor } from "../../functions";
 import { apiURI } from "../../constants";
+import { useTranslation } from "react-i18next";
 
 const ReviewSearchPanel = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,6 +14,7 @@ const ReviewSearchPanel = () => {
   const [isFocused, setIsFocused] = useState(false);
 
   const { textColor } = useContext(themeContext) as ThemeContext;
+  const { t } = useTranslation();
 
   const handleSearch = (searchString: string) => {
     setIsLoading(true);
@@ -60,7 +62,7 @@ const ReviewSearchPanel = () => {
         labelKey={(option) => option.title}
         minLength={3}
         paginate
-        placeholder="Search..."
+        placeholder={t("topBar.search")}
         renderMenuItemChildren={renderChildren}
         className="text-primary"
       />

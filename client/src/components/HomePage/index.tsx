@@ -8,11 +8,13 @@ import ReviewCard from "../ReviewCard";
 import { review, ThemeContext } from "../../types";
 import { themeContext } from "../ThemeContext";
 import { apiURI } from "../../constants";
+import { useTranslation } from "react-i18next";
 
 const HomePage = () => {
   const [mostRated, setMostRated] = useState<review[]>([]);
   const [mostRecent, setMostRecent] = useState<review[]>([]);
   const { textColor } = useContext(themeContext) as ThemeContext;
+  const { t } = useTranslation();
 
   useEffect(() => {
     axios
@@ -32,7 +34,7 @@ const HomePage = () => {
       <Row className={"text-" + textColor}>
         <Col lg>
           <h1>
-            <i className="bi bi-bar-chart" /> Most rated reviews
+            <i className="bi bi-bar-chart" /> {t("homePage.mostRatedReviews")}
           </h1>
           <Stack gap={3} className="my-3">
             {mostRated.map((review) => (
@@ -42,7 +44,7 @@ const HomePage = () => {
         </Col>
         <Col lg>
           <h1>
-            <i className="bi bi-clock" /> Most recent reviews
+            <i className="bi bi-clock" /> {t("homePage.mostRecentReviews")}
           </h1>
           <Stack gap={3} className="my-3">
             {mostRecent.map((review) => (

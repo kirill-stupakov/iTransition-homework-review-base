@@ -12,6 +12,7 @@ import ImageUploadWidget from "./ImageUploadWidget";
 import ImageViewer from "./ImageViewer";
 import { groupUUIDToArrayOfImages } from "../../functions";
 import { apiURI } from "../../constants";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   getAuthor: () => Promise<any>;
@@ -42,6 +43,7 @@ const ReviewForm: React.FC<Props> = ({
     themeContext
   ) as ThemeContext;
   const userObject = useContext(userContext);
+  const { t } = useTranslation();
 
   const [author, setAuthor] = useState<user | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
@@ -64,8 +66,6 @@ const ReviewForm: React.FC<Props> = ({
   const formIsValid = () => {
     return body && title && selectedCategory && author;
   };
-  console.log(imageGroupUUID);
-  console.log(initialImageGroupUUID);
 
   const decideErrorMessage = () => {
     if (authorized) {
@@ -73,11 +73,13 @@ const ReviewForm: React.FC<Props> = ({
         if (formIsValid()) {
           return null;
         }
-        return "Please, fill all required fields";
+        return t("reviewForm.errors.requiredFields");
       }
-      return "Author UUID is incorrect";
+      return t("reviewForm.errors.authorIsIncorrect");
     }
-    return "Please, log in to " + actionName.toLowerCase() + " reviews.";
+    return t("reviewForm.errors.notLoggedIn", {
+      action: actionName.toLowerCase(),
+    });
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -125,7 +127,7 @@ const ReviewForm: React.FC<Props> = ({
   return (
     <Container className={"mb-3 text-" + textColor}>
       <h1>
-        {actionName} review as{" "}
+        {t("reviewForm.sendAs", { action: actionName })}{" "}
         {author ? (
           <a className="text-reset" href={"/users/" + author.uuid}>
             {author.name}
@@ -136,39 +138,43 @@ const ReviewForm: React.FC<Props> = ({
         <Row>
           <Col md={6} className="mb-3">
             <Form.Group>
-              <Form.Label>Title</Form.Label>
+              <Form.Label>{t("reviewForm.title.name")}</Form.Label>
               <Form.Control
                 className={"bg-" + backgroundColor + " text-" + textColor}
                 type="text"
                 maxLength={maxTitleLength}
-                placeholder="Your title"
+                placeholder={t("reviewForm.title.placeholder")}
                 value={title}
                 onChange={(event) => setTitle(event.target.value)}
               />
               <Form.Text className="text-muted">
-                Required. {maxTitleLength - title.length} characters left
+                {t("reviewForm.title.subtext", {
+                  charactersLeft: maxTitleLength - title.length,
+                })}{" "}
               </Form.Text>
             </Form.Group>
           </Col>
 
           <Col md={2} className="mb-3">
             <Form.Group>
-              <Form.Label>Category</Form.Label>
+              <Form.Label>{t("reviewForm.category.name")}</Form.Label>
               <Typeahead
                 className={"bg-" + backgroundColor + " text-" + textColor}
                 id="category-select"
                 selected={Array.of(selectedCategory)}
                 onChange={(selected) => setSelectedCategory(selected[0])}
                 options={categories}
-                placeholder="Select category"
+                placeholder={t("reviewForm.category.placeholder")}
               />
-              <Form.Text className="text-muted">Required</Form.Text>
+              <Form.Text className="text-muted">
+                {t("reviewForm.category.subtext")}
+              </Form.Text>
             </Form.Group>
           </Col>
 
           <Col md={4} className="mb-3">
             <Form.Group>
-              <Form.Label>Tags</Form.Label>
+              <Form.Label>{t("reviewForm.tags.name")}</Form.Label>
               <Typeahead
                 className={"bg-" + backgroundColor + " text-" + textColor}
                 id="tags-select"
@@ -178,23 +184,25 @@ const ReviewForm: React.FC<Props> = ({
                 selected={selectedTags}
                 onChange={setSelectedTags}
                 options={tags.map((tag) => tag.name)}
-                placeholder="Select tags"
+                placeholder={t("reviewForm.tags.placeholder")}
               />
-              <Form.Text className="text-muted">Optional</Form.Text>
+              <Form.Text className="text-muted">
+                {t("reviewForm.tags.subtext")}
+              </Form.Text>
             </Form.Group>
           </Col>
         </Row>
         <Row>
           <Col md={3} xl={2} className="mb-3">
             <Form.Group>
-              <Form.Label>Mark</Form.Label>
+              <Form.Label>{t("reviewForm.mark")}</Form.Label>
               <Mark mark={mark} onChange={setMark} max={5} />
             </Form.Group>
           </Col>
 
           <Col md={3} className="mb-3">
             <Form.Group>
-              <Form.Label>Images</Form.Label>
+              <Form.Label>{t("reviewForm.images.name")}</Form.Label>
               <br />
               <ImageUploadWidget
                 enabled={authorized}
@@ -202,7 +210,7 @@ const ReviewForm: React.FC<Props> = ({
                 setImageGroupUUID={setImageGroupUUID}
               />
               <Form.Text className="text-muted">
-                Optional. Must be of valid types
+                {t("reviewForm.images.subtext")}
               </Form.Text>
             </Form.Group>
           </Col>
@@ -212,15 +220,16 @@ const ReviewForm: React.FC<Props> = ({
         </Row>
         <Form.Group className="mb-3">
           <Form.Label>
-            Body{" "}
+            {t("reviewForm.body.name")}{" "}
             <Button className="ml-2" onClick={() => setIsPreview(!isPreview)}>
               {isPreview ? (
                 <>
-                  <i className="bi bi-eye-slash" /> Edit
+                  <i className="bi bi-eye-slash" /> {t("reviewForm.body.edit")}
                 </>
               ) : (
                 <>
-                  <i className="bi bi-eye-fill" /> Preview
+                  <i className="bi bi-eye-fill" />{" "}
+                  {t("reviewForm.body.preview")}
                 </>
               )}
             </Button>
@@ -238,13 +247,17 @@ const ReviewForm: React.FC<Props> = ({
                 className={"bg-" + backgroundColor + " text-" + textColor}
                 as="textarea"
                 maxLength={maxBodyLength}
-                placeholder="Your body"
+                placeholder={t("reviewForm.body.placeholder")}
                 value={body}
                 onChange={(event) => setBody(event.target.value)}
                 style={{ height: "400px" }}
               />
               <Form.Text className="text-muted">
-                Required. Supports{" "}
+                {t("reviewForm.body.subtext.charactersLeft", {
+                  charactersLeft: maxBodyLength - body.length,
+                })}
+                {". "}
+                {t("reviewForm.body.subtext.supports")}{" "}
                 <a
                   className="text-muted"
                   href="https://www.markdownguide.org/cheat-sheet"
@@ -253,7 +266,6 @@ const ReviewForm: React.FC<Props> = ({
                 >
                   Markdown
                 </a>
-                . {maxBodyLength - body.length} characters left
               </Form.Text>
             </>
           )}
@@ -264,7 +276,7 @@ const ReviewForm: React.FC<Props> = ({
           disabled={!authorized || sendingReview || !formIsValid()}
           className="mr-2"
         >
-          {sendingReview ? "Loading..." : actionName}
+          {sendingReview ? t("reviewForm.loading") : actionName}
         </Button>
         <span className="text-danger">{decideErrorMessage()}</span>
       </Form>

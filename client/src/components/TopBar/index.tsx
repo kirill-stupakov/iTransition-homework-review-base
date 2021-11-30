@@ -10,12 +10,14 @@ import { themeContext } from "../ThemeContext";
 import ThemeSwitchButton from "./ThemeSwitchButton";
 import LanguageSwitchButton from "./LanguageSwitchButton";
 import { apiURI } from "../../constants";
+import { useTranslation } from "react-i18next";
 
 const TopBar = () => {
   const userObject = useContext(userContext) as user;
   const { backgroundColor, colorTheme } = useContext(
     themeContext
   ) as ThemeContext;
+  const { t } = useTranslation();
 
   const logOut = () => {
     axios.get(apiURI + "auth/logout", { withCredentials: true }).then((res) => {
@@ -32,15 +34,15 @@ const TopBar = () => {
       bg={backgroundColor}
     >
       <Container fluid>
-        <Navbar.Brand href="/">Review-Base</Navbar.Brand>
+        <Navbar.Brand href="/">{t("topBar.reviewBase")}</Navbar.Brand>
         <ReviewSearchPanel />
         {userObject && (
           <Nav className="me-auto">
             <Nav.Link href={"/createReview/" + userObject.uuid}>
-              Create review
+              {t("topBar.createReview")}
             </Nav.Link>
             {userObject.isAdmin ? (
-              <Nav.Link href="/adminPanel">Admin panel</Nav.Link>
+              <Nav.Link href="/adminPanel">{t("topBar.adminPanel")}</Nav.Link>
             ) : null}
           </Nav>
         )}
@@ -50,11 +52,11 @@ const TopBar = () => {
           {userObject ? (
             <>
               <Navbar.Text>
-                Logged in as{" "}
+                {t("topBar.loggedInAs")}{" "}
                 <a href={"/users/" + userObject.uuid}>{userObject.name}</a>
               </Navbar.Text>
               <Button variant="danger" className="ml-2" onClick={logOut}>
-                Log out
+                {t("topBar.logOut")}
               </Button>
             </>
           ) : (
