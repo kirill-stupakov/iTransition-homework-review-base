@@ -2,15 +2,16 @@ import React, { useContext } from "react";
 import { Container, Navbar, Nav, Button } from "react-bootstrap";
 
 import LoginButton from "./LoginButton";
-import { userContext } from "./UserContext";
+import { userContext } from "../UserContext";
 import axios from "axios";
-import { apiURI, ThemeContext, user } from "../types";
+import { apiURI, ThemeContext, user } from "../../types";
 import ReviewSearchPanel from "./ReviewSearchPanel";
-import { themeContext } from "./ThemeContext";
+import { themeContext } from "../ThemeContext";
+import ThemeSwitchButton from "./ThemeSwitchButton";
 
 const TopBar = () => {
   const userObject = useContext(userContext) as user;
-  const { switchTheme, backgroundColor, colorTheme, textColor } = useContext(
+  const { backgroundColor, colorTheme } = useContext(
     themeContext
   ) as ThemeContext;
 
@@ -57,13 +58,7 @@ const TopBar = () => {
           ) : (
             <LoginButton />
           )}
-          <Button onClick={switchTheme} className="ml-2" variant={textColor}>
-            {backgroundColor === "light" ? (
-              <i className="bi bi-sun-fill" />
-            ) : (
-              <i className="bi bi-moon-fill" />
-            )}
-          </Button>
+          <ThemeSwitchButton />
         </Navbar.Collapse>
       </Container>
     </Navbar>

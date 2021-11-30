@@ -4,16 +4,16 @@ import { Typeahead } from "react-bootstrap-typeahead";
 import Mark from "./Mark";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { themeContext } from "./ThemeContext";
+import { themeContext } from "../ThemeContext";
 import {
   apiURI,
   groupUUIDToArrayOfImages,
   tag,
   ThemeContext,
   user,
-} from "../types";
+} from "../../types";
 import axios from "axios";
-import { userContext } from "./UserContext";
+import { userContext } from "../UserContext";
 import ImageUploadWidget from "./ImageUploadWidget";
 import ImageViewer from "./ImageViewer";
 

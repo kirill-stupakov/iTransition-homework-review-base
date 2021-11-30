@@ -6,10 +6,10 @@ import {
   ratingToColor,
   review,
   ThemeContext,
-} from "../types";
+} from "../../types";
 import axios from "axios";
 import { Badge, Container } from "react-bootstrap";
-import { themeContext } from "./ThemeContext";
+import { themeContext } from "../ThemeContext";
 
 const ReviewSearchPanel = () => {
   const [isLoading, setIsLoading] = useState(false);

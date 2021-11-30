@@ -7,10 +7,10 @@ import {
   InputGroup,
   Stack,
 } from "react-bootstrap";
-import { apiURI, ThemeContext, user } from "../types";
+import { apiURI, ThemeContext, user } from "../../types";
 import axios from "axios";
 import UserCard from "./UserCard";
-import { themeContext } from "./ThemeContext";
+import { themeContext } from "../ThemeContext";
 
 const sortAttributes: { attribute: string; name: string }[] = [
   { attribute: "createdAt", name: "Creation date" },

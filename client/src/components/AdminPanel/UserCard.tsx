@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
-import { isoToReadableString, ThemeContext, user } from "../types";
+import { isoToReadableString, ThemeContext, user } from "../../types";
 import { Button, Card, Col, Row } from "react-bootstrap";
-import { themeContext } from "./ThemeContext";
+import { themeContext } from "../ThemeContext";
 
 interface Props {
   user: user;

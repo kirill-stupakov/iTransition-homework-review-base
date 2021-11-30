@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { DropdownButton, Dropdown } from "react-bootstrap";
 
-import { apiURI, ThemeContext } from "../types";
-import { themeContext } from "./ThemeContext";
+import { apiURI, ThemeContext } from "../../types";
+import { themeContext } from "../ThemeContext";
 
 const googleAuth = () => {
   window.location.href = apiURI + "auth/google";

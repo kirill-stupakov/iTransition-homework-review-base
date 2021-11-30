@@ -14,10 +14,10 @@ import {
   ThemeContext,
   groupUUIDToArrayOfImages,
 } from "../types";
-import RatingButtons from "./RatingButtons";
+import RatingButtons from "./ReviewForm/RatingButtons";
 import { userContext } from "./UserContext";
 import { themeContext } from "./ThemeContext";
-import ImageViewer from "./ImageViewer";
+import ImageViewer from "./ReviewForm/ImageViewer";
 
 const ReviewPage = () => {
   const userObject = useContext(userContext);

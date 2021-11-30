@@ -6,10 +6,11 @@ import UserPage from "./components/UserPage";
 import HomePage from "./components/HomePage";
 import ReviewPage from "./components/ReviewPage";
 import CreateReview from "./components/CreateReview";
-import AdminPanel from "./components/AdminPanel";
+import AdminPanel from "./components/AdminPanel/AdminPanel";
 import EditReview from "./components/EditReview";
 import { ThemeContext } from "./types";
 import { themeContext } from "./components/ThemeContext";
+import "./i18n/index.ts";
 
 function App() {
   const { backgroundColor } = useContext(themeContext) as ThemeContext;
