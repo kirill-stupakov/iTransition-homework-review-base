@@ -78,7 +78,6 @@ const en = {
       reviewBase: "Review-Base",
       createReview: "Create Review",
       adminPanel: "Admin Panel",
-      loggedInAs: "Logged in as",
       logOut: "Log out",
       logIn: "Log in",
       search: "Search...",

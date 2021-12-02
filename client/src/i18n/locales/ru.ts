@@ -79,7 +79,6 @@ const ru = {
       reviewBase: "База обзоров",
       createReview: "Создать",
       adminPanel: "Администрирование",
-      loggedInAs: "Вы вошли как",
       logOut: "Выйти",
       logIn: "Войти",
       search: "Поиск...",

@@ -37,7 +37,6 @@ const LoginButton = () => {
       variant="primary"
       id="login-button"
       title={t("topBar.logIn")}
-      align="end"
     >
       {authMethods.map((method) => (
         <Dropdown.Item

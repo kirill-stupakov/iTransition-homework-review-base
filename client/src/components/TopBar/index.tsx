@@ -28,7 +28,7 @@ const TopBar = () => {
   return (
     <Navbar
       sticky="top"
-      expand="md"
+      expand="lg"
       className="mb-3 shadow-sm"
       variant={colorTheme}
       bg={backgroundColor}
@@ -36,34 +36,42 @@ const TopBar = () => {
       <Container fluid>
         <Navbar.Brand href="/">{t("topBar.reviewBase")}</Navbar.Brand>
         <ReviewSearchPanel />
-        {userObject && (
-          <Nav className="me-auto">
-            <Nav.Link href={"/createReview/" + userObject.uuid}>
-              {t("topBar.createReview")}
-            </Nav.Link>
-            {userObject.isAdmin ? (
-              <Nav.Link href="/adminPanel">{t("topBar.adminPanel")}</Nav.Link>
-            ) : null}
-          </Nav>
-        )}
 
         <Navbar.Toggle aria-controls="navbar-collapse" />
         <Navbar.Collapse id="navbar-collapse" className="justify-content-end">
-          {userObject ? (
-            <>
-              <Navbar.Text>
-                {t("topBar.loggedInAs")}{" "}
-                <a href={"/users/" + userObject.uuid}>{userObject.name}</a>
-              </Navbar.Text>
-              <Button variant="danger" className="ml-2" onClick={logOut}>
-                {t("topBar.logOut")}
-              </Button>
-            </>
-          ) : (
-            <LoginButton />
-          )}
-          <ThemeSwitchButton />
-          <LanguageSwitchButton />
+          <Nav className="me-auto" navbarScroll>
+            {userObject && (
+              <Nav className="me-auto">
+                <Nav.Link href={"/createReview/" + userObject.uuid}>
+                  {t("topBar.createReview")}
+                </Nav.Link>
+                {userObject.isAdmin ? (
+                  <Nav.Link href="/adminPanel">
+                    {t("topBar.adminPanel")}
+                  </Nav.Link>
+                ) : null}
+              </Nav>
+            )}
+          </Nav>
+
+          <Nav className="mb-auto">
+            <Nav.Item>
+              {userObject ? (
+                <>
+                  <Navbar.Text>
+                    <a href={"/users/" + userObject.uuid}>{userObject.name}</a>
+                  </Navbar.Text>
+                  <Button variant="danger" className="ml-2" onClick={logOut}>
+                    {t("topBar.logOut")}
+                  </Button>
+                </>
+              ) : (
+                <LoginButton />
+              )}
+              <ThemeSwitchButton />
+              <LanguageSwitchButton />
+            </Nav.Item>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>
