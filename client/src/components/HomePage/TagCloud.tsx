@@ -17,18 +17,20 @@ const TagCloud = () => {
   }, []);
 
   return (
-    <ReactWordcloud
-      words={tags}
-      options={{
-        enableTooltip: false,
-        rotationAngles: [0, 0],
-        rotations: 1,
-        padding: 2,
-        deterministic: true,
-        fontSizes: [20, 90],
-        fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,
-      }}
-    />
+    <div className="word-cloud">
+      <ReactWordcloud
+        words={tags}
+        options={{
+          enableTooltip: false,
+          rotationAngles: [0, 0],
+          rotations: 1,
+          padding: 2,
+          deterministic: true,
+          fontSizes: [20, 90],
+          fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,
+        }}
+      />
+    </div>
   );
 };
 
