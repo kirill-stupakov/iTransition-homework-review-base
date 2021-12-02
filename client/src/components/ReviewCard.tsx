@@ -5,9 +5,10 @@ import { ThemeContext } from "../types";
 import { themeContext } from "./ThemeContext";
 import { isoToReadableString, ratingToColor } from "../functions";
 import { useTranslation } from "react-i18next";
+import { review } from "../types";
 
 interface Props {
-  review: any;
+  review: review;
   showAuthor?: boolean;
   showControls?: boolean;
   onEdit?: () => void;
@@ -41,7 +42,6 @@ const ReviewCard: React.FC<Props> = ({
 
   return (
     <Card
-      key={review.id}
       className={`border-0 ${
         hover ? "shadow-sm bg-opacity-25" : "bg-opacity-10"
       } bg-${ratingToColor(review.rating)}`}

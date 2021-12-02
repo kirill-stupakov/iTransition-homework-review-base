@@ -9,10 +9,11 @@ import { review, ThemeContext } from "../../types";
 import { themeContext } from "../ThemeContext";
 import { apiURI } from "../../constants";
 import { useTranslation } from "react-i18next";
+import ReviewCardLoading from "../ReviewCardLoading";
 
 const HomePage = () => {
-  const [mostRated, setMostRated] = useState<review[]>([]);
-  const [mostRecent, setMostRecent] = useState<review[]>([]);
+  const [mostRated, setMostRated] = useState<review[]>();
+  const [mostRecent, setMostRecent] = useState<review[]>();
   const { textColor } = useContext(themeContext) as ThemeContext;
   const { t } = useTranslation();
 
@@ -28,6 +29,10 @@ const HomePage = () => {
       .catch((error) => console.log(error));
   }, []);
 
+  const loadingReviewCards = [...Array(5)].map((index) => (
+    <ReviewCardLoading key={index} />
+  ));
+
   return (
     <Container>
       <TagCloud />
@@ -37,9 +42,11 @@ const HomePage = () => {
             <i className="bi bi-bar-chart" /> {t("homePage.mostRatedReviews")}
           </h1>
           <Stack gap={3} className="my-3">
-            {mostRated.map((review) => (
-              <ReviewCard review={review} showAuthor key={review.id} />
-            ))}
+            {mostRated
+              ? mostRated.map((review) => (
+                  <ReviewCard review={review} showAuthor key={review.id} />
+                ))
+              : loadingReviewCards}
           </Stack>
         </Col>
         <Col lg>
@@ -47,9 +54,11 @@ const HomePage = () => {
             <i className="bi bi-clock" /> {t("homePage.mostRecentReviews")}
           </h1>
           <Stack gap={3} className="my-3">
-            {mostRecent.map((review) => (
-              <ReviewCard review={review} showAuthor key={review.id} />
-            ))}
+            {mostRecent
+              ? mostRecent.map((review) => (
+                  <ReviewCard review={review} showAuthor key={review.id} />
+                ))
+              : loadingReviewCards}
           </Stack>
         </Col>
       </Row>
