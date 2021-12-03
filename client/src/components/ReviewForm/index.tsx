@@ -54,6 +54,7 @@ const ReviewForm: React.FC<Props> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>(
     initialSelectedCategory
   );
+  console.log(selectedCategory);
   const [title, setTitle] = useState(initialTitle);
   const [body, setBody] = useState(initialBody);
   const [mark, setMark] = useState(initialMark);
@@ -163,9 +164,6 @@ const ReviewForm: React.FC<Props> = ({
               <Typeahead
                 className={"bg-" + backgroundColor + " text-" + textColor}
                 id="category-select"
-                // @ts-ignore
-                // labelKey={(category: string) => "QWE"}
-                selected={Array.of(selectedCategory)}
                 onChange={(selected) => setSelectedCategory(selected[0])}
                 options={categories}
                 placeholder={t("reviewForm.category.placeholder")}

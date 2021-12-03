@@ -17,11 +17,7 @@ const TagCloud = React.memo(() => {
     number,
     number
   ];
-  const valueScale = d3
-    .scalePow()
-    .exponent(1.5)
-    .domain(valueDomain)
-    .range([5, 40]);
+  const valueScale = d3.scaleLinear().domain(valueDomain).range([5, 40]);
 
   useEffect(() => {
     axios
