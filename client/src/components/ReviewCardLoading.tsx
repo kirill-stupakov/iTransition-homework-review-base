@@ -11,10 +11,10 @@ const ReviewCardLoading = () => {
       <Card.Body className={"text-" + textColor}>
         <Row>
           <Col>
-            <Placeholder as={Card.Title} animation="wave">
+            <Placeholder as={Card.Title} animation="glow">
               <Placeholder xs={6} />
             </Placeholder>
-            <Placeholder as={Card.Subtitle} animation="wave">
+            <Placeholder as={Card.Subtitle} animation="glow">
               <Placeholder xs={10} />
             </Placeholder>
           </Col>

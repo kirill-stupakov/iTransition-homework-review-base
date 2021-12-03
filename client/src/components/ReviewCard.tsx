@@ -6,6 +6,7 @@ import { themeContext } from "./ThemeContext";
 import { isoToReadableString, ratingToColor } from "../functions";
 import { useTranslation } from "react-i18next";
 import { review } from "../types";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
   review: review;
@@ -25,6 +26,7 @@ const ReviewCard: React.FC<Props> = ({
   const [hover, setHover] = useState(false);
   const { textColor } = useContext(themeContext) as ThemeContext;
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const handleEdit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -48,7 +50,7 @@ const ReviewCard: React.FC<Props> = ({
       style={{ cursor: "pointer", transition: "0.3s" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={() => (window.location.href = "/reviews/id=" + review.id)}
+      onClick={() => navigate("/reviews/id=" + review.id)}
     >
       <Card.Body className={"text-" + textColor}>
         <Row>
@@ -62,13 +64,13 @@ const ReviewCard: React.FC<Props> = ({
               {showAuthor && (
                 <>
                   <i className="bi bi-person" />{" "}
-                  <a
-                    href={"/users/" + review.author.uuid}
+                  <Link
+                    to={"/users/" + review.author.uuid}
                     className="text-reset"
                     onClick={(event) => event.stopPropagation()}
                   >
                     {review.author.name}
-                  </a>{" "}
+                  </Link>{" "}
                 </>
               )}
               <i className="bi bi-clock" />{" "}

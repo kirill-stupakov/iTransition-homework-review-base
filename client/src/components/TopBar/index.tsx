@@ -11,6 +11,7 @@ import ThemeSwitchButton from "./ThemeSwitchButton";
 import LanguageSwitchButton from "./LanguageSwitchButton";
 import { apiURI } from "../../constants";
 import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
 
 const TopBar = () => {
   const userObject = useContext(userContext) as user;
@@ -18,10 +19,11 @@ const TopBar = () => {
     themeContext
   ) as ThemeContext;
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const logOut = () => {
     axios.get(apiURI + "auth/logout", { withCredentials: true }).then((res) => {
-      window.location.href = "/";
+      navigate("/");
     });
   };
 
@@ -34,7 +36,9 @@ const TopBar = () => {
       bg={backgroundColor}
     >
       <Container fluid>
-        <Navbar.Brand href="/">{t("topBar.reviewBase")}</Navbar.Brand>
+        <Navbar.Brand onClick={() => navigate("/")}>
+          {t("topBar.reviewBase")}
+        </Navbar.Brand>
         <ReviewSearchPanel />
 
         <Navbar.Toggle aria-controls="navbar-collapse" />
@@ -42,11 +46,13 @@ const TopBar = () => {
           <Nav className="me-auto" navbarScroll>
             {userObject && (
               <Nav className="me-auto">
-                <Nav.Link href={"/createReview/" + userObject.uuid}>
+                <Nav.Link
+                  onClick={() => navigate("/createReview/" + userObject.uuid)}
+                >
                   {t("topBar.createReview")}
                 </Nav.Link>
                 {userObject.isAdmin ? (
-                  <Nav.Link href="/adminPanel">
+                  <Nav.Link onClick={() => navigate("/adminPanel")}>
                     {t("topBar.adminPanel")}
                   </Nav.Link>
                 ) : null}
@@ -59,7 +65,9 @@ const TopBar = () => {
               {userObject ? (
                 <>
                   <Navbar.Text>
-                    <a href={"/users/" + userObject.uuid}>{userObject.name}</a>
+                    <Link to={"/users/" + userObject.uuid}>
+                      {userObject.name}
+                    </Link>
                   </Navbar.Text>
                   <Button variant="danger" className="ml-2" onClick={logOut}>
                     {t("topBar.logOut")}

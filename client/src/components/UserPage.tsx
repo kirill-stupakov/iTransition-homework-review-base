@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import {
   Container,
   Badge,
@@ -28,6 +28,7 @@ const UserPage = () => {
     themeContext
   ) as ThemeContext;
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const { uuid } = useParams();
   const [user, setUser] = useState<user | null>(null);
@@ -70,7 +71,7 @@ const UserPage = () => {
     }
   }, [uuid, sortBy, sortMode, searchString, gotFields, userObject]);
 
-  function handleDelete(review: review, index: number) {
+  const handleDelete = (review: review, index: number) => {
     axios
       .delete(apiURI + "reviews/" + review.id, {
         withCredentials: true,
@@ -81,11 +82,9 @@ const UserPage = () => {
         setReviewCount(reviewCount - 1);
       })
       .catch((error) => console.error(error));
-  }
+  };
 
-  function handleEdit(review: review) {
-    return (window.location.href = "/editReview/" + review.id);
-  }
+  const handleEdit = (review: review) => navigate("/editReview/" + review.id);
 
   return user ? (
     <Container className={"text-" + textColor}>

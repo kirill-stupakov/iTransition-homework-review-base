@@ -4,6 +4,7 @@ import { Button, Card, Col, Row } from "react-bootstrap";
 import { themeContext } from "../ThemeContext";
 import { useTranslation } from "react-i18next";
 import { isoToReadableString } from "../../functions";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   user: user;
@@ -13,6 +14,7 @@ interface Props {
 const UserCard: React.FC<Props> = ({ user, switchAdmin }) => {
   const [hover, setHover] = useState(false);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const { textColor } = useContext(themeContext) as ThemeContext;
 
@@ -24,7 +26,7 @@ const UserCard: React.FC<Props> = ({ user, switchAdmin }) => {
       style={{ cursor: "pointer", transition: "0.3s" }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      onClick={() => (window.location.href = "/users/" + user.uuid)}
+      onClick={() => navigate("/users/" + user.uuid)}
     >
       <Card.Body className={"text-" + textColor}>
         <Row>

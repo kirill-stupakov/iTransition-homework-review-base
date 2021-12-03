@@ -17,6 +17,7 @@ import {
   ratingToColor,
 } from "../functions";
 import { apiURI } from "../constants";
+import { Link } from "react-router-dom";
 
 const ReviewPage = () => {
   const userObject = useContext(userContext);
@@ -63,9 +64,9 @@ const ReviewPage = () => {
         </h1>
         <h5 className="fw-light">
           <i className="bi bi-person" />{" "}
-          <a className="text-reset" href={"/users/" + review.author.uuid}>
+          <Link className="text-reset" to={"/users/" + review.author.uuid}>
             {review.author.name}{" "}
-          </a>
+          </Link>
         </h5>
         <h5 className="fw-light">
           <i className="bi bi-clock" /> {isoToReadableString(review.createdAt)},{" "}

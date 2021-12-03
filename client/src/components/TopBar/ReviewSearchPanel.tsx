@@ -7,6 +7,7 @@ import { themeContext } from "../ThemeContext";
 import { isoToReadableString, ratingToColor } from "../../functions";
 import { apiURI } from "../../constants";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 const ReviewSearchPanel = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,13 +33,13 @@ const ReviewSearchPanel = () => {
         {review.category}: {review.title}
       </h5>
       <i className="bi bi-person" />{" "}
-      <a
-        href={"/users/" + review.author.uuid}
+      <Link
+        to={"/users/" + review.author.uuid}
         className="text-reset"
         onClick={(event) => event.stopPropagation()}
       >
         {review.author.name}
-      </a>{" "}
+      </Link>{" "}
       <i className="bi bi-clock" /> {isoToReadableString(review.createdAt)}{" "}
       <i className="bi bi-bar-chart" /> {review.mark}/5{" "}
     </Container>

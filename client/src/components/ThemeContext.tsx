@@ -21,6 +21,12 @@ const UserContext = (props: any) => {
     localStorage.setItem("theme", colorTheme);
     setBackgroundColor(colorTheme);
     setTextColor(colorTheme === "light" ? "dark" : "light");
+    document.body.classList.remove(
+      "bg-" + (colorTheme === "dark" ? "white" : "dark")
+    );
+    document.body.classList.add(
+      "bg-" + (colorTheme === "dark" ? "dark" : "white")
+    );
   }, [colorTheme]);
 
   return (

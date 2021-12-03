@@ -6,31 +6,24 @@ import { themeContext } from "../ThemeContext";
 import { apiURI } from "../../constants";
 import { useTranslation } from "react-i18next";
 
-const googleAuth = () => {
-  window.location.href = apiURI + "auth/google";
-};
-
-const githubAuth = () => {
-  window.location.href = apiURI + "auth/github";
-};
-
-const vkontakteAuth = () => {
-  window.location.href = apiURI + "auth/vkontakte";
-};
-
-const imageSize = 20;
-
-const authMethods = [
-  { name: "Google", func: googleAuth },
-  { name: "GitHub", func: githubAuth },
-  { name: "VKontakte", func: vkontakteAuth },
-];
-
 const LoginButton = () => {
   const { textColor, backgroundColor } = useContext(
     themeContext
   ) as ThemeContext;
   const { t } = useTranslation();
+
+  const googleAuth = () => (window.location.href = apiURI + "auth/google");
+  const githubAuth = () => (window.location.href = apiURI + "auth/github");
+  const vkontakteAuth = () =>
+    (window.location.href = apiURI + "auth/vkontakte");
+
+  const imageSize = 20;
+
+  const authMethods = [
+    { name: "Google", func: googleAuth },
+    { name: "GitHub", func: githubAuth },
+    { name: "VKontakte", func: vkontakteAuth },
+  ];
 
   return (
     <DropdownButton

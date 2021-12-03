@@ -18,6 +18,11 @@
   }
 }
 
-.navbar .dropdown {
-  display: inline-block;
+.navbar {
+  .navbar-brand {
+    cursor: pointer;
+  }
+  .dropdown {
+    display: inline-block;
+  }
 }

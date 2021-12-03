@@ -13,6 +13,7 @@ import ImageViewer from "./ImageViewer";
 import { groupUUIDToArrayOfImages } from "../../functions";
 import { apiURI } from "../../constants";
 import { useTranslation } from "react-i18next";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
   getAuthor: () => Promise<any>;
@@ -44,6 +45,7 @@ const ReviewForm: React.FC<Props> = ({
   ) as ThemeContext;
   const userObject = useContext(userContext);
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [author, setAuthor] = useState<user | null>(null);
   const [categories, setCategories] = useState<string[]>([]);
@@ -100,7 +102,7 @@ const ReviewForm: React.FC<Props> = ({
       postFunction(review).then((res) => {
         setSendingReview(false);
         if (res.status === 201) {
-          window.location.href = "/reviews/id=" + res.data.id;
+          navigate("/reviews/id=" + res.data.id);
         } else {
           setAuthorized(false);
         }
@@ -129,9 +131,9 @@ const ReviewForm: React.FC<Props> = ({
       <h1>
         {t("reviewForm.sendAs", { action: actionName })}{" "}
         {author ? (
-          <a className="text-reset" href={"/users/" + author.uuid}>
+          <Link className="text-reset" to={"/users/" + author.uuid}>
             {author.name}
-          </a>
+          </Link>
         ) : null}
       </h1>
       <Form onSubmit={sendingReview ? undefined : handleSubmit}>
@@ -161,6 +163,8 @@ const ReviewForm: React.FC<Props> = ({
               <Typeahead
                 className={"bg-" + backgroundColor + " text-" + textColor}
                 id="category-select"
+                // @ts-ignore
+                // labelKey={(category: string) => "QWE"}
                 selected={Array.of(selectedCategory)}
                 onChange={(selected) => setSelectedCategory(selected[0])}
                 options={categories}
@@ -258,14 +262,14 @@ const ReviewForm: React.FC<Props> = ({
                 })}
                 {". "}
                 {t("reviewForm.body.subtext.supports")}{" "}
-                <a
+                <Link
                   className="text-muted"
-                  href="https://www.markdownguide.org/cheat-sheet"
+                  to="https://www.markdownguide.org/cheat-sheet"
                   target="_blank"
                   rel="noreferrer"
                 >
                   Markdown
-                </a>
+                </Link>
               </Form.Text>
             </>
           )}
