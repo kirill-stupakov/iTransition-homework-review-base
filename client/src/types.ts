@@ -33,3 +33,8 @@ export type review = {
   imageGroupUUID?: string;
   createdAt: string;
 };
+
+export type word = {
+  text: string;
+  value: number;
+};

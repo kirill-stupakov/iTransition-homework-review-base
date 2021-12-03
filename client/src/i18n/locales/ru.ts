@@ -26,6 +26,7 @@ const ru = {
     homePage: {
       mostRatedReviews: "Лучшие обзоры",
       mostRecentReviews: "Новые обзоры",
+      loadingTagCloud: "Загрузка облака тегов",
     },
 
     categories: {

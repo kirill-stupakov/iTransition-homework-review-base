@@ -29,7 +29,7 @@ const HomePage = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  const loadingReviewCards = [...Array(5)].map((index) => (
+  const loadingReviewCards = [...Array(5)].map((_, index) => (
     <ReviewCardLoading key={index} />
   ));
 

@@ -26,6 +26,7 @@ const en = {
     homePage: {
       mostRatedReviews: "Most rated reviews",
       mostRecentReviews: "Most recent reviews",
+      loadingTagCloud: "Loading tag cloud",
     },
 
     categories: {

@@ -1,13 +1,27 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ReactWordcloud, { Word } from "react-wordcloud";
+import ReactWordcloud from "react-d3-cloud";
+import { Container, Spinner } from "react-bootstrap";
+import * as d3 from "d3";
 
 import { apiURI } from "../../constants";
-import { Container, Spinner } from "react-bootstrap";
+import { word } from "../../types";
+import { useTranslation } from "react-i18next";
 
-const TagCloud = () => {
-  const [tags, setTags] = useState<Word[]>([]);
+const TagCloud = React.memo(() => {
+  const [tags, setTags] = useState<word[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { t } = useTranslation();
+
+  const valueDomain = d3.extent(tags.map((tag) => tag.value)) as [
+    number,
+    number
+  ];
+  const valueScale = d3
+    .scalePow()
+    .exponent(1.5)
+    .domain(valueDomain)
+    .range([5, 40]);
 
   useEffect(() => {
     axios
@@ -24,25 +38,24 @@ const TagCloud = () => {
       {isLoading && (
         <Container
           className="position-absolute d-flex justify-content-center align-items-center w-100"
-          style={{ height: "20rem" }}
+          style={{ height: 200 }}
         >
-          <Spinner animation="border" />
+          <h2>
+            {t("homePage.loadingTagCloud")} <Spinner animation="border" />
+          </h2>
         </Container>
       )}
       <ReactWordcloud
-        words={tags}
-        options={{
-          enableTooltip: false,
-          rotationAngles: [0, 0],
-          rotations: 1,
-          padding: 2,
-          deterministic: true,
-          fontSizes: [20, 90],
-          fontFamily: `-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`,
-        }}
+        data={tags}
+        padding={1}
+        spiral="archimedean"
+        font={`-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`}
+        fontSize={(tag: word) => valueScale(tag.value)}
+        rotate={0}
+        height={160}
       />
     </div>
   );
-};
+});
 
 export default TagCloud;
