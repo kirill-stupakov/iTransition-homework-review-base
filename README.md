@@ -37,9 +37,9 @@
 - - [x] Most rated
 - - [x] Tag cloud
 - [x] Rate reviews
-- [ ] UI languages
+- [x] UI languages
 - - [x] English
-- - [ ] Russian
+- - [x] Russian
 - [x] UI themes
 - - [x] Light
 - - [x] Dark
