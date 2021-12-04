@@ -58,7 +58,7 @@ const ReviewCard: React.FC<Props> = ({
             <Card.Title>
               <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>{" "}
               <i className="bi bi-hash" />
-              {review.category}: {review.title}
+              {t("categories." + review.category)}: {review.title}
             </Card.Title>
             <Card.Subtitle className="fw-light">
               {showAuthor && (

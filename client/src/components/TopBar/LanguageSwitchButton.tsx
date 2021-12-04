@@ -7,7 +7,7 @@ const LanguageSwitchButton = () => {
   const currentLanguage = i18n.language;
 
   const switchLang = () => {
-    i18n.changeLanguage(currentLanguage === "ru" ? "us" : "ru");
+    i18n.changeLanguage(currentLanguage === "ru-RU" ? "en-US" : "ru-RU");
   };
 
   return (
