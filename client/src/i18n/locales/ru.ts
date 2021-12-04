@@ -99,7 +99,7 @@ const ru = {
     },
 
     userPage: {
-      admin: "администратор",
+      admin: "админ",
       user: "пользователь",
       memberSince: "Дата регистрации: ",
       reviews: "обзоров",
