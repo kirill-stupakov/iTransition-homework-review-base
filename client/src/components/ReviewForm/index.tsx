@@ -48,7 +48,9 @@ const ReviewForm: React.FC<Props> = ({
   const navigate = useNavigate();
 
   const [author, setAuthor] = useState<user | null>(null);
-  const [categories, setCategories] = useState<string[]>([]);
+  const [categories, setCategories] = useState<
+    { category: string; displayName: string }[]
+  >([]);
   const [tags, setTags] = useState<tag[]>([]);
 
   const [selectedCategory, setSelectedCategory] = useState<string>(
@@ -113,11 +115,16 @@ const ReviewForm: React.FC<Props> = ({
 
   useEffect(() => {
     axios.get(apiURI + "categories").then((res) => {
-      setCategories(res.data);
+      setCategories(
+        res.data.map((category: string) => ({
+          category,
+          displayName: t("categories." + category),
+        }))
+      );
     });
 
     axios.get(apiURI + "tags").then((res) => setTags(res.data));
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     getAuthor().then((res) => setAuthor(res));
@@ -164,7 +171,10 @@ const ReviewForm: React.FC<Props> = ({
               <Typeahead
                 className={"bg-" + backgroundColor + " text-" + textColor}
                 id="category-select"
-                onChange={(selected) => setSelectedCategory(selected[0])}
+                onChange={(selected) =>
+                  setSelectedCategory(selected[0]?.category)
+                }
+                labelKey={(option) => option.displayName}
                 options={categories}
                 placeholder={t("reviewForm.category.placeholder")}
               />
