@@ -115,6 +115,9 @@ const en = {
         asc: "Ascending",
         desc: "Descending",
       },
+      loadingUserData: "Loading user data",
+      noReviewsFound: "No reviews found",
+      notAdmin: "Only admins can see other users' pages",
     },
   },
 };
