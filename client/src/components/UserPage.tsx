@@ -23,7 +23,7 @@ const sortAttributes = ["id", "mark", "rating"];
 const sortModes = ["desc", "asc"];
 
 const UserPage = () => {
-  const userObject = useContext<any>(userContext);
+  const { userObject } = useContext<any>(userContext);
   const { textColor, backgroundColor } = useContext(
     themeContext
   ) as ThemeContext;

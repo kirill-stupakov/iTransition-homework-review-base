@@ -2,10 +2,11 @@ import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 
 import { apiURI } from "../constants";
+import { user } from "../types";
 
 export const userContext = createContext({});
 const UserContext = (props: any) => {
-  const [userObject, setUserObject] = useState<any>();
+  const [userObject, setUserObject] = useState<user>();
 
   console.log("userObject: ", userObject);
 
@@ -18,7 +19,7 @@ const UserContext = (props: any) => {
   }, []);
 
   return (
-    <userContext.Provider value={userObject}>
+    <userContext.Provider value={{ userObject, setUserObject }}>
       {props.children}
     </userContext.Provider>
   );

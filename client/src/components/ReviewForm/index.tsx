@@ -5,7 +5,7 @@ import Mark from "./Mark";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { themeContext } from "../ThemeContext";
-import { tag, ThemeContext, user } from "../../types";
+import { tag, ThemeContext, user, UserContext } from "../../types";
 import axios from "axios";
 import { userContext } from "../UserContext";
 import ImageUploadWidget from "./ImageUploadWidget";
@@ -43,7 +43,7 @@ const ReviewForm: React.FC<Props> = ({
   const { textColor, backgroundColor } = useContext(
     themeContext
   ) as ThemeContext;
-  const userObject = useContext(userContext);
+  const { userObject } = useContext(userContext) as UserContext;
   const { t } = useTranslation();
   const navigate = useNavigate();
 

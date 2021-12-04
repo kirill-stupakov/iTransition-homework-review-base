@@ -4,7 +4,7 @@ import { Container, Navbar, Nav, Button } from "react-bootstrap";
 import LoginButton from "./LoginButton";
 import { userContext } from "../UserContext";
 import axios from "axios";
-import { ThemeContext, user } from "../../types";
+import { ThemeContext, UserContext } from "../../types";
 import ReviewSearchPanel from "./ReviewSearchPanel";
 import { themeContext } from "../ThemeContext";
 import ThemeSwitchButton from "./ThemeSwitchButton";
@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
 
 const TopBar = () => {
-  const userObject = useContext(userContext) as user;
+  const { userObject, setUserObject } = useContext(userContext) as UserContext;
   const { backgroundColor, colorTheme } = useContext(
     themeContext
   ) as ThemeContext;
@@ -23,6 +23,7 @@ const TopBar = () => {
 
   const logOut = () => {
     axios.get(apiURI + "auth/logout", { withCredentials: true }).then((res) => {
+      setUserObject(undefined);
       navigate("/");
     });
   };

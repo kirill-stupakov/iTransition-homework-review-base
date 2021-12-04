@@ -6,7 +6,7 @@ import remarkGfm from "remark-gfm";
 
 import { Container, Badge } from "react-bootstrap";
 
-import { review, ThemeContext } from "../types";
+import { review, ThemeContext, UserContext } from "../types";
 import RatingButtons from "./ReviewForm/RatingButtons";
 import { userContext } from "./UserContext";
 import { themeContext } from "./ThemeContext";
@@ -20,7 +20,7 @@ import { apiURI } from "../constants";
 import { Link } from "react-router-dom";
 
 const ReviewPage = () => {
-  const userObject = useContext(userContext);
+  const { userObject } = useContext(userContext) as UserContext;
   const { textColor } = useContext(themeContext) as ThemeContext;
   const { id } = useParams();
   const [review, setReview] = useState<review | null>(null);

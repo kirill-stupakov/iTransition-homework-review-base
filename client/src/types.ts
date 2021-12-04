@@ -7,6 +7,11 @@ export interface ThemeContext {
   colorTheme: colorTheme;
 }
 
+export interface UserContext {
+  userObject: user;
+  setUserObject: (u: user | undefined) => void;
+}
+
 export type user = {
   uuid?: string;
   name: string;
