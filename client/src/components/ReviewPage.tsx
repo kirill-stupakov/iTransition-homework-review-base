@@ -18,6 +18,7 @@ import {
 } from "../functions";
 import { apiURI } from "../constants";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ReviewPage = () => {
   const { userObject } = useContext(userContext) as UserContext;
@@ -25,6 +26,8 @@ const ReviewPage = () => {
   const { id } = useParams();
   const [review, setReview] = useState<review | null>(null);
   const [userRating, setUserRating] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { i18n } = useTranslation();
 
   const handleChange = (newRating: number) => {
     setReview({
