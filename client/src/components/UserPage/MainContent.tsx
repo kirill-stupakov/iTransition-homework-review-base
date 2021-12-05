@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   Badge,
+  Button,
+  Col,
   Container,
   Dropdown,
   DropdownButton,
   FormControl,
   InputGroup,
+  Row,
   Spinner,
   Stack,
 } from "react-bootstrap";
@@ -88,6 +91,7 @@ const MainContent: React.FC<Props> = ({ uuid }) => {
   };
 
   const handleEdit = (review: review) => navigate("/editReview/" + review.id);
+  const handleCreateReview = () => navigate("/createReview/" + uuid);
 
   return (
     <Container className={"text-" + textColor}>
@@ -107,41 +111,53 @@ const MainContent: React.FC<Props> = ({ uuid }) => {
           </h5>
           <hr />
 
-          <InputGroup className="mb-3">
-            <FormControl
-              className={"text-" + textColor + " bg-" + backgroundColor}
-              placeholder={t("userPage.filter")}
-              onChange={(event) => setSearchString(event.target.value)}
-            />
-            <DropdownButton title={t("userPage.sortBy")} id="user-page-sort-by">
-              {sortAttributes.map((attr) => (
-                <Dropdown.Item
-                  key={attr}
-                  active={sortBy === attr}
-                  onClick={() => setSortBy(attr)}
+          <Row>
+            <Col sm="auto">
+              <Button onClick={handleCreateReview} className="mb-3 mb-sm-0">
+                Create Review
+              </Button>
+            </Col>
+            <Col>
+              <InputGroup className="mb-3">
+                <FormControl
+                  className={"text-" + textColor + " bg-" + backgroundColor}
+                  placeholder={t("userPage.filter")}
+                  onChange={(event) => setSearchString(event.target.value)}
+                />
+                <DropdownButton
+                  title={t("userPage.sortBy")}
+                  id="user-page-sort-by"
                 >
-                  {t("userPage.sortAttributes." + attr)}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
-            <DropdownButton
-              title={t("userPage.ordering")}
-              id="user-page-sort-mode"
-            >
-              {sortModes.map((mode) => (
-                <Dropdown.Item
-                  key={mode}
-                  active={sortMode === mode}
-                  onClick={() => setSortMode(mode)}
+                  {sortAttributes.map((attr) => (
+                    <Dropdown.Item
+                      key={attr}
+                      active={sortBy === attr}
+                      onClick={() => setSortBy(attr)}
+                    >
+                      {t("userPage.sortAttributes." + attr)}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownButton>
+                <DropdownButton
+                  title={t("userPage.ordering")}
+                  id="user-page-sort-mode"
                 >
-                  {t("userPage.sortOrder." + mode)}
-                </Dropdown.Item>
-              ))}
-            </DropdownButton>
-          </InputGroup>
+                  {sortModes.map((mode) => (
+                    <Dropdown.Item
+                      key={mode}
+                      active={sortMode === mode}
+                      onClick={() => setSortMode(mode)}
+                    >
+                      {t("userPage.sortOrder." + mode)}
+                    </Dropdown.Item>
+                  ))}
+                </DropdownButton>
+              </InputGroup>
+            </Col>
+          </Row>
 
           {reviews.length ? (
-            <Stack gap={3} className="mt-3">
+            <Stack gap={3}>
               {reviews.map((review: any, index) => (
                 <ReviewCard
                   showControls={
