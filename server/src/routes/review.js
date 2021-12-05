@@ -109,8 +109,6 @@ router.post("/reviews", async (req, res) => {
     return;
   }
 
-  const newTags = tags.filter((tag) => tag.label).map((tag) => tag.label);
-  const tagNames = tags.map((tag) => (tag.label ? tag.label : tag));
   const newReview = await Review.create({
     authorUUID,
     category,
@@ -121,12 +119,13 @@ router.post("/reviews", async (req, res) => {
   });
 
   await Tag.bulkCreate(
-    newTags.map((tag) => ({
+    tags.map((tag) => ({
       name: tag,
-    }))
+    })),
+    { ignoreDuplicates: true }
   );
   await TagRelation.bulkCreate(
-    tagNames.map((tag) => ({ tag, reviewId: newReview.id }))
+    tags.map((tag) => ({ tag, reviewId: newReview.id }))
   );
 
   res.status(201).json({ message: "success", id: newReview.id });
@@ -179,15 +178,20 @@ router.put("/reviews/:id", async (req, res) => {
     { category, title, body, mark, imageGroupUUID },
     { where: { id } }
   );
-  const newTags = tags.filter((tag) => tag.label).map((tag) => tag.label);
-  const tagNames = tags.map((tag) => (tag.label ? tag.label : tag));
+
   await Tag.bulkCreate(
-    newTags.map((tag) => ({
+    tags.map((tag) => ({
       name: tag,
-    }))
+    })),
+    { ignoreDuplicates: true }
   );
-  await TagRelation.destroy({ where: { reviewId: id } });
-  await TagRelation.bulkCreate(tagNames.map((tag) => ({ tag, reviewId: id })));
+  await TagRelation.destroy({
+    where: { [Op.and]: [{ reviewId: id }, { tag: { [Op.notIn]: tags } }] },
+  });
+  await TagRelation.bulkCreate(
+    tags.map((tag) => ({ tag, reviewId: id })),
+    { ignoreDuplicates: true }
+  );
 
   res.status(201).json({ message: "success", id });
 });

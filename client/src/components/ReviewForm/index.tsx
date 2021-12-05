@@ -10,7 +10,7 @@ import axios from "axios";
 import { userContext } from "../UserContext";
 import ImageUploadWidget from "./ImageUploadWidget";
 import ImageViewer from "./ImageViewer";
-import { groupUUIDToArrayOfImages } from "../../functions";
+import { getUniqueValues, groupUUIDToArrayOfImages } from "../../functions";
 import { apiURI } from "../../constants";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom";
@@ -113,6 +113,11 @@ const ReviewForm: React.FC<Props> = ({
     }
   };
 
+  const handleAddTag = (newTags: any[]) => {
+    const namesArray = newTags.map((tag) => (tag.label ? tag.label : tag));
+    setSelectedTags(getUniqueValues(namesArray));
+  };
+
   useEffect(() => {
     axios.get(apiURI + "categories").then((res) => {
       setCategories(
@@ -133,6 +138,10 @@ const ReviewForm: React.FC<Props> = ({
   useEffect(() => {
     setAuthorized(!!userObject);
   }, [userObject]);
+
+  useEffect(() => {
+    console.log(selectedTags);
+  }, [selectedTags]);
 
   return (
     <Container className={"mb-3 text-" + textColor}>
@@ -175,6 +184,9 @@ const ReviewForm: React.FC<Props> = ({
                   setSelectedCategory(selected[0]?.category)
                 }
                 labelKey={(option) => option.displayName}
+                selected={categories.filter(
+                  (category) => category.category === selectedCategory
+                )}
                 options={categories}
                 placeholder={t("reviewForm.category.placeholder")}
               />
@@ -194,7 +206,7 @@ const ReviewForm: React.FC<Props> = ({
                 multiple
                 newSelectionPrefix="Add a new tag: "
                 selected={selectedTags}
-                onChange={setSelectedTags}
+                onChange={handleAddTag}
                 options={tags.map((tag) => tag.name)}
                 placeholder={t("reviewForm.tags.placeholder")}
               />

@@ -7,7 +7,7 @@ import { themeContext } from "../ThemeContext";
 import { isoToReadableString, ratingToColor } from "../../functions";
 import { apiURI } from "../../constants";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const ReviewSearchPanel = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +16,7 @@ const ReviewSearchPanel = () => {
 
   const { textColor } = useContext(themeContext) as ThemeContext;
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const handleSearch = (searchString: string) => {
     setIsLoading(true);
@@ -26,7 +27,10 @@ const ReviewSearchPanel = () => {
   };
 
   const renderChildren = (review: TypeaheadResult<review>) => (
-    <Container className={"my-2 text-" + textColor}>
+    <Container
+      className={"my-2 text-" + textColor}
+      onClick={() => navigate("/reviews/id=" + review.id)}
+    >
       <h5 className="text-wrap">
         <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>{" "}
         <i className="bi bi-hash" />

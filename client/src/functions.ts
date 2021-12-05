@@ -30,3 +30,7 @@ export function groupUUIDToArrayOfImages(uuid?: string) {
     (_, index) => `https://ucarecdn.com/${uuid}/nth/${index}/`
   );
 }
+
+export function getUniqueValues(array: string[]) {
+  return Array.from(new Set(array));
+}

@@ -12,6 +12,7 @@ const TagCloud = React.memo(() => {
   const [tags, setTags] = useState<word[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
+  const height = 160;
 
   const maxValue = d3.max(tags.map((tag) => tag.value)) as number;
   const valueScale = d3.scaleLinear().domain([0, maxValue]).range([5, 40]);
@@ -31,7 +32,7 @@ const TagCloud = React.memo(() => {
       {isLoading && (
         <Container
           className="position-absolute d-flex justify-content-center align-items-center w-100"
-          style={{ height: 200 }}
+          style={{ height }}
         >
           <h2>
             {t("homePage.loadingTagCloud")} <Spinner animation="border" />
@@ -45,7 +46,7 @@ const TagCloud = React.memo(() => {
         font={`-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`}
         fontSize={(tag: word) => valueScale(tag.value)}
         rotate={0}
-        height={160}
+        height={height}
       />
     </div>
   );
