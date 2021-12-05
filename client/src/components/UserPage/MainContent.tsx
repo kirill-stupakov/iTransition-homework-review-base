@@ -112,9 +112,9 @@ const MainContent: React.FC<Props> = ({ uuid }) => {
           <hr />
 
           <Row>
-            <Col sm="auto">
+            <Col sm="auto" className="pr-1">
               <Button onClick={handleCreateReview} className="mb-3 mb-sm-0">
-                Create Review
+                {t("userPage.createReview")}
               </Button>
             </Col>
             <Col>

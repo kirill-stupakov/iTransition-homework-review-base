@@ -16,6 +16,14 @@
     box-shadow: $box-shadow-sm;
     border-radius: $border-radius;
   }
+
+  a {
+    text-decoration: none;
+
+    &:hover, &:active {
+      text-decoration-line: underline;
+    }
+  }
 }
 
 .navbar {

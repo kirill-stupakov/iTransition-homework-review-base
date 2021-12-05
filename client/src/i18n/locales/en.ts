@@ -103,6 +103,7 @@ const en = {
       memberSince: "Member since",
       reviews: "reviews",
       karma: "karma",
+      createReview: "Create review",
       filter: "Filter",
       sortBy: "Sort by",
       sortAttributes: {

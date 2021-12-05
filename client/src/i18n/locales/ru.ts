@@ -104,6 +104,7 @@ const ru = {
       memberSince: "Дата регистрации: ",
       reviews: "обзоров",
       karma: "кармы",
+      createReview: "Создать обзор",
       filter: "Поиск",
       sortBy: "Сортировка",
       ordering: "Порядок",

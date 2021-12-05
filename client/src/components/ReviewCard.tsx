@@ -54,7 +54,7 @@ const ReviewCard: React.FC<Props> = ({
     >
       <Card.Body className={"text-" + textColor}>
         <Row>
-          <Col md={9} xl={10}>
+          <Col md={8} xl={9}>
             <Card.Title>
               <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>{" "}
               <i className="bi bi-hash" />
@@ -80,8 +80,8 @@ const ReviewCard: React.FC<Props> = ({
           </Col>
           {showControls ? (
             <Col
-              md={3}
-              xl={2}
+              md={4}
+              xl={3}
               className="d-flex justify-content-end align-items-center mt-3 mt-md-0"
             >
               <Button variant="secondary" className="mr-3" onClick={handleEdit}>

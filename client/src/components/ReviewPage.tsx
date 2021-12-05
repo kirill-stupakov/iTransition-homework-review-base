@@ -91,6 +91,7 @@ const ReviewPage = () => {
         <ImageViewer images={groupUUIDToArrayOfImages(review.imageGroupUUID)} />
         <ReactMarkdown
           remarkPlugins={[remarkGfm]}
+          linkTarget="_blank"
           className="markdown-container"
         >
           {review.body}
