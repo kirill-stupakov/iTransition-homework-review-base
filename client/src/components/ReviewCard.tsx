@@ -54,7 +54,7 @@ const ReviewCard: React.FC<Props> = ({
     >
       <Card.Body className={"text-" + textColor}>
         <Row>
-          <Col md={8} xl={9}>
+          <Col md={showControls ? 8 : 12} xl={showControls ? 9 : 12}>
             <Card.Title>
               <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>{" "}
               <i className="bi bi-hash" />

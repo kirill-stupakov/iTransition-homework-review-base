@@ -45,7 +45,7 @@ const UserCard: React.FC<Props> = ({ user, switchAdmin }) => {
             </Card.Subtitle>
           </Col>
 
-          <Col className="d-flex justify-content-end align-items-center">
+          <Col className="align-self-center col-auto">
             <Button
               variant={user.isAdmin ? "danger" : "primary"}
               onClick={(event) => {
