@@ -13,11 +13,8 @@ const TagCloud = React.memo(() => {
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
 
-  const valueDomain = d3.extent(tags.map((tag) => tag.value)) as [
-    number,
-    number
-  ];
-  const valueScale = d3.scaleLinear().domain(valueDomain).range([5, 40]);
+  const maxValue = d3.max(tags.map((tag) => tag.value)) as number;
+  const valueScale = d3.scaleLinear().domain([0, maxValue]).range([5, 40]);
 
   useEffect(() => {
     axios
