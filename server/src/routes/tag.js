@@ -10,10 +10,13 @@ router.get("/tags", async (req, res) => {
     tags.map(async (tag) => {
       const { name } = tag;
       const count = await TagRelation.count({ where: { tag: name } });
-
+      if (count === 0) {
+        await Tag.destroy({ where: { name } });
+      }
       return { name, count };
     })
   );
+  tagsWithCount = tagsWithCount.filter((tag) => tag.count);
 
   res.status(201).json(tagsWithCount);
 });
