@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import axios from "axios";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-import { Container, Badge } from "react-bootstrap";
+import { Container, Badge, Button, Col, Row } from "react-bootstrap";
 
 import { review, ThemeContext, UserContext } from "../types";
 import RatingButtons from "./ReviewForm/RatingButtons";
@@ -27,9 +27,10 @@ const ReviewPage = () => {
   const [review, setReview] = useState<review | null>(null);
   const [userRating, setUserRating] = useState(0);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
+  const navigate = useNavigate();
 
-  const handleChange = (newRating: number) => {
+  const handleRatingChange = (newRating: number) => {
     setReview({
       ...review!,
       rating: review!.rating - userRating + newRating,
@@ -42,6 +43,14 @@ const ReviewPage = () => {
       })
       .catch((error) => console.error(error));
   };
+
+  const handleEdit = () => navigate("/editReview/" + id);
+  const handleDelete = () =>
+    axios
+      .delete(apiURI + "reviews/" + id, {
+        withCredentials: true,
+      })
+      .then(() => navigate("/"));
 
   useEffect(() => {
     axios
@@ -58,13 +67,35 @@ const ReviewPage = () => {
   return (
     review && (
       <Container className={"text-" + textColor}>
-        <h1 className="fw-bold">
-          {review.title}{" "}
-          <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>
-          {userObject && (
-            <RatingButtons userRating={userRating} onChange={handleChange} />
-          )}
-        </h1>
+        <Row>
+          <Col>
+            <h1 className="fw-bold">
+              {review.title}{" "}
+              <Badge bg={ratingToColor(review.rating)}>{review.rating}</Badge>
+              {userObject && (
+                <RatingButtons
+                  userRating={userRating}
+                  onChange={handleRatingChange}
+                />
+              )}
+            </h1>
+          </Col>
+          {userObject &&
+            (userObject.isAdmin || userObject.uuid === review.author.uuid) && (
+              <Col md="auto" className="align-self-center mb-2">
+                <Button
+                  variant="secondary"
+                  onClick={handleEdit}
+                  className="mr-2"
+                >
+                  {t("reviewCard.edit")}
+                </Button>
+                <Button variant="danger" onClick={handleDelete}>
+                  {t("reviewCard.delete")}
+                </Button>
+              </Col>
+            )}
+        </Row>
         <h5 className="fw-light">
           <i className="bi bi-person" />{" "}
           <Link className="text-reset" to={"/users/" + review.author.uuid}>

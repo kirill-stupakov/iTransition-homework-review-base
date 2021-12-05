@@ -82,7 +82,7 @@ const MainContent: React.FC<Props> = ({ uuid }) => {
       .delete(apiURI + "reviews/" + review.id, {
         withCredentials: true,
       })
-      .then((res) => {
+      .then(() => {
         setReviews(reviews.filter((_, ind) => ind !== index));
         setKarma(karma - review.rating);
         setReviewCount(reviewCount - 1);
