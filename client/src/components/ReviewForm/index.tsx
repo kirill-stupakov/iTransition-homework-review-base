@@ -56,7 +56,6 @@ const ReviewForm: React.FC<Props> = ({
   const [selectedCategory, setSelectedCategory] = useState<string>(
     initialSelectedCategory
   );
-  console.log(selectedCategory);
   const [title, setTitle] = useState(initialTitle);
   const [body, setBody] = useState(initialBody);
   const [mark, setMark] = useState(initialMark);
@@ -138,10 +137,6 @@ const ReviewForm: React.FC<Props> = ({
   useEffect(() => {
     setAuthorized(!!userObject);
   }, [userObject]);
-
-  useEffect(() => {
-    console.log(selectedTags);
-  }, [selectedTags]);
 
   return (
     <Container className={"mb-3 text-" + textColor}>

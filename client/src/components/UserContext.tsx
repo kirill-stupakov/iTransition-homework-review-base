@@ -8,8 +8,6 @@ export const userContext = createContext({});
 const UserContext = (props: any) => {
   const [userObject, setUserObject] = useState<user>();
 
-  console.log("userObject: ", userObject);
-
   useEffect(() => {
     axios.get(apiURI + "getUser", { withCredentials: true }).then((res) => {
       if (res.data) {
