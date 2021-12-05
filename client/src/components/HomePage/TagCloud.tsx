@@ -7,15 +7,16 @@ import * as d3 from "d3";
 import { apiURI } from "../../constants";
 import { word } from "../../types";
 import { useTranslation } from "react-i18next";
+import { useMeasure } from "react-use";
 
 const TagCloud = React.memo(() => {
   const [tags, setTags] = useState<word[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
-  const height = 160;
+  const [ref, { width, height }] = useMeasure();
 
   const maxValue = d3.max(tags.map((tag) => tag.value)) as number;
-  const valueScale = d3.scaleLinear().domain([0, maxValue]).range([5, 40]);
+  const valueScale = d3.scaleLinear().domain([0, maxValue]).range([15, 80]);
 
   useEffect(() => {
     axios
@@ -28,27 +29,29 @@ const TagCloud = React.memo(() => {
   }, []);
 
   return (
-    <div className="word-cloud">
-      {isLoading && (
-        <Container
-          className="position-absolute d-flex justify-content-center align-items-center w-100"
-          style={{ height }}
-        >
-          <h2>
-            {t("homePage.loadingTagCloud")} <Spinner animation="border" />
-          </h2>
-        </Container>
+    <Container
+      // @ts-ignore
+      ref={ref}
+      className="d-flex justify-content-center align-items-center w-100"
+      style={{ height: 300 }}
+    >
+      {isLoading ? (
+        <h2>
+          {t("homePage.loadingTagCloud")} <Spinner animation="border" />
+        </h2>
+      ) : (
+        <ReactWordcloud
+          data={tags}
+          padding={2}
+          spiral="archimedean"
+          font={`-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`}
+          fontSize={(tag: word) => valueScale(tag.value)}
+          rotate={0}
+          height={height}
+          width={width}
+        />
       )}
-      <ReactWordcloud
-        data={tags}
-        padding={1}
-        spiral="archimedean"
-        font={`-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif`}
-        fontSize={(tag: word) => valueScale(tag.value)}
-        rotate={0}
-        height={height}
-      />
-    </div>
+    </Container>
   );
 });
 
