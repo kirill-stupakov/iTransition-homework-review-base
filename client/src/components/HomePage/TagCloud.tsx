@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import ReactWordcloud from "react-d3-cloud";
 import { Container, Spinner } from "react-bootstrap";
 import * as d3 from "d3";
 
 import { apiURI } from "../../constants";
-import { word } from "../../types";
+import { ThemeContext, word } from "../../types";
 import { useTranslation } from "react-i18next";
 import { useMeasure } from "react-use";
+import { themeContext } from "../ThemeContext";
 
 const TagCloud = React.memo(() => {
   const [tags, setTags] = useState<word[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { t } = useTranslation();
   const [ref, { width, height }] = useMeasure();
+  const { textColor } = useContext(themeContext) as ThemeContext;
 
   const maxValue = d3.max(tags.map((tag) => tag.value)) as number;
   const valueScale = d3.scaleLinear().domain([0, maxValue]).range([15, 80]);
@@ -32,11 +34,10 @@ const TagCloud = React.memo(() => {
     <Container
       // @ts-ignore
       ref={ref}
-      className="d-flex justify-content-center align-items-center w-100"
       style={{ height: 300 }}
     >
       {isLoading ? (
-        <h2>
+        <h2 className={"pt-5 text-center text-" + textColor}>
           {t("homePage.loadingTagCloud")} <Spinner animation="border" />
         </h2>
       ) : (

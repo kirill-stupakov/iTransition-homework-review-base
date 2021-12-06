@@ -8,14 +8,14 @@ interface Props {
 
 const Mark: React.FC<Props> = ({ max, onChange, mark }) => {
   const [selectedMark, setSelectedMark] = useState(mark);
-  const [hover, sethover] = useState(false);
+  const [hover, setHover] = useState(false);
 
   return (
     <h3
       className={`opacity-${hover ? "75" : "100"}`}
-      onMouseEnter={() => sethover(true)}
+      onMouseEnter={() => setHover(true)}
       onMouseLeave={() => {
-        sethover(false);
+        setHover(false);
         setSelectedMark(mark);
       }}
     >
