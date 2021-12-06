@@ -18,7 +18,7 @@ const LanguageSwitchButton = () => {
       <img
         src={`/flags/${currentLanguage}.svg`}
         alt={currentLanguage}
-        width="35rem"
+        style={{ width: "2.2em", height: "2.2em" }}
       />
     </Button>
   );
