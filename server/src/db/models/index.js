@@ -5,21 +5,10 @@ const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
 const dotenv = require("dotenv").config();
-const config = {
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  host: process.env.DB_HOST,
-  dialect: process.env.DB_DIALECT,
-};
+
 const db = {};
 
-const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  config
-);
+const sequelize = new Sequelize(process.env.DATABASE_URL);
 
 fs.readdirSync(__dirname)
   .filter((file) => {
