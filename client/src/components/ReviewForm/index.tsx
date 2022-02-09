@@ -277,14 +277,14 @@ const ReviewForm: React.FC<Props> = ({
                 })}
                 {". "}
                 {t("reviewForm.body.subtext.supports")}{" "}
-                <Link
+                <a
                   className="text-muted"
-                  to="https://www.markdownguide.org/cheat-sheet"
+                  href="https://www.markdownguide.org/cheat-sheet"
                   target="_blank"
                   rel="noreferrer"
                 >
                   Markdown
-                </Link>
+                </a>
               </Form.Text>
             </>
           )}
