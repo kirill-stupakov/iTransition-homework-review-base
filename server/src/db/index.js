@@ -1,7 +1,7 @@
 const db = require("./models");
 
 db.sequelize
-  .sync()
+  .authenticate()
   .then(() => console.log("Connected to the database"))
   .catch((error) => console.error("Database connection error", error));
 

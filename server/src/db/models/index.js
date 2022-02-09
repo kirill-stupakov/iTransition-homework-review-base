@@ -8,7 +8,14 @@ const dotenv = require("dotenv").config();
 
 const db = {};
 
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  },
+});
 
 fs.readdirSync(__dirname)
   .filter((file) => {
