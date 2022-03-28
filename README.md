@@ -47,7 +47,7 @@
 ### Advanced
 
 - [ ] Comments on reviews
-- [ ] Advanced admin panel
+- [x] Advanced admin panel
 - [x] Any number of images in reviews
 - [ ] Group reviews by subject
 
@@ -73,7 +73,7 @@
 
 ### Database
 
-- [MySQL](https://www.mysql.com/)
+- [PostgreSQL](https://www.postgresql.org/)
 
 ## Database Schema
 
